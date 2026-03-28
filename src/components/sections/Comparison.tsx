@@ -1,96 +1,128 @@
-import { Check, Minus } from "lucide-react";
-import { COMPARISON_DATA } from "@/lib/constants";
-import type { ComparisonRow } from "@/types";
+import {
+  Globe,
+  Send,
+  PiggyBank,
+  CreditCard,
+  ArrowLeftRight,
+  TrendingUp,
+  Zap,
+  Cpu,
+  Shield,
+  Layers,
+  Monitor,
+} from "lucide-react";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
-function CellValue({ value }: { value: string | boolean }): React.ReactElement {
-  if (value === true) {
-    return <Check size={16} className="text-solana-green" />;
-  }
-  if (value === false) {
-    return <Minus size={16} className="text-dim" />;
-  }
-  return <span>{value}</span>;
-}
-
-function MobileCard({ row }: { row: ComparisonRow }): React.ReactElement {
-  return (
-    <div className="bg-surface border border-border rounded-xl p-4 space-y-3">
-      <p className="text-sm font-medium text-foreground">{row.feature}</p>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-dim">Coinbase Agent Kit</span>
-          <span className="text-muted">
-            <CellValue value={row.coinbase} />
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-solana-green font-medium">Auton</span>
-          <span className="text-foreground">
-            <CellValue value={row.auton} />
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
+const FEATURES = [
+  {
+    icon: Globe,
+    title: "Solana-native",
+    description: "Built on Solana for sub-second finality and near-zero fees.",
+    accent: "purple" as const,
+  },
+  {
+    icon: Send,
+    title: "Send & Receive",
+    description: "Transfer SOL and USDC to any address. Gas handled automatically.",
+    accent: "green" as const,
+  },
+  {
+    icon: PiggyBank,
+    title: "Earn 4–8% APY",
+    description: "Deposits auto-routed to the best yield via Kamino and marginfi.",
+    accent: "purple" as const,
+  },
+  {
+    icon: CreditCard,
+    title: "Borrow on demand",
+    description: "Credit against your savings — no selling, repay on your schedule.",
+    accent: "green" as const,
+  },
+  {
+    icon: ArrowLeftRight,
+    title: "Jupiter swaps",
+    description: "SOL, USDC, USDT, JUP and any SPL token. Best route, always.",
+    accent: "purple" as const,
+  },
+  {
+    icon: TrendingUp,
+    title: "Auto rebalance",
+    description: "Yield optimizer moves funds to higher-APY venues automatically.",
+    accent: "green" as const,
+  },
+  {
+    icon: Zap,
+    title: "MPP protocol (402)",
+    description: "Pay-per-use APIs via Machine Payments Protocol. One line of code.",
+    accent: "purple" as const,
+  },
+  {
+    icon: Cpu,
+    title: "4 MCP tools",
+    description: "Plug into Claude, Cursor, or any MCP-compatible AI platform.",
+    accent: "green" as const,
+  },
+  {
+    icon: Shield,
+    title: "Agent safeguards",
+    description: "Per-transaction and daily spending limits. You stay in control.",
+    accent: "purple" as const,
+  },
+  {
+    icon: Layers,
+    title: "DeFi protocols",
+    description: "Kamino, marginfi, and Jupiter integrated out of the box.",
+    accent: "green" as const,
+  },
+  {
+    icon: Monitor,
+    title: "Browser client",
+    description: "Run in the browser with @banka/sdk/browser. No server needed.",
+    accent: "purple" as const,
+  },
+];
 
 export function Comparison(): React.ReactElement {
   return (
     <section className="py-24 md:py-32">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-            Why Auton?
+            Everything an agent needs
           </h2>
-          <p className="mt-4 text-muted text-lg">
-            Compare with existing solutions.
+          <p className="mt-4 text-muted text-lg max-w-xl mx-auto">
+            Full-stack DeFi, one SDK. No wrappers, no glue code.
           </p>
         </div>
 
-        {/* Desktop table */}
-        <div className="hidden md:block overflow-hidden rounded-2xl border border-border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-6 py-4 text-muted font-medium w-1/3">
-                  Feature
-                </th>
-                <th className="text-left px-6 py-4 text-muted font-medium w-1/3">
-                  Coinbase Agent Kit
-                </th>
-                <th className="text-left px-6 py-4 font-medium w-1/3">
-                  <span className="text-solana-green">
-                    Auton
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARISON_DATA.map((row, i) => (
-                <tr
-                  key={row.feature}
-                  className={i % 2 === 0 ? "bg-surface/50" : ""}
+        {/* Feature grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {FEATURES.map((feat, i) => (
+            <AnimateIn key={feat.title} delay={i * 60}>
+              <div className="group relative rounded-2xl border border-border bg-surface/40 p-6 hover:border-[rgba(153,69,255,0.3)] hover:bg-surface/70 transition-all duration-300 h-full">
+                {/* Icon */}
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${
+                    feat.accent === "purple"
+                      ? "bg-[rgba(153,69,255,0.1)] text-solana-purple"
+                      : "bg-[rgba(20,241,149,0.1)] text-solana-green"
+                  }`}
                 >
-                  <td className="px-6 py-4 text-muted border-t border-border">
-                    {row.feature}
-                  </td>
-                  <td className="px-6 py-4 text-muted border-t border-border">
-                    <CellValue value={row.coinbase} />
-                  </td>
-                  <td className="px-6 py-4 text-foreground border-t border-border font-medium">
-                    <CellValue value={row.auton} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  <feat.icon size={20} />
+                </div>
 
-        {/* Mobile cards */}
-        <div className="md:hidden space-y-4">
-          {COMPARISON_DATA.map((row) => (
-            <MobileCard key={row.feature} row={row} />
+                {/* Title */}
+                <h3 className="text-base font-semibold text-foreground mb-2">
+                  {feat.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-muted leading-relaxed">
+                  {feat.description}
+                </p>
+              </div>
+            </AnimateIn>
           ))}
         </div>
       </div>

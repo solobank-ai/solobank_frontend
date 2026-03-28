@@ -1,4 +1,4 @@
-import type { AccountCard, ComparisonRow, HowItWorksStep, NavLink } from "@/types";
+import type { AccountCard, NavLink } from "@/types";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Accounts", href: "#accounts" },
@@ -59,56 +59,6 @@ export const ACCOUNTS: AccountCard[] = [
   },
 ];
 
-export const HOW_IT_WORKS: HowItWorksStep[] = [
-  {
-    step: 1,
-    title: "Install",
-    duration: "30s",
-    description:
-      "One command. Wallet, MCP server, and safeguards — all set up and guided.",
-    command: "npm i -g @banka/cli && banka init",
-  },
-  {
-    step: 2,
-    title: "Fund",
-    duration: "1 min",
-    description:
-      "Send USDC to your wallet address. Gas and routing are handled automatically.",
-  },
-  {
-    step: 3,
-    title: "Let it work",
-    duration: "∞",
-    description:
-      'Restart your AI platform and ask: "What\'s my banka balance?" — your agent is live.',
-  },
-];
-
-export const COMPARISON_DATA: ComparisonRow[] = [
-  { feature: "Chain", coinbase: "Base", auton: "Solana" },
-  { feature: "Send / Receive", coinbase: true, auton: true },
-  { feature: "Savings (Lending)", coinbase: false, auton: "Earn 4–8% APY" },
-  { feature: "Credit (Borrow)", coinbase: false, auton: "Borrow against savings" },
-  {
-    feature: "Token swap",
-    coinbase: "Base tokens",
-    auton: "SOL, USDC, USDT, JUP + any",
-  },
-  { feature: "Yield rebalance", coinbase: false, auton: "Auto APY routing" },
-  {
-    feature: "Pay-per-use APIs",
-    coinbase: "Limited",
-    auton: "MPP protocol (402)",
-  },
-  { feature: "MCP integration", coinbase: false, auton: "4 tools via @banka/mcp" },
-  {
-    feature: "Agent safeguards",
-    coinbase: false,
-    auton: "Per-tx + daily limits",
-  },
-  { feature: "DeFi protocols", coinbase: false, auton: "Kamino + marginfi + Jupiter" },
-  { feature: "Browser client", coinbase: false, auton: "@banka/sdk/browser" },
-];
 
 export const TERMINAL_LINES: string[] = [
   "$ banka init",

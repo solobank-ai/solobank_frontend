@@ -9,19 +9,6 @@ export interface AccountCard {
   protocol: string;
 }
 
-export interface HowItWorksStep {
-  step: number;
-  title: string;
-  duration: string;
-  description: string;
-  command?: string;
-}
-
-export interface ComparisonRow {
-  feature: string;
-  coinbase: string | boolean;
-  auton: string | boolean;
-}
 
 export interface NavLink {
   label: string;

@@ -1,3 +1,4 @@
+import { RefreshCw, PiggyBank, CreditCard, TrendingUp, ArrowLeftRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { cn } from "@/lib/utils";
@@ -63,18 +64,21 @@ const ACCOUNT_CARDS: AccountCardData[] = [
   },
 ];
 
+const CARD_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  checking: RefreshCw,
+  savings: PiggyBank,
+  credit: CreditCard,
+  invest: TrendingUp,
+  swap: ArrowLeftRight,
+};
+
 function CardIcon({ type }: { type: string }) {
-  const icons: Record<string, string> = {
-    checking: "⟳",
-    savings: "✦",
-    credit: "◈",
-    invest: "◆",
-    swap: "⇌",
-  };
+  const Icon = CARD_ICONS[type];
+  if (!Icon) return null;
   return (
-    <span className="gradient-text text-base font-bold">
-      {icons[type] ?? "●"}
-    </span>
+    <div className="w-7 h-7 rounded-lg bg-[rgba(153,69,255,0.1)] flex items-center justify-center">
+      <Icon size={14} className="text-solana-purple" />
+    </div>
   );
 }
 

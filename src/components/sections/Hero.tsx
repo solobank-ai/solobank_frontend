@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, RefreshCw, PiggyBank, CreditCard, TrendingUp, ArrowLeftRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
 import { GridSpotlight } from "@/components/ui/GridSpotlight";
 import { ACCOUNTS, TERMINAL_LINES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+const PILL_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  checking: RefreshCw,
+  savings: PiggyBank,
+  credit: CreditCard,
+  invest: TrendingUp,
+  swap: ArrowLeftRight,
+};
 
 export function Hero(): React.ReactElement {
   const handleScroll = (id: string): void => {
@@ -66,7 +74,7 @@ export function Hero(): React.ReactElement {
                 "text-sm text-muted hover:text-foreground hover:border-border-hover transition-all cursor-pointer"
               )}
             >
-              <span>{account.symbol}</span>
+              {(() => { const Icon = PILL_ICONS[account.type]; return Icon ? <Icon size={14} className="text-solana-purple" /> : null; })()}
               <span>{account.title}</span>
             </button>
           ))}
