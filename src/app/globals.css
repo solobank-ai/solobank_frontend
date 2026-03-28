@@ -91,10 +91,8 @@ body {
 }
 
 .bg-grid {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Grid spotlight: brighter grid revealed by radial mask at cursor */
@@ -107,10 +105,8 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(153, 69, 255, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 241, 149, 0.14) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: radial-gradient(circle, rgba(20, 241, 149, 0.5) 1px, transparent 1px);
+  background-size: 24px 24px;
   mask-image: radial-gradient(
     380px circle at var(--mouse-x) var(--mouse-y),
     white 0%,
@@ -124,4 +120,19 @@ body {
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.15s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grid-spotlight-purple::after {
+  background-image: radial-gradient(circle, rgba(153, 69, 255, 0.5) 1px, transparent 1px);
 }
