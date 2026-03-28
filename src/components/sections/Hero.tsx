@@ -1,25 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, RefreshCw, PiggyBank, CreditCard, TrendingUp, ArrowLeftRight } from "lucide-react";
+import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
 import { GridSpotlight } from "@/components/ui/GridSpotlight";
-import { ACCOUNTS, TERMINAL_LINES } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { TERMINAL_LINES } from "@/lib/constants";
 
-const PILL_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  checking: RefreshCw,
-  savings: PiggyBank,
-  credit: CreditCard,
-  invest: TrendingUp,
-  swap: ArrowLeftRight,
-};
+const INSTALL_CMD = "npm i -g @banka/cli";
 
 export function Hero(): React.ReactElement {
-  const handleScroll = (id: string): void => {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(INSTALL_CMD);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -33,8 +31,8 @@ export function Hero(): React.ReactElement {
         {/* Badge */}
         <Badge variant="purple">Built on Solana</Badge>
 
-        {/* Headline */}
-        <h1 className="mt-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+        {/* Headline — larger */}
+        <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight leading-[1.1]">
           A bank account
           <br />
           <span className="gradient-text">
@@ -44,44 +42,33 @@ export function Hero(): React.ReactElement {
 
         {/* Subline */}
         <p className="mt-6 text-muted text-lg md:text-xl max-w-2xl">
-          Five accounts. Earn, borrow, invest, swap, pay — autonomously.
+          Earn, borrow, invest, swap, pay — autonomously.
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+        {/* Single CTA */}
+        <div className="mt-8">
           <Link href="/docs">
             <Button variant="primary" size="lg">
               Get started <ArrowRight size={16} />
             </Button>
           </Link>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => handleScroll("#how-it-works")}
+        </div>
+
+        {/* Install command */}
+        <div className="mt-6 flex items-center gap-3 bg-surface/60 border border-border rounded-full px-5 py-2.5 font-mono text-sm">
+          <span className="text-dim">$</span>
+          <span className="text-foreground">{INSTALL_CMD}</span>
+          <button
+            onClick={handleCopy}
+            className="text-muted hover:text-solana-green transition-colors ml-1"
+            aria-label="Copy install command"
           >
-            How it works
-          </Button>
+            {copied ? <Check size={14} className="text-solana-green" /> : <Copy size={14} />}
+          </button>
         </div>
 
-        {/* Account pills */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mt-10">
-          {ACCOUNTS.map((account) => (
-            <button
-              key={account.type}
-              onClick={() => handleScroll("#accounts")}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-surface",
-                "text-sm text-muted hover:text-foreground hover:border-border-hover transition-all cursor-pointer"
-              )}
-            >
-              {(() => { const Icon = PILL_ICONS[account.type]; return Icon ? <Icon size={14} className="text-solana-purple" /> : null; })()}
-              <span>{account.title}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Terminal */}
-        <div className="mt-14 w-full max-w-2xl shadow-[0_0_80px_rgba(153,69,255,0.1)]">
+        {/* Terminal — compact */}
+        <div className="mt-12 w-full max-w-xl shadow-[0_0_80px_rgba(153,69,255,0.1)]">
           <Terminal lines={TERMINAL_LINES} />
         </div>
       </div>
