@@ -136,7 +136,7 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
           <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
           <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
         </div>
-        <span className="text-xs text-dim font-mono mx-auto">auton — terminal</span>
+        <span className="text-xs text-dim font-mono mx-auto">solobank — terminal</span>
       </div>
 
       {/* Content — fixed height so layout doesn't shift while typing */}

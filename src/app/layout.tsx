@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Auton — A Bank Account for AI Agents",
+  title: "Solobank — A Bank Account for AI Agents",
   description:
     "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
 };

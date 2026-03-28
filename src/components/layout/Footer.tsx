@@ -29,7 +29,7 @@ export function Footer(): React.ReactElement {
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Top */}
         <div className="flex items-center gap-3 mb-12">
-          <span className="text-lg font-bold text-foreground">auton</span>
+          <span className="text-lg font-bold gradient-text">Solobank</span>
           <span className="text-dim text-sm">·</span>
           <span className="text-dim text-sm">Built on Solana</span>
         </div>
@@ -72,7 +72,7 @@ export function Footer(): React.ReactElement {
         {/* Bottom */}
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <p className="text-xs text-dim">
-            © 2025 Auton. Open source. Non-custodial.
+            © 2025 Solobank. Open source. Non-custodial.
           </p>
           <p className="text-xs text-dim">Built on Solana</p>
         </div>
