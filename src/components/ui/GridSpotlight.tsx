@@ -18,10 +18,14 @@ export function GridSpotlight({
     const el = ref.current;
     if (!el) return;
 
+    let rafId = 0;
     const handleMouseMove = (e: MouseEvent): void => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
-      el.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+        el.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+      });
     };
 
     const handleMouseLeave = (): void => {
@@ -32,6 +36,7 @@ export function GridSpotlight({
     el.addEventListener("mousemove", handleMouseMove);
     el.addEventListener("mouseleave", handleMouseLeave);
     return () => {
+      cancelAnimationFrame(rafId);
       el.removeEventListener("mousemove", handleMouseMove);
       el.removeEventListener("mouseleave", handleMouseLeave);
     };
