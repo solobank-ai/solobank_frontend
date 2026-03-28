@@ -1,5 +1,33 @@
-import { Download, Wallet, Rocket } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Download, Wallet, Rocket, Copy, Check } from "lucide-react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
+import { GridSpotlight } from "@/components/ui/GridSpotlight";
+
+function CopyCommand({ command }: { command: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="mt-5 flex items-center gap-3 bg-surface/60 border border-border rounded-full px-5 py-2.5 font-mono text-xs whitespace-nowrap">
+      <span className="text-dim">$</span>
+      <span className="text-foreground">{command}</span>
+      <button
+        onClick={handleCopy}
+        className="text-muted hover:text-solana-green transition-colors flex-shrink-0"
+        aria-label="Copy command"
+      >
+        {copied ? <Check size={14} className="text-solana-green" /> : <Copy size={14} />}
+      </button>
+    </div>
+  );
+}
 
 const STEPS = [
   {
@@ -31,7 +59,8 @@ const STEPS = [
 
 export function HowItWorks(): React.ReactElement {
   return (
-    <section id="how-it-works" className="py-24 md:py-32 bg-surface/30 overflow-hidden">
+    <GridSpotlight className="overflow-hidden">
+    <section id="how-it-works" className="py-16 md:py-24 overflow-hidden relative z-[1]">
       <div className="max-w-5xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
@@ -45,8 +74,10 @@ export function HowItWorks(): React.ReactElement {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Connecting line — desktop only, behind circles */}
-          <div className="hidden md:block absolute top-14 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-solana-purple/20 to-transparent z-0" />
+          {/* Connecting line — desktop only, behind circles, animated with cards */}
+          <AnimateIn delay={0} className="hidden md:block absolute top-14 left-[15%] right-[15%] z-0">
+            <div className="h-px bg-gradient-to-r from-solana-purple/40 via-solana-green/30 to-solana-purple/40" />
+          </AnimateIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             {STEPS.map((step, i) => (
@@ -79,9 +110,7 @@ export function HowItWorks(): React.ReactElement {
 
                   {/* Command */}
                   {step.command && (
-                    <div className="mt-5 bg-background rounded-lg px-4 py-3 font-mono text-xs text-solana-green border border-border w-full max-w-[300px]">
-                      $ {step.command}
-                    </div>
+                    <CopyCommand command={step.command} />
                   )}
                 </div>
               </AnimateIn>
@@ -90,5 +119,6 @@ export function HowItWorks(): React.ReactElement {
         </div>
       </div>
     </section>
+    </GridSpotlight>
   );
 }
