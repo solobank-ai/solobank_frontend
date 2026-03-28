@@ -97,7 +97,7 @@ export function Navbar(): React.ReactElement {
 
       {/* Mobile overlay */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-xl z-40 flex flex-col p-8 gap-6">
+        <div className="md:hidden fixed inset-0 top-16 bg-background backdrop-blur-none z-[60] flex flex-col p-8 gap-6 overflow-y-auto">
           {NAV_LINKS.map((link) =>
             link.external ? (
               <a
