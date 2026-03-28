@@ -60,7 +60,7 @@ body {
 }
 
 /* Solana gradient: purple -> green (2-stop, smooth blend) */
-.gradient-text {
+@utility gradient-text {
   background: linear-gradient(90deg, #9945FF 0%, #14F195 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

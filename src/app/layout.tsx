@@ -23,7 +23,7 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="bg-background text-foreground antialiased min-h-screen font-sans">
+      <body suppressHydrationWarning className="bg-background text-foreground antialiased min-h-screen font-sans">
         <Navbar />
         <main>{children}</main>
         <Footer />

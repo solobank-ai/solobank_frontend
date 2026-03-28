@@ -20,13 +20,6 @@ export function Navbar(): React.ReactElement {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href: string): void => {
-    if (href.startsWith("#")) {
-      const el = document.querySelector(href);
-      el?.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
-    }
-  };
 
   return (
     <header
@@ -58,18 +51,10 @@ export function Navbar(): React.ReactElement {
               >
                 {link.label}
               </a>
-            ) : link.href.startsWith("#") ? (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href)}
-                className="text-sm text-muted hover:text-foreground transition-colors cursor-pointer"
-              >
-                {link.label}
-              </button>
             ) : (
               <Link
                 key={link.label}
-                href={link.href}
+                href={link.href.startsWith("#") ? `/${link.href}` : link.href}
                 className="text-sm text-muted hover:text-foreground transition-colors"
               >
                 {link.label}
@@ -110,18 +95,10 @@ export function Navbar(): React.ReactElement {
               >
                 {link.label}
               </a>
-            ) : link.href.startsWith("#") ? (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href)}
-                className="text-xl text-muted hover:text-foreground transition-colors text-left cursor-pointer"
-              >
-                {link.label}
-              </button>
             ) : (
               <Link
                 key={link.label}
-                href={link.href}
+                href={link.href.startsWith("#") ? `/${link.href}` : link.href}
                 className="text-xl text-muted hover:text-foreground transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >

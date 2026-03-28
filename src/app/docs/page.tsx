@@ -287,7 +287,7 @@ export default function DocsPage(): React.ReactElement {
           {/* ── Quickstart ── */}
           <SectionAnchor id="quickstart">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">Quickstart</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">Quickstart</h2>
               <p className="text-muted text-sm mb-6">Up and running in 30 seconds.</p>
 
               <div className="space-y-3">
@@ -327,7 +327,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
           {/* ── CLI Reference ── */}
           <SectionAnchor id="cli">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">CLI Reference</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">CLI Reference</h2>
               <p className="text-muted text-sm mb-6">
                 <code className="text-solana-green">@banka/cli</code> — command-line interface wrapping the SDK. Binary: <code className="text-solana-green">banka</code>.
               </p>
@@ -359,14 +359,14 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
           {/* ── SDK Reference ── */}
           <SectionAnchor id="sdk">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">SDK Reference</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">SDK Reference</h2>
               <p className="text-muted text-sm mb-6">
                 <code className="text-solana-green">@banka/sdk</code> — full TypeScript SDK for agent banking. Exports: <code className="text-dim">&quot;.&quot;</code>, <code className="text-dim">&quot;./browser&quot;</code>, <code className="text-dim">&quot;./adapters&quot;</code>, <code className="text-dim">&quot;./descriptors&quot;</code>.
               </p>
 
               {SDK_METHODS.map((group) => (
                 <div key={group.category} className="mb-8">
-                  <h3 className="text-lg font-bold mb-4 text-solana-purple">
+                  <h3 className="text-lg font-bold mb-4 gradient-text">
                     {group.category}
                   </h3>
                   <div className="overflow-x-auto">
@@ -400,7 +400,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
 
               {/* Key types */}
               <div className="mt-8">
-                <h3 className="text-lg font-bold mb-4 text-solana-purple">Key Types</h3>
+                <h3 className="text-lg font-bold mb-4 gradient-text">Key Types</h3>
                 <CodeBlock>{`interface BalanceSnapshot {
   address: string;
   sol: number; solRaw: bigint;
@@ -457,13 +457,13 @@ const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
           {/* ── MCP Server ── */}
           <SectionAnchor id="mcp">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">MCP Server</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">MCP Server</h2>
               <p className="text-muted text-sm mb-6">
                 <code className="text-solana-green">@banka/mcp</code> — Model Context Protocol server for Claude, Cursor, and other MCP-compatible AI platforms.
               </p>
 
               <div className="mb-6">
-                <h3 className="text-lg font-bold mb-4 text-solana-purple">Tools</h3>
+                <h3 className="text-lg font-bold mb-4 gradient-text">Tools</h3>
                 <div className="space-y-3">
                   {MCP_TOOLS.map((t) => (
                     <div
@@ -507,7 +507,7 @@ docker run -it banka-mcp --rpc-url https://...`}</CodeBlock>
           {/* ── Payments (banka core) ── */}
           <SectionAnchor id="payments">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">Payments (banka core)</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">Payments (banka core)</h2>
               <p className="text-muted text-sm mb-6">
                 <code className="text-solana-green">banka</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
               </p>
@@ -535,7 +535,7 @@ const handler = solanaServer({
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-4 text-solana-purple">Utility Functions</h3>
+                <h3 className="text-lg font-bold mb-4 gradient-text">Utility Functions</h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
@@ -574,7 +574,7 @@ const handler = solanaServer({
           {/* ── Environment Variables ── */}
           <SectionAnchor id="env">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2">Environment Variables</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">Environment Variables</h2>
               <p className="text-muted text-sm mb-6">
                 Optional configuration via environment variables.
               </p>
