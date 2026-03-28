@@ -16,10 +16,6 @@ const FOOTER_LINKS = {
     { label: "npm", href: "https://npmjs.com", external: true },
     { label: "Demos", href: "#" },
   ],
-  Community: [
-    { label: "X / Twitter", href: "https://x.com", external: true },
-    { label: "Discord", href: "#", external: true },
-  ],
   Legal: [
     { label: "Terms", href: "#" },
     { label: "Privacy", href: "#" },
