@@ -87,7 +87,7 @@ export function Accounts(): React.ReactElement {
   const rest = ACCOUNT_CARDS.slice(2);
 
   return (
-    <section id="accounts" className="py-24 md:py-32">
+    <section id="accounts" className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
