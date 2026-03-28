@@ -28,7 +28,7 @@ export function Install(): React.ReactElement {
       <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
           Give your agent{" "}
-          <span className="bg-gradient-to-r from-solana-purple to-solana-green bg-clip-text text-transparent">
+          <span className="gradient-text">
             a financial life.
           </span>
         </h2>

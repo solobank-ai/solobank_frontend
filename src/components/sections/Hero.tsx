@@ -28,7 +28,7 @@ export function Hero(): React.ReactElement {
         <h1 className="mt-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight">
           A bank account
           <br />
-          <span className="bg-gradient-to-r from-solana-purple to-solana-green bg-clip-text text-transparent">
+          <span className="gradient-text">
             for AI agents.
           </span>
         </h1>

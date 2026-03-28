@@ -60,7 +60,7 @@ export function Comparison(): React.ReactElement {
                   Coinbase Agent Kit
                 </th>
                 <th className="text-left px-6 py-4 font-medium w-1/3">
-                  <span className="bg-gradient-to-r from-solana-purple to-solana-green bg-clip-text text-transparent">
+                  <span className="gradient-text">
                     Auton
                   </span>
                 </th>
