@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/Badge";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ACCOUNTS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -22,9 +23,9 @@ export function Accounts(): React.ReactElement {
 
         {/* Cards */}
         <div className="flex flex-wrap justify-center gap-6">
-          {ACCOUNTS.map((account) => (
+          {ACCOUNTS.map((account, i) => (
+            <AnimateIn key={account.type} delay={i * 80}>
             <div
-              key={account.type}
               className={cn(
                 "group w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]",
                 "bg-surface border border-border rounded-2xl p-6",
@@ -51,6 +52,7 @@ export function Accounts(): React.ReactElement {
               {/* Protocol */}
               <p className="mt-3 text-xs text-dim">via {account.protocol}</p>
             </div>
+            </AnimateIn>
           ))}
         </div>
       </div>

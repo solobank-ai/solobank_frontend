@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/Badge";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { HOW_IT_WORKS } from "@/lib/constants";
 
 export function HowItWorks(): React.ReactElement {
@@ -17,8 +18,9 @@ export function HowItWorks(): React.ReactElement {
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {HOW_IT_WORKS.map((step) => (
-            <div key={step.step} className="flex flex-col">
+          {HOW_IT_WORKS.map((step, i) => (
+            <AnimateIn key={step.step} delay={i * 120}>
+            <div className="flex flex-col">
               {/* Number + duration */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-[rgba(20,241,149,0.08)] border border-[rgba(20,241,149,0.2)] text-solana-green flex items-center justify-center font-bold text-lg flex-shrink-0">
@@ -42,6 +44,7 @@ export function HowItWorks(): React.ReactElement {
                 </div>
               )}
             </div>
+            </AnimateIn>
           ))}
         </div>
       </div>
