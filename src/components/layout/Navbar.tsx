@@ -40,10 +40,9 @@ export function Navbar(): React.ReactElement {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-lg font-bold text-foreground tracking-tight">
+          <span className="text-lg font-bold text-solana-green tracking-tight">
             auton
           </span>
-          <Badge variant="accent">beta</Badge>
         </Link>
 
         {/* Desktop nav */}
