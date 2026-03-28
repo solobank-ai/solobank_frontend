@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
+import { GridSpotlight } from "@/components/ui/GridSpotlight";
 import { ACCOUNTS, TERMINAL_LINES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ export function Hero(): React.ReactElement {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-grid pt-24 pb-16">
+    <GridSpotlight className="min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(153,69,255,0.12)_0%,transparent_70%)]" />
@@ -76,6 +77,6 @@ export function Hero(): React.ReactElement {
           <Terminal lines={TERMINAL_LINES} />
         </div>
       </div>
-    </section>
+    </GridSpotlight>
   );
 }
