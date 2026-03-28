@@ -73,7 +73,7 @@ export function Hero(): React.ReactElement {
         </div>
 
         {/* Terminal */}
-        <div className="mt-14 w-full max-w-2xl shadow-[0_0_60px_rgba(20,241,149,0.07)]">
+        <div className="mt-14 w-full max-w-2xl shadow-[0_0_80px_rgba(153,69,255,0.1)]">
           <Terminal lines={TERMINAL_LINES} />
         </div>
       </div>

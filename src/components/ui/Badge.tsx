@@ -12,7 +12,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   default:
     "bg-surface border border-border text-muted",
   accent:
-    "bg-[rgba(20,241,149,0.1)] border border-[rgba(20,241,149,0.2)] text-solana-green",
+    "bg-[rgba(153,69,255,0.1)] border border-[rgba(153,69,255,0.2)] text-solana-purple",
   purple:
     "bg-[rgba(153,69,255,0.1)] border border-[rgba(153,69,255,0.2)] text-solana-purple",
 };

@@ -23,7 +23,7 @@ export function HowItWorks(): React.ReactElement {
             <div className="flex flex-col">
               {/* Number + duration */}
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-[rgba(20,241,149,0.08)] border border-[rgba(20,241,149,0.2)] text-solana-green flex items-center justify-center font-bold text-lg flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-[rgba(153,69,255,0.08)] border border-[rgba(153,69,255,0.2)] text-solana-purple flex items-center justify-center font-bold text-lg flex-shrink-0">
                   {step.step}
                 </div>
                 <Badge variant="default">{step.duration}</Badge>
