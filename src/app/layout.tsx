@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Auton — A Bank Account for AI Agents",
@@ -13,8 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.ReactElement {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body className="bg-background text-foreground antialiased min-h-screen font-sans">
+        {children}
+      </body>
     </html>
   );
 }
