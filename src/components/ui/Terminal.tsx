@@ -73,6 +73,55 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
   const isCommand = (line: string): boolean => line.startsWith("$");
   const isConfirmed = (line: string): boolean => line.startsWith("✓");
 
+  /* Wallet-like addresses: 4+ alphanum, "...", 2+ alphanum */
+  const walletRegex = /\b([A-Za-z0-9]{2,}\.{3}[A-Za-z0-9]{2,})\b/g;
+
+  /** Colorize a finished line with inline highlights */
+  function renderLine(line: string): React.ReactNode {
+    if (line === "") return "\u00A0";
+
+    /* Commands & confirmed lines use their own base color, but still
+       highlight wallet addresses in purple */
+    const hasColon = !isCommand(line) && !isConfirmed(line) && line.includes(":");
+
+    if (hasColon) {
+      const colonIdx = line.indexOf(":");
+      const label = line.slice(0, colonIdx + 1);
+      const value = line.slice(colonIdx + 1);
+
+      /* Within the value part, highlight wallet addresses in purple */
+      const valueParts = value.split(walletRegex);
+      return (
+        <>
+          <span className="text-muted">{label}</span>
+          {valueParts.map((part, j) =>
+            walletRegex.test(part) ? (
+              <span key={j} className="text-solana-purple">{part}</span>
+            ) : (
+              <span key={j} className="text-solana-green">{part}</span>
+            )
+          )}
+        </>
+      );
+    }
+
+    /* For commands / confirmed / other lines, still highlight wallet addresses */
+    const parts = line.split(walletRegex);
+    if (parts.length <= 1) return line;
+
+    return (
+      <>
+        {parts.map((part, j) =>
+          walletRegex.test(part) ? (
+            <span key={j} className="text-solana-purple">{part}</span>
+          ) : (
+            <span key={j}>{part}</span>
+          )
+        )}
+      </>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -90,8 +139,8 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
         <span className="text-xs text-dim font-mono mx-auto">auton — terminal</span>
       </div>
 
-      {/* Content */}
-      <div className="font-mono text-[13px] p-6 min-h-[300px] leading-relaxed">
+      {/* Content — fixed height so layout doesn't shift while typing */}
+      <div className="font-mono text-[13px] p-6 leading-relaxed" style={{ height: `${lines.length * 1.65 + 3}em` }}>
         {displayedLines.map((line, i) => (
           <div key={i} className={cn(
             "whitespace-pre",
@@ -99,7 +148,7 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
             isConfirmed(line) && "text-solana-green",
             !isCommand(line) && !isConfirmed(line) && line !== "" && "text-muted"
           )}>
-            {line === "" ? "\u00A0" : line}
+            {renderLine(line)}
           </div>
         ))}
 
@@ -111,7 +160,7 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
             isConfirmed(currentText) && "text-solana-green",
             !isCommand(currentText) && !isConfirmed(currentText) && "text-muted"
           )}>
-            {currentText}
+            {renderLine(currentText)}
             <span className="animate-pulse text-solana-green">█</span>
           </div>
         )}
