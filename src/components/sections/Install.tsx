@@ -19,7 +19,7 @@ export function Install(): React.ReactElement {
   };
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section className="relative py-16 md:py-24 overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(153,69,255,0.1)_0%,rgba(20,241,149,0.04)_50%,transparent_70%)]" />
