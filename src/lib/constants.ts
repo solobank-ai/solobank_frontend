@@ -1,4 +1,4 @@
-import type { AccountCard, NavLink } from "@/types";
+import type { NavLink } from "@/types";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Accounts", href: "#accounts" },
@@ -10,55 +10,6 @@ export const NAV_LINKS: NavLink[] = [
     external: true,
   },
 ];
-
-export const ACCOUNTS: AccountCard[] = [
-  {
-    type: "checking",
-    symbol: "⟳",
-    title: "Checking",
-    description:
-      "Send and receive USDC. Gas fees handled automatically — your agent never gets stuck.",
-    command: "banka send 10 9pFr...2kLx",
-    protocol: "SPL Token transfers",
-  },
-  {
-    type: "savings",
-    symbol: "◈",
-    title: "Savings",
-    description:
-      "Earn 4–8% APY automatically. Deposits routed to the best yield protocol.",
-    command: "banka lend 80 USDC",
-    protocol: "Kamino / marginfi",
-  },
-  {
-    type: "credit",
-    symbol: "◎",
-    title: "Credit",
-    description:
-      "Borrow against your savings without selling. Repay on your schedule.",
-    command: "banka borrow 20 USDC",
-    protocol: "Kamino / marginfi",
-  },
-  {
-    type: "invest",
-    symbol: "◆",
-    title: "Invest",
-    description:
-      "Buy, sell, and earn yield. Dollar-cost averaging and strategies built in.",
-    command: "banka swap 200 USDC SOL",
-    protocol: "Jupiter best route",
-  },
-  {
-    type: "swap",
-    symbol: "⇌",
-    title: "Swap",
-    description:
-      "Swap between stablecoins and crypto at the best available rate.",
-    command: "banka swap 5 USDC SOL",
-    protocol: "Jupiter best route",
-  },
-];
-
 
 export const TERMINAL_LINES: string[] = [
   "$ banka init",

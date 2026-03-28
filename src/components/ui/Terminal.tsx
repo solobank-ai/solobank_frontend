@@ -140,7 +140,7 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
       </div>
 
       {/* Content — fixed height so layout doesn't shift while typing */}
-      <div className="font-mono text-[13px] p-6 leading-relaxed" style={{ height: `${lines.length * 1.65 + 3}em` }}>
+      <div className="font-mono text-[13px] p-6 leading-relaxed text-left" style={{ height: `${lines.length * 1.65 + 3}em` }}>
         {displayedLines.map((line, i) => (
           <div key={i} className={cn(
             "whitespace-pre",
