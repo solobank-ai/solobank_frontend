@@ -10,7 +10,7 @@ const FOOTER_LINKS = {
   Resources: [
     {
       label: "GitHub",
-      href: "https://github.com/decentrathon/frontend",
+      href: "https://github.com/decentrathon/",
       external: true,
     },
     { label: "npm", href: "https://npmjs.com", external: true },

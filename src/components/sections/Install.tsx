@@ -6,7 +6,7 @@ import { Copy, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-const INSTALL_COMMAND = "npm i -g @auton/cli && auton init";
+const INSTALL_COMMAND = "npm i -g @banka/cli && banka init";
 
 export function Install(): React.ReactElement {
   const [copied, setCopied] = useState(false);
@@ -22,7 +22,7 @@ export function Install(): React.ReactElement {
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_bottom,rgba(20,241,149,0.08)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_bottom,rgba(153,69,255,0.1)_0%,rgba(20,241,149,0.04)_50%,transparent_70%)]" />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
@@ -58,7 +58,7 @@ export function Install(): React.ReactElement {
         {/* Action links */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
           <a
-            href="https://github.com/decentrathon/frontend"
+            href="https://github.com/decentrathon/"
             target="_blank"
             rel="noopener noreferrer"
           >

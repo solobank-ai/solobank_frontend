@@ -6,7 +6,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Docs", href: "/docs" },
   {
     label: "GitHub",
-    href: "https://github.com/decentrathon/frontend",
+    href: "https://github.com/decentrathon/",
     external: true,
   },
 ];
@@ -18,7 +18,7 @@ export const ACCOUNTS: AccountCard[] = [
     title: "Checking",
     description:
       "Send and receive USDC. Gas fees handled automatically — your agent never gets stuck.",
-    command: "auton send 10 USDC to 9pFr...2kLx",
+    command: "banka send 10 9pFr...2kLx",
     protocol: "SPL Token transfers",
   },
   {
@@ -27,8 +27,8 @@ export const ACCOUNTS: AccountCard[] = [
     title: "Savings",
     description:
       "Earn 4–8% APY automatically. Deposits routed to the best yield protocol.",
-    command: "auton save 80 USDC",
-    protocol: "Kamino / Marginfi",
+    command: "banka lend 80 USDC",
+    protocol: "Kamino / marginfi",
   },
   {
     type: "credit",
@@ -36,8 +36,8 @@ export const ACCOUNTS: AccountCard[] = [
     title: "Credit",
     description:
       "Borrow against your savings without selling. Repay on your schedule.",
-    command: "auton borrow 20 USDC",
-    protocol: "Kamino collateralized loans",
+    command: "banka borrow 20 USDC",
+    protocol: "Kamino / marginfi",
   },
   {
     type: "invest",
@@ -45,8 +45,8 @@ export const ACCOUNTS: AccountCard[] = [
     title: "Invest",
     description:
       "Buy, sell, and earn yield. Dollar-cost averaging and strategies built in.",
-    command: "auton invest strategy buy layer1 200",
-    protocol: "Jupiter + Meteora strategies",
+    command: "banka swap 200 USDC SOL",
+    protocol: "Jupiter best route",
   },
   {
     type: "swap",
@@ -54,7 +54,7 @@ export const ACCOUNTS: AccountCard[] = [
     title: "Swap",
     description:
       "Swap between stablecoins and crypto at the best available rate.",
-    command: "auton swap 5 USDC SOL",
+    command: "banka swap 5 USDC SOL",
     protocol: "Jupiter best route",
   },
 ];
@@ -66,7 +66,7 @@ export const HOW_IT_WORKS: HowItWorksStep[] = [
     duration: "30s",
     description:
       "One command. Wallet, MCP server, and safeguards — all set up and guided.",
-    command: "npm i -g @auton/cli && auton init",
+    command: "npm i -g @banka/cli && banka init",
   },
   {
     step: 2,
@@ -80,58 +80,51 @@ export const HOW_IT_WORKS: HowItWorksStep[] = [
     title: "Let it work",
     duration: "∞",
     description:
-      'Restart your AI platform and ask: "What\'s my auton balance?" — your agent is live.',
+      'Restart your AI platform and ask: "What\'s my banka balance?" — your agent is live.',
   },
 ];
 
 export const COMPARISON_DATA: ComparisonRow[] = [
   { feature: "Chain", coinbase: "Base", auton: "Solana" },
   { feature: "Send / Receive", coinbase: true, auton: true },
-  { feature: "Savings account", coinbase: false, auton: "Earn 4–8% APY" },
-  { feature: "Credit line", coinbase: false, auton: "Borrow against savings" },
+  { feature: "Savings (Lending)", coinbase: false, auton: "Earn 4–8% APY" },
+  { feature: "Credit (Borrow)", coinbase: false, auton: "Borrow against savings" },
   {
     feature: "Token swap",
     coinbase: "Base tokens",
-    auton: "Stables + SOL, BTC, ETH, GOLD",
+    auton: "SOL, USDC, USDT, JUP + any",
   },
-  {
-    feature: "Investment account",
-    coinbase: false,
-    auton: "Buy/sell + strategies + DCA",
-  },
-  { feature: "Yield on investments", coinbase: false, auton: "Earn while holding" },
+  { feature: "Yield rebalance", coinbase: false, auton: "Auto APY routing" },
   {
     feature: "Pay-per-use APIs",
     coinbase: "Limited",
-    auton: "41 services, 90 endpoints",
+    auton: "MPP protocol (402)",
   },
-  { feature: "MCP integration", coinbase: false, auton: "35 tools + 20 prompts" },
-  { feature: "AI Financial Advisor", coinbase: false, auton: "MCP server" },
+  { feature: "MCP integration", coinbase: false, auton: "4 tools via @banka/mcp" },
   {
     feature: "Agent safeguards",
     coinbase: false,
     auton: "Per-tx + daily limits",
   },
+  { feature: "DeFi protocols", coinbase: false, auton: "Kamino + marginfi + Jupiter" },
+  { feature: "Browser client", coinbase: false, auton: "@banka/sdk/browser" },
 ];
 
 export const TERMINAL_LINES: string[] = [
-  "$ auton init",
+  "$ banka init",
   "Wallet created: 7xKp...3mNq",
   "MCP server configured",
   "Safeguards: $100/tx · $500/day",
   "",
-  "$ auton balance",
-  "Checking:  $68.91 USDC",
-  "Savings:   $80.00 USDC  (4.21% APY)",
-  "Credit:    -$20.00 USDC",
-  "Invest:    $5.02 SOL    (+0.4%)",
-  "Total:     $133.93",
+  "$ banka balance",
+  "SOL:   0.05 SOL",
+  "USDC:  $148.91 USDC",
   "",
-  "$ auton send 10 USDC to 9pFr...2kLx",
+  "$ banka send 10 9pFr...2kLx",
   "✓ Sent 10.00 USDC → 9pFr...2kLx",
   "  TX: 4vGh...8mKp  confirmed (420ms)",
   "",
-  "$ auton save 80 USDC",
+  "$ banka lend 80 USDC",
   "✓ Deposited 80.00 USDC to Kamino",
-  "  Current APY: 4.21%",
+  "  APY: 4.21%",
 ];
