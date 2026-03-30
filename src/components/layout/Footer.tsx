@@ -7,6 +7,10 @@ const FOOTER_LINKS = {
     { label: "How it works", href: "#how-it-works" },
     { label: "Docs", href: "/docs" },
   ],
+  Gateway: [
+    { label: "Services", href: "/services" },
+    { label: "Stats", href: "/stats" },
+  ],
   Resources: [
     {
       label: "GitHub",
