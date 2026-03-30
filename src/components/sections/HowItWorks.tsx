@@ -37,7 +37,7 @@ const STEPS = [
     duration: "30s",
     description:
       "One command. Wallet, MCP server, and safeguards — all set up and guided.",
-    command: "npm i -g @banka/cli && banka init",
+    command: "npm i -g @solobank/cli && solobank init",
   },
   {
     step: 2,
@@ -53,7 +53,7 @@ const STEPS = [
     title: "Let it work",
     duration: "∞",
     description:
-      'Restart your AI platform and ask: "What\'s my banka balance?" — your agent is live.',
+      'Restart your AI platform and ask: "What\'s my solobank balance?" — your agent is live.',
   },
 ];
 

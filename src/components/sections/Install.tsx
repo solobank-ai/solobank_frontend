@@ -6,7 +6,7 @@ import { Copy, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-const INSTALL_COMMAND = "npm i -g @banka/cli && banka init";
+const INSTALL_COMMAND = "npm i -g @solobank/cli && solobank init";
 
 export function Install(): React.ReactElement {
   const [copied, setCopied] = useState(false);
