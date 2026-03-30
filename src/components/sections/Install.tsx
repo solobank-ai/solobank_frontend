@@ -5,11 +5,13 @@ import Link from "next/link";
 import { Copy, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/context";
 
 const INSTALL_COMMAND = "npm i -g @solobank/cli && solobank init";
 
 export function Install(): React.ReactElement {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopy = (): void => {
     void navigator.clipboard.writeText(INSTALL_COMMAND).then(() => {
@@ -19,7 +21,7 @@ export function Install(): React.ReactElement {
   };
 
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden">
+    <section id="install" className="relative py-16 md:py-24 overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(153,69,255,0.1)_0%,rgba(20,241,149,0.04)_50%,transparent_70%)]" />
@@ -27,13 +29,13 @@ export function Install(): React.ReactElement {
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-          Give your agent{" "}
+          {t.install.title1}{" "}
           <span className="gradient-text">
-            a financial life.
+            {t.install.title2}
           </span>
         </h2>
         <p className="mt-4 text-muted text-lg">
-          Open source. Non-custodial. Built on Solana.
+          {t.install.subtitle}
         </p>
 
         {/* Command box */}
@@ -67,11 +69,11 @@ export function Install(): React.ReactElement {
             </Button>
           </a>
           <Button variant="ghost" size="md">
-            Live Demos
+            {t.install.liveDemos}
           </Button>
           <Link href="/docs">
             <Button variant="secondary" size="md">
-              Docs <ArrowRight size={14} />
+              {t.nav.docs} <ArrowRight size={14} />
             </Button>
           </Link>
         </div>

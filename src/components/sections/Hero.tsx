@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
 import { GridSpotlight } from "@/components/ui/GridSpotlight";
-import { TERMINAL_LINES } from "@/lib/constants";
+import { useTranslation } from "@/lib/i18n/context";
 
 const INSTALL_CMD = "npm i -g @solobank/cli";
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(INSTALL_CMD);
@@ -29,27 +30,27 @@ export function Hero(): React.ReactElement {
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-6 flex flex-col items-center text-center">
         {/* Badge */}
-        <Badge variant="purple">Built on Solana</Badge>
+        <Badge variant="purple">{t.hero.badge}</Badge>
 
-        {/* Headline — larger */}
+        {/* Headline */}
         <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight leading-[1.1]">
-          A bank account
+          {t.hero.headline1}
           <br />
           <span className="gradient-text">
-            for AI agents.
+            {t.hero.headline2}
           </span>
         </h1>
 
         {/* Subline */}
         <p className="mt-6 text-muted text-lg md:text-xl max-w-2xl">
-          Earn, borrow, invest, swap, pay — autonomously.
+          {t.hero.subline}
         </p>
 
         {/* Single CTA */}
         <div className="mt-8">
           <Link href="/docs">
             <Button variant="primary" size="lg">
-              Get started <ArrowRight size={16} />
+              {t.hero.cta} <ArrowRight size={16} />
             </Button>
           </Link>
         </div>
@@ -67,9 +68,9 @@ export function Hero(): React.ReactElement {
           </button>
         </div>
 
-        {/* Terminal — compact */}
+        {/* Terminal */}
         <div className="mt-12 w-full max-w-xl shadow-[0_0_80px_rgba(153,69,255,0.1)]">
-          <Terminal lines={TERMINAL_LINES} />
+          <Terminal lines={t.terminal as unknown as string[]} />
         </div>
       </div>
     </GridSpotlight>

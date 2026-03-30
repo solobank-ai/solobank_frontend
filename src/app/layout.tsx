@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { LocaleWrapper } from "@/components/providers/LocaleWrapper";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning className="bg-background text-foreground antialiased min-h-screen font-sans">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <LocaleWrapper>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </LocaleWrapper>
       </body>
     </html>
   );
