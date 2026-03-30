@@ -36,9 +36,9 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-3">How the software works</h2>
             <p>
-              All four packages (<code>@banka/sdk</code>, <code>@banka/cli</code>,{" "}
-              <code>@banka/mcp</code>, <code>banka</code>) run locally on your machine. The CLI
-              generates a Solana keypair stored in a local file during <code>banka init</code>.
+              All four packages (<code>@solobank/sdk</code>, <code>@solobank/cli</code>,{" "}
+              <code>@solobank/mcp</code>, <code>solobank</code>) run locally on your machine. The CLI
+              generates a Solana keypair stored in a local file during <code>solobank init</code>.
               All RPC calls go directly from your machine to the Solana network — no proxy, no
               intermediary.
             </p>
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-3">MCP server</h2>
             <p>
-              The <code>@banka/mcp</code> server runs as a local stdio process. It communicates only
+              The <code>@solobank/mcp</code> server runs as a local stdio process. It communicates only
               with the MCP client (Claude Desktop, Cursor, etc.) on your machine and the Solana RPC
               endpoint. No data is sent to Solobank servers.
             </p>

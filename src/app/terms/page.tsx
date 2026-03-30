@@ -17,8 +17,8 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-foreground mb-3">1. What Solobank is</h2>
             <p>
               Solobank is an open-source software toolkit consisting of four packages:{" "}
-              <code>@banka/sdk</code>, <code>@banka/cli</code>, <code>@banka/mcp</code>, and{" "}
-              <code>banka</code> (the MPP payment method). Together they allow AI agents to hold,
+              <code>@solobank/sdk</code>, <code>@solobank/cli</code>, <code>@solobank/mcp</code>, and{" "}
+              <code>solobank</code> (the MPP payment method). Together they allow AI agents to hold,
               send, earn, borrow, swap, and pay with digital assets on the Solana blockchain.
             </p>
             <p className="mt-3">
@@ -32,7 +32,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-foreground mb-3">2. Non-custodial architecture</h2>
             <p>
               All private keys are generated and stored locally on your device via{" "}
-              <code>banka init</code>. Solobank never transmits, collects, or has access to your
+              <code>solobank init</code>. Solobank never transmits, collects, or has access to your
               private keys. You are solely responsible for securing your key file and any backups.
             </p>
           </section>
@@ -51,7 +51,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-foreground mb-3">4. Agent safeguards</h2>
             <p>
               The CLI configures per-transaction and daily spending limits during{" "}
-              <code>banka init</code>. These safeguards are enforced locally and can be modified by
+              <code>solobank init</code>. These safeguards are enforced locally and can be modified by
               anyone with access to the configuration file. They are a convenience feature, not a
               security guarantee.
             </p>
