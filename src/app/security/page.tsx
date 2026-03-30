@@ -22,7 +22,7 @@ export default function SecurityPage() {
             <ul className="list-disc list-inside space-y-2 mt-3">
               <li>
                 <strong className="text-foreground">Local key generation</strong> —{" "}
-                <code>banka init</code> generates a Solana keypair and stores it as a JSON file on
+                <code>solobank init</code> generates a Solana keypair and stores it as a JSON file on
                 your machine. The key never leaves your device.
               </li>
               <li>
@@ -31,7 +31,7 @@ export default function SecurityPage() {
               </li>
               <li>
                 <strong className="text-foreground">Local MCP server</strong> — the{" "}
-                <code>@banka/mcp</code> server runs as a local stdio process, not a network service.
+                <code>@solobank/mcp</code> server runs as a local stdio process, not a network service.
                 It is only accessible to the MCP client on your machine.
               </li>
             </ul>
@@ -41,7 +41,7 @@ export default function SecurityPage() {
             <h2 className="text-xl font-semibold text-foreground mb-3">Agent safeguards</h2>
             <p>
               When an AI agent operates a wallet, spending controls are critical. Solobank provides
-              configurable safeguards set during <code>banka init</code>:
+              configurable safeguards set during <code>solobank init</code>:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3">
               <li>
@@ -87,7 +87,7 @@ export default function SecurityPage() {
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-3">MPP payments</h2>
             <p>
-              The <code>banka</code> package implements the Machine Payments Protocol (MPP) for
+              The <code>solobank</code> package implements the Machine Payments Protocol (MPP) for
               agent-to-API payments. The server-side verifies Solana transaction signatures directly
               against RPC token balance deltas — no trust assumptions beyond the blockchain itself.
             </p>
