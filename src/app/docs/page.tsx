@@ -20,88 +20,88 @@ const NAV_SECTIONS = [
 
 const CLI_COMMANDS = [
   {
-    command: "banka init",
+    command: "solobank init",
     flags: "--force",
-    description: "Generate a new Solana Ed25519 keypair and save it to ~/.config/banka/id.json.",
-    example: "banka init",
+    description: "Generate a new Solana Ed25519 keypair and save it to ~/.config/solobank/id.json.",
+    example: "solobank init",
   },
   {
-    command: "banka address",
+    command: "solobank address",
     flags: "",
     description: "Print the wallet's base58 public key.",
-    example: "banka address",
+    example: "solobank address",
   },
   {
-    command: "banka balance",
+    command: "solobank balance",
     flags: "",
     description: "Show SOL and USDC balances for the current wallet.",
-    example: "banka balance",
+    example: "solobank balance",
   },
   {
-    command: "banka send",
+    command: "solobank send",
     flags: "--asset <SOL|USDC>",
     description: "Transfer SOL or USDC to any Solana address. Defaults to USDC.",
-    example: "banka send 10 9pFr...2kLx",
+    example: "solobank send 10 9pFr...2kLx",
   },
   {
-    command: "banka pay",
+    command: "solobank pay",
     flags: "--method --data --max-price",
     description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation automatically.",
-    example: "banka pay https://api.example.com/data",
+    example: "solobank pay https://api.example.com/data",
   },
   {
-    command: "banka swap-quote",
+    command: "solobank swap-quote",
     flags: "--slippage-bps <50>",
     description: "Get a Jupiter swap quote without executing.",
-    example: "banka swap-quote 5 USDC SOL",
+    example: "solobank swap-quote 5 USDC SOL",
   },
   {
-    command: "banka swap",
+    command: "solobank swap",
     flags: "--slippage-bps <50>",
     description: "Execute a token swap via Jupiter best route.",
-    example: "banka swap 5 USDC SOL",
+    example: "solobank swap 5 USDC SOL",
   },
   {
-    command: "banka lend-rates",
+    command: "solobank lend-rates",
     flags: "--protocol <auto|kamino|marginfi>",
     description: "List current lending APYs across Kamino and marginfi.",
-    example: "banka lend-rates USDC",
+    example: "solobank lend-rates USDC",
   },
   {
-    command: "banka lend",
+    command: "solobank lend",
     flags: "--protocol",
     description: "Deposit to the best lending venue. Auto-routes to highest APY.",
-    example: "banka lend 80 USDC",
+    example: "solobank lend 80 USDC",
   },
   {
-    command: "banka borrow",
+    command: "solobank borrow",
     flags: "--protocol --market --bank --reserve",
     description: "Borrow against deposited collateral.",
-    example: "banka borrow 20 USDC",
+    example: "solobank borrow 20 USDC",
   },
   {
-    command: "banka withdraw",
+    command: "solobank withdraw",
     flags: "--protocol --all",
     description: "Withdraw from a lending position. Use --all for full withdrawal.",
-    example: "banka withdraw 50 USDC",
+    example: "solobank withdraw 50 USDC",
   },
   {
-    command: "banka repay",
+    command: "solobank repay",
     flags: "--protocol --all",
     description: "Repay an outstanding borrow position.",
-    example: "banka repay 20 USDC",
+    example: "solobank repay 20 USDC",
   },
   {
-    command: "banka rebalance",
+    command: "solobank rebalance",
     flags: "--target-protocol --min-apy-delta",
     description: "Move funds from one lending venue to a higher-APY venue.",
-    example: "banka rebalance 80 USDC",
+    example: "solobank rebalance 80 USDC",
   },
   {
-    command: "banka mcp",
+    command: "solobank mcp",
     flags: "",
     description: "Print MCP stdio configuration JSON for Claude / Cursor integration.",
-    example: "banka mcp",
+    example: "solobank mcp",
   },
 ];
 
@@ -109,9 +109,9 @@ const SDK_METHODS = [
   {
     category: "Wallet",
     methods: [
-      { name: "Banka.init(options?)", returns: "Promise<{address, keypairPath, rpcUrl}>", description: "Generate a new keypair and save to disk." },
-      { name: "Banka.create(options?)", returns: "Promise<Banka>", description: "Load existing wallet or create if createIfMissing: true." },
-      { name: "Banka.fromSecretKey(key, options?)", returns: "Banka", description: "Instantiate from raw secret key (Uint8Array, base64, or JSON array)." },
+      { name: "Solobank.init(options?)", returns: "Promise<{address, keypairPath, rpcUrl}>", description: "Generate a new keypair and save to disk." },
+      { name: "Solobank.create(options?)", returns: "Promise<Solobank>", description: "Load existing wallet or create if createIfMissing: true." },
+      { name: "Solobank.fromSecretKey(key, options?)", returns: "Solobank", description: "Instantiate from raw secret key (Uint8Array, base64, or JSON array)." },
       { name: ".getAddress()", returns: "string", description: "Returns the wallet's base58 public key." },
       { name: ".getBalance()", returns: "Promise<BalanceSnapshot>", description: "SOL + USDC balances with raw bigint values." },
     ],
@@ -145,32 +145,32 @@ const SDK_METHODS = [
 
 const MCP_TOOLS = [
   {
-    tool: "banka_address",
+    tool: "solobank_address",
     params: "none",
     description: "Returns the current Solana wallet address.",
   },
   {
-    tool: "banka_balance",
+    tool: "solobank_balance",
     params: "none",
     description: "Returns wallet balance snapshot — SOL + USDC with raw values.",
   },
   {
-    tool: "banka_send",
+    tool: "solobank_send",
     params: "to, amount, asset?, dryRun?",
     description: "Send SOL or SPL tokens to any Solana address.",
   },
   {
-    tool: "banka_pay",
+    tool: "solobank_pay",
     params: "url, method?, body?, maxPrice?, headers?",
     description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation.",
   },
 ];
 
 const ENV_VARS = [
-  { name: "BANKA_CONFIG_DIR", default: "~/.config/banka", description: "Wallet config directory." },
-  { name: "BANKA_RPC_URL", default: "mainnet-beta RPC", description: "Solana RPC endpoint." },
-  { name: "BANKA_JUP_BASE_URL", default: "https://lite-api.jup.ag", description: "Jupiter API base URL." },
-  { name: "BANKA_JUP_API_KEY", default: "none", description: "Jupiter Pro API key for higher rate limits." },
+  { name: "SOLOBANK_CONFIG_DIR", default: "~/.config/solobank", description: "Wallet config directory." },
+  { name: "SOLOBANK_RPC_URL", default: "mainnet-beta RPC", description: "Solana RPC endpoint." },
+  { name: "SOLOBANK_JUP_BASE_URL", default: "https://lite-api.jup.ag", description: "Jupiter API base URL." },
+  { name: "SOLOBANK_JUP_API_KEY", default: "none", description: "Jupiter Pro API key for higher rate limits." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -259,7 +259,7 @@ export default function DocsPage(): React.ReactElement {
               Documentation
             </h1>
             <p className="mt-4 text-muted text-lg max-w-2xl">
-              Complete reference for the Banka SDK, CLI, and MCP server — everything you need to give AI agents a bank account on Solana.
+              Complete reference for the Solobank SDK, CLI, and MCP server — everything you need to give AI agents a bank account on Solana.
             </p>
           </div>
 
@@ -268,13 +268,13 @@ export default function DocsPage(): React.ReactElement {
             <h3 className="text-sm font-bold tracking-widest text-dim uppercase mb-4">Architecture</h3>
             <div className="font-mono text-xs text-muted leading-loose">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-solana-purple">@banka/mcp</span>
+                <span className="text-solana-purple">@solobank/mcp</span>
                 <span className="text-dim">&rarr;</span>
-                <span className="text-solana-purple">@banka/cli</span>
+                <span className="text-solana-purple">@solobank/cli</span>
                 <span className="text-dim">&rarr;</span>
-                <span className="text-solana-green">@banka/sdk</span>
+                <span className="text-solana-green">@solobank/sdk</span>
                 <span className="text-dim">&rarr;</span>
-                <span className="text-solana-green">banka</span>
+                <span className="text-solana-green">solobank</span>
                 <span className="text-dim">&rarr;</span>
                 <span className="text-muted">mppx</span>
               </div>
@@ -291,9 +291,9 @@ export default function DocsPage(): React.ReactElement {
               <p className="text-muted text-sm mb-6">Up and running in 30 seconds.</p>
 
               <div className="space-y-3">
-                <CodeBlock>npm i -g @banka/cli</CodeBlock>
-                <CodeBlock>banka init</CodeBlock>
-                <CodeBlock>banka balance</CodeBlock>
+                <CodeBlock>npm i -g @solobank/cli</CodeBlock>
+                <CodeBlock>solobank init</CodeBlock>
+                <CodeBlock>solobank balance</CodeBlock>
               </div>
 
               <div className="mt-6 bg-surface border border-border rounded-xl p-5">
@@ -301,9 +301,9 @@ export default function DocsPage(): React.ReactElement {
                 <p className="text-sm text-muted mb-3">Add to your MCP config:</p>
                 <CodeBlock>{`{
   "mcpServers": {
-    "banka": {
+    "solobank": {
       "command": "npx",
-      "args": ["-y", "@banka/mcp"]
+      "args": ["-y", "@solobank/mcp"]
     }
   }
 }`}</CodeBlock>
@@ -311,11 +311,11 @@ export default function DocsPage(): React.ReactElement {
 
               <div className="mt-6 bg-surface border border-border rounded-xl p-5">
                 <h4 className="text-sm font-bold mb-3">Using as a library</h4>
-                <CodeBlock>npm i @banka/sdk</CodeBlock>
+                <CodeBlock>npm i @solobank/sdk</CodeBlock>
                 <div className="mt-3">
-                  <CodeBlock>{`import { Banka } from "@banka/sdk";
+                  <CodeBlock>{`import { Solobank } from "@solobank/sdk";
 
-const agent = await Banka.create();
+const agent = await Solobank.create();
 const balance = await agent.getBalance();
 await agent.send({ amount: 10, to: "9pFr...2kLx" });
 await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
@@ -329,7 +329,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">CLI Reference</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@banka/cli</code> — command-line interface wrapping the SDK. Binary: <code className="text-solana-green">banka</code>.
+                <code className="text-solana-green">@solobank/cli</code> — command-line interface wrapping the SDK. Binary: <code className="text-solana-green">solobank</code>.
               </p>
 
               <div className="space-y-3">
@@ -361,7 +361,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">SDK Reference</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@banka/sdk</code> — full TypeScript SDK for agent banking. Exports: <code className="text-dim">&quot;.&quot;</code>, <code className="text-dim">&quot;./browser&quot;</code>, <code className="text-dim">&quot;./adapters&quot;</code>, <code className="text-dim">&quot;./descriptors&quot;</code>.
+                <code className="text-solana-green">@solobank/sdk</code> — full TypeScript SDK for agent banking. Exports: <code className="text-dim">&quot;.&quot;</code>, <code className="text-dim">&quot;./browser&quot;</code>, <code className="text-dim">&quot;./adapters&quot;</code>, <code className="text-dim">&quot;./descriptors&quot;</code>.
               </p>
 
               {SDK_METHODS.map((group) => (
@@ -442,7 +442,7 @@ interface RebalanceResult {
                 <p className="text-sm text-muted mb-3">
                   Lightweight MPP client for wallet-adapter integration:
                 </p>
-                <CodeBlock>{`import { createBrowserClient } from "@banka/sdk/browser";
+                <CodeBlock>{`import { createBrowserClient } from "@solobank/sdk/browser";
 
 const client = createBrowserClient({
   connection,
@@ -459,7 +459,7 @@ const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">MCP Server</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@banka/mcp</code> — Model Context Protocol server for Claude, Cursor, and other MCP-compatible AI platforms.
+                <code className="text-solana-green">@solobank/mcp</code> — Model Context Protocol server for Claude, Cursor, and other MCP-compatible AI platforms.
               </p>
 
               <div className="mb-6">
@@ -486,7 +486,7 @@ const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
 
               <div className="bg-surface border border-border rounded-xl p-5">
                 <h4 className="text-sm font-bold mb-3">Programmatic Usage</h4>
-                <CodeBlock>{`import { startMcpServer, createMcpServer } from "@banka/mcp";
+                <CodeBlock>{`import { startMcpServer, createMcpServer } from "@solobank/mcp";
 
 // Start with stdio transport:
 await startMcpServer({ rpcUrl: "https://..." });
@@ -498,24 +498,24 @@ const server = await createMcpServer({ agent: myAgent });`}</CodeBlock>
               <div className="mt-4 bg-surface border border-border rounded-xl p-5">
                 <h4 className="text-sm font-bold mb-3">Docker</h4>
                 <p className="text-sm text-muted mb-3">Run as a containerized MCP server:</p>
-                <CodeBlock>{`docker build -t banka-mcp packages/mcp
-docker run -it banka-mcp --rpc-url https://...`}</CodeBlock>
+                <CodeBlock>{`docker build -t solobank-mcp packages/mcp
+docker run -it solobank-mcp --rpc-url https://...`}</CodeBlock>
               </div>
             </div>
           </SectionAnchor>
 
-          {/* ── Payments (banka core) ── */}
+          {/* ── Payments (solobank core) ── */}
           <SectionAnchor id="payments">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2 gradient-text">Payments (banka core)</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">Payments (solobank core)</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">banka</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
+                <code className="text-solana-green">solobank</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Client (payer)</h4>
-                  <CodeBlock>{`import { solanaClient } from "banka/client";
+                  <CodeBlock>{`import { solanaClient } from "solobank/client";
 
 const handler = solanaClient({
   connection,
@@ -525,7 +525,7 @@ const handler = solanaClient({
                 </div>
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Server (verifier)</h4>
-                  <CodeBlock>{`import { solanaServer } from "banka/server";
+                  <CodeBlock>{`import { solanaServer } from "solobank/server";
 
 const handler = solanaServer({
   recipient: "Abcd...wxyz",
