@@ -9,7 +9,7 @@ import { Terminal } from "@/components/ui/Terminal";
 import { GridSpotlight } from "@/components/ui/GridSpotlight";
 import { TERMINAL_LINES } from "@/lib/constants";
 
-const INSTALL_CMD = "npm i -g @banka/cli";
+const INSTALL_CMD = "npm i -g @solobank/cli";
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);

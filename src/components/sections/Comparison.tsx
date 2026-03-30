@@ -35,7 +35,7 @@ function HeroSend() {
           {/* Mini terminal */}
           <div className="bg-background/60 rounded-lg px-4 py-3 font-mono text-xs border border-border">
             <span className="text-dim">$</span>{" "}
-            <span className="text-foreground">banka send</span>{" "}
+            <span className="text-foreground">solobank send</span>{" "}
             <span className="text-solana-green">10</span>{" "}
             <span className="text-solana-purple">9pFr...2kLx</span>
           </div>
@@ -102,7 +102,7 @@ function HeroMCP() {
 
           {/* Tool list */}
           <div className="grid grid-cols-2 gap-2">
-            {["banka_address", "banka_balance", "banka_send", "banka_pay"].map((tool) => (
+            {["solobank_address", "solobank_balance", "solobank_send", "solobank_pay"].map((tool) => (
               <div key={tool} className="bg-background/60 rounded-lg px-3 py-2 font-mono text-xs text-solana-green border border-border">
                 {tool}
               </div>
@@ -132,7 +132,7 @@ const COMPACT_FEATURES: CompactFeature[] = [
   { icon: Zap, title: "MPP protocol", description: "Pay-per-use APIs via 402 negotiation.", accent: "purple" },
   { icon: Shield, title: "Agent safeguards", description: "Per-tx and daily spending limits.", accent: "green" },
   { icon: Layers, title: "DeFi protocols", description: "Kamino + marginfi + Jupiter built in.", accent: "purple" },
-  { icon: Monitor, title: "Browser client", description: "Run in-browser with @banka/sdk.", accent: "green" },
+  { icon: Monitor, title: "Browser client", description: "Run in-browser with @solobank/sdk.", accent: "green" },
 ];
 
 function CompactCard({ feat, index, stretch }: { feat: CompactFeature; index: number; stretch?: boolean }) {

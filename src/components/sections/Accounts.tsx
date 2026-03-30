@@ -19,7 +19,7 @@ const ACCOUNT_CARDS: AccountCardData[] = [
     title: "CHECKING",
     description:
       "Send and receive USDC. Gas fees handled automatically via SPL Token transfers.",
-    command: "banka send 10 9pFr...2kLx",
+    command: "solobank send 10 9pFr...2kLx",
     hero: { label: "AVAILABLE", value: "2,401.00" },
   },
   {
@@ -27,7 +27,7 @@ const ACCOUNT_CARDS: AccountCardData[] = [
     title: "SAVINGS",
     description:
       "Earn 4–8% APY automatically. Deposits routed to the best yield protocol via Kamino / marginfi.",
-    command: "banka lend 80 USDC",
+    command: "solobank lend 80 USDC",
     hero: { label: "APY", value: "8.2%" },
     stats: [
       { label: "LOCKED", value: "0.00" },
@@ -38,7 +38,7 @@ const ACCOUNT_CARDS: AccountCardData[] = [
     type: "credit",
     title: "CREDIT",
     description: "Borrow against your savings without selling. Repay on your schedule.",
-    command: "banka borrow 20 USDC",
+    command: "solobank borrow 20 USDC",
     stats: [
       { label: "UTILIZATION", value: "25%" },
       { label: "LIMIT", value: "5,000" },
@@ -49,7 +49,7 @@ const ACCOUNT_CARDS: AccountCardData[] = [
     title: "INVEST",
     description:
       "Buy, sell, and earn yield. Swap and hold via Jupiter best route.",
-    command: "banka swap 200 USDC SOL",
+    command: "solobank swap 200 USDC SOL",
     tags: ["JUPITER", "BEST ROUTE"],
   },
   {
@@ -57,7 +57,7 @@ const ACCOUNT_CARDS: AccountCardData[] = [
     title: "SWAP",
     description:
       "Swap between stablecoins and crypto at the best available rate via Jupiter.",
-    command: "banka swap 5 USDC SOL",
+    command: "solobank swap 5 USDC SOL",
     stats: [
       { label: "SLIPPAGE", value: "0.1%" },
     ],
