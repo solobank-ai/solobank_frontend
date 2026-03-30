@@ -5,18 +5,19 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Layers, Settings, BookOpen, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { NAV_LINKS } from "@/lib/constants";
-
-const NAV_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Accounts: Layers,
-  "How it works": Settings,
-  Docs: BookOpen,
-  GitHub: ExternalLink,
-};
+import { useTranslation, type Locale } from "@/lib/i18n/context";
 
 export function Navbar(): React.ReactElement {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { locale, t, setLocale } = useTranslation();
+
+  const navLinks = [
+    { label: t.nav.accounts, href: "#accounts", icon: Layers },
+    { label: t.nav.howItWorks, href: "#how-it-works", icon: Settings },
+    { label: t.nav.docs, href: "/docs", icon: BookOpen },
+    { label: t.nav.github, href: "https://github.com/decentrathon/", external: true, icon: ExternalLink },
+  ];
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -26,7 +27,6 @@ export function Navbar(): React.ReactElement {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -56,7 +56,7 @@ export function Navbar(): React.ReactElement {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) =>
+            {navLinks.map((link) =>
               link.external ? (
                 <a
                   key={link.label}
@@ -79,11 +79,31 @@ export function Navbar(): React.ReactElement {
             )}
           </nav>
 
-          {/* Desktop CTA */}
+          {/* Desktop CTA + Language toggle */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="primary" size="sm">
-              Install <ArrowRight size={14} />
-            </Button>
+            {/* Language toggle */}
+            <div className="flex items-center rounded-full border border-border overflow-hidden text-xs">
+              {(["en", "ru"] as Locale[]).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLocale(l)}
+                  className={cn(
+                    "px-2.5 py-1.5 font-medium uppercase transition-colors",
+                    locale === l
+                      ? "bg-solana-green/10 text-solana-green"
+                      : "text-muted hover:text-foreground"
+                  )}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+
+            <a href="#install">
+              <Button variant="primary" size="sm">
+                {t.nav.install} <ArrowRight size={14} />
+              </Button>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -107,9 +127,27 @@ export function Navbar(): React.ReactElement {
         )}
       >
         <div className="flex flex-col items-center py-8 px-6">
+          {/* Language toggle mobile */}
+          <div className="flex items-center rounded-full border border-border overflow-hidden text-sm mb-6">
+            {(["en", "ru"] as Locale[]).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLocale(l)}
+                className={cn(
+                  "px-4 py-2 font-medium uppercase transition-colors",
+                  locale === l
+                    ? "bg-solana-green/10 text-solana-green"
+                    : "text-muted hover:text-foreground"
+                )}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+
           <nav className="flex flex-col gap-1 w-full max-w-xs">
-            {NAV_LINKS.map((link, i) => {
-              const Icon = NAV_ICONS[link.label];
+            {navLinks.map((link, i) => {
+              const Icon = link.icon;
               const inner = (
                 <div
                   className={cn(
@@ -152,7 +190,7 @@ export function Navbar(): React.ReactElement {
           <div className="mt-6 w-full max-w-xs">
             <Link href="/docs" onClick={() => setIsMenuOpen(false)}>
               <Button variant="primary" size="lg" className="w-full">
-                Get started <ArrowRight size={16} />
+                {t.nav.getStarted} <ArrowRight size={16} />
               </Button>
             </Link>
           </div>

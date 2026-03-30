@@ -1,32 +1,33 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-
-const FOOTER_LINKS = {
-  Product: [
-    { label: "Accounts", href: "#accounts" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Docs", href: "/docs" },
-  ],
-  Gateway: [
-    { label: "Services", href: "/services" },
-    { label: "Stats", href: "/stats" },
-  ],
-  Resources: [
-    {
-      label: "GitHub",
-      href: "https://github.com/decentrathon/",
-      external: true,
-    },
-    { label: "npm", href: "https://npmjs.com", external: true },
-  ],
-  Legal: [
-    { label: "Terms", href: "/terms" },
-    { label: "Privacy", href: "/privacy" },
-    { label: "Security", href: "/security" },
-  ],
-};
+import { useTranslation } from "@/lib/i18n/context";
 
 export function Footer(): React.ReactElement {
+  const { t } = useTranslation();
+
+  const footerLinks = {
+    [t.footer.product]: [
+      { label: t.nav.accounts, href: "#accounts" },
+      { label: t.nav.howItWorks, href: "#how-it-works" },
+      { label: t.nav.docs, href: "/docs" },
+    ],
+    [t.footer.gateway]: [
+      { label: t.footer.services, href: "/services" },
+      { label: t.footer.stats, href: "/stats" },
+    ],
+    [t.footer.resources]: [
+      { label: "GitHub", href: "https://github.com/decentrathon/", external: true },
+      { label: "npm", href: "https://www.npmjs.com/package/@solobank/cli", external: true },
+    ],
+    [t.footer.legal]: [
+      { label: t.footer.terms, href: "/terms" },
+      { label: t.footer.privacy, href: "/privacy" },
+      { label: t.footer.security, href: "/security" },
+    ],
+  };
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -34,12 +35,12 @@ export function Footer(): React.ReactElement {
         <div className="flex items-center gap-3 mb-12">
           <span className="text-lg font-bold gradient-text">Solobank</span>
           <span className="text-dim text-sm">·</span>
-          <span className="text-dim text-sm">Built on Solana</span>
+          <span className="text-dim text-sm">{t.footer.builtOn}</span>
         </div>
 
         {/* Link columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {Object.entries(FOOTER_LINKS).map(([category, links]) => (
+          {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <p className="text-sm font-medium text-foreground mb-4">
                 {category}
@@ -74,10 +75,8 @@ export function Footer(): React.ReactElement {
 
         {/* Bottom */}
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-xs text-dim">
-            © 2025 Solobank. Open source. Non-custodial.
-          </p>
-          <p className="text-xs text-dim">Built on Solana</p>
+          <p className="text-xs text-dim">{t.footer.copyright}</p>
+          <p className="text-xs text-dim">{t.footer.builtOn}</p>
         </div>
       </div>
     </footer>
