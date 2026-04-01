@@ -5,12 +5,12 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Layers, Settings, BookOpen, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { useTranslation, type Locale } from "@/lib/i18n/context";
+import { useTranslation } from "@/lib/i18n/context";
 
 export function Navbar(): React.ReactElement {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { locale, t, setLocale } = useTranslation();
+  const { t } = useTranslation();
 
   const navLinks = [
     { label: t.nav.accounts, href: "#accounts", icon: Layers },
@@ -79,26 +79,8 @@ export function Navbar(): React.ReactElement {
             )}
           </nav>
 
-          {/* Desktop CTA + Language toggle */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Language toggle */}
-            <div className="flex items-center rounded-full border border-border overflow-hidden text-xs">
-              {(["en", "ru"] as Locale[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLocale(l)}
-                  className={cn(
-                    "px-2.5 py-1.5 font-medium uppercase transition-colors",
-                    locale === l
-                      ? "bg-solana-green/10 text-solana-green"
-                      : "text-muted hover:text-foreground"
-                  )}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-
             <a href="#install">
               <Button variant="primary" size="sm">
                 {t.nav.install} <ArrowRight size={14} />
@@ -127,24 +109,6 @@ export function Navbar(): React.ReactElement {
         )}
       >
         <div className="flex flex-col items-center py-8 px-6">
-          {/* Language toggle mobile */}
-          <div className="flex items-center rounded-full border border-border overflow-hidden text-sm mb-6">
-            {(["en", "ru"] as Locale[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLocale(l)}
-                className={cn(
-                  "px-4 py-2 font-medium uppercase transition-colors",
-                  locale === l
-                    ? "bg-solana-green/10 text-solana-green"
-                    : "text-muted hover:text-foreground"
-                )}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-
           <nav className="flex flex-col gap-1 w-full max-w-xs">
             {navLinks.map((link, i) => {
               const Icon = link.icon;
