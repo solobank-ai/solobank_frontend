@@ -87,9 +87,9 @@ function CopyBox({ command }: { command: string }) {
 /*  Code block with manual syntax highlighting                         */
 /* ------------------------------------------------------------------ */
 
-function CodeBlock({ label, children }: { label: string; children: React.ReactNode }) {
+function CodeBlock({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
   return (
-    <div className="rounded-xl border border-border bg-background/60 overflow-hidden">
+    <div className={cn("rounded-xl border border-border bg-background/60 overflow-hidden flex flex-col", className)}>
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-surface/30">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
@@ -98,7 +98,7 @@ function CodeBlock({ label, children }: { label: string; children: React.ReactNo
         </div>
         <span className="text-xs text-dim ml-2 font-mono">{label}</span>
       </div>
-      <pre className="px-4 py-4 font-mono text-xs leading-relaxed overflow-x-auto">
+      <pre className="px-4 py-4 font-mono text-xs leading-relaxed overflow-x-auto flex-1 flex items-center">
         <code>{children}</code>
       </pre>
     </div>
@@ -210,9 +210,9 @@ function ForDevelopersSection() {
           </div>
         </AnimateIn>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <AnimateIn delay={100}>
-            <CodeBlock label="server.ts">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <AnimateIn delay={100} className="h-full">
+            <CodeBlock label="server.ts" className="h-full">
               <span className="text-solana-purple">import</span>{" "}
               {"{ Mppx }"} <span className="text-solana-purple">from</span>{" "}
               <span className="text-solana-green">&apos;mppx&apos;</span>;{"\n"}
@@ -299,7 +299,7 @@ function ForAgentsSection() {
           </div>
         </AnimateIn>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           <div className="flex flex-col gap-4 order-2 lg:order-1">
             {props.map((prop, i) => (
               <AnimateIn key={prop.title} delay={100 + i * 80}>
@@ -316,8 +316,8 @@ function ForAgentsSection() {
             ))}
           </div>
 
-          <AnimateIn delay={100} className="order-1 lg:order-2">
-            <CodeBlock label="client.ts">
+          <AnimateIn delay={100} className="order-1 lg:order-2 h-full">
+            <CodeBlock label="client.ts" className="h-full">
               <span className="text-solana-purple">import</span>{" "}
               {"{ Connection, Keypair }"} <span className="text-solana-purple">from</span>{" "}
               <span className="text-solana-green">&apos;@solana/web3.js&apos;</span>;{"\n"}
