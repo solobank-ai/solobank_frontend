@@ -12,6 +12,7 @@ export function Footer(): React.ReactElement {
       { label: t.nav.accounts, href: "#accounts" },
       { label: t.nav.howItWorks, href: "#how-it-works" },
       { label: "Live Demos", href: "/demos" },
+      { label: "MPP", href: "/mpp" },
       { label: t.nav.docs, href: "/docs" },
     ],
     [t.footer.gateway]: [
