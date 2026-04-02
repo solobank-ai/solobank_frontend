@@ -38,64 +38,64 @@ const CLI_COMMANDS = [
     example: "solobank balance",
   },
   {
-    command: "solobank send",
-    flags: "--asset <SOL|USDC>",
-    description: "Transfer SOL or USDC to any Solana address. Defaults to USDC.",
-    example: "solobank send 10 9pFr...2kLx",
+    command: "solobank send <amount> <to>",
+    flags: "--asset <SOL|USDC|USDT|JUP>",
+    description: "Transfer SOL or SPL tokens to any Solana address. Defaults to USDC.",
+    example: "solobank send 10 9pFr...2kLx --asset USDC",
   },
   {
-    command: "solobank pay",
+    command: "solobank pay <url>",
     flags: "--method --data --max-price",
     description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation automatically.",
-    example: "solobank pay https://api.example.com/data",
+    example: "solobank pay https://api.example.com/data --method POST --data '{\"q\":\"hello\"}'",
   },
   {
-    command: "solobank swap-quote",
+    command: "solobank swap-quote <amount> <from> <to>",
     flags: "--slippage-bps <50>",
     description: "Get a Jupiter swap quote without executing.",
-    example: "solobank swap-quote 5 USDC SOL",
+    example: "solobank swap-quote 100 USDC SOL",
   },
   {
-    command: "solobank swap",
+    command: "solobank swap <amount> <from> <to>",
     flags: "--slippage-bps <50>",
     description: "Execute a token swap via Jupiter best route.",
-    example: "solobank swap 5 USDC SOL",
+    example: "solobank swap 100 USDC SOL",
   },
   {
-    command: "solobank lend-rates",
+    command: "solobank lend-rates <asset>",
     flags: "--protocol <auto|kamino|marginfi>",
     description: "List current lending APYs across Kamino and marginfi.",
     example: "solobank lend-rates USDC",
   },
   {
-    command: "solobank lend",
+    command: "solobank lend <amount> <asset>",
     flags: "--protocol",
     description: "Deposit to the best lending venue. Auto-routes to highest APY.",
     example: "solobank lend 80 USDC",
   },
   {
-    command: "solobank borrow",
+    command: "solobank borrow <amount> <asset>",
     flags: "--protocol --market --bank --reserve",
     description: "Borrow against deposited collateral.",
-    example: "solobank borrow 20 USDC",
+    example: "solobank borrow 20 USDC --protocol kamino",
   },
   {
-    command: "solobank withdraw",
-    flags: "--protocol --all",
+    command: "solobank withdraw <amount> <asset>",
+    flags: "--protocol --market --bank --reserve --all",
     description: "Withdraw from a lending position. Use --all for full withdrawal.",
-    example: "solobank withdraw 50 USDC",
+    example: "solobank withdraw 50 USDC --all",
   },
   {
-    command: "solobank repay",
-    flags: "--protocol --all",
-    description: "Repay an outstanding borrow position.",
-    example: "solobank repay 20 USDC",
+    command: "solobank repay <amount> <asset>",
+    flags: "--protocol --market --bank --reserve --all",
+    description: "Repay an outstanding borrow position. Use --all to clear debt.",
+    example: "solobank repay 20 USDC --all",
   },
   {
-    command: "solobank rebalance",
-    flags: "--target-protocol --min-apy-delta",
+    command: "solobank rebalance <amount> <asset>",
+    flags: "--protocol --target-protocol --min-apy-delta",
     description: "Move funds from one lending venue to a higher-APY venue.",
-    example: "solobank rebalance 80 USDC",
+    example: "solobank rebalance 80 USDC --min-apy-delta 0.5",
   },
   {
     command: "solobank mcp",
@@ -109,25 +109,26 @@ const SDK_METHODS = [
   {
     category: "Wallet",
     methods: [
-      { name: "Solobank.init(options?)", returns: "Promise<{address, keypairPath, rpcUrl}>", description: "Generate a new keypair and save to disk." },
+      { name: "Solobank.init(options?)", returns: "Promise<{address, keypairPath, rpcUrl}>", description: "Generate a new keypair and save to disk. Options: { configDir?, force?, rpcUrl?, keypairPath? }." },
       { name: "Solobank.create(options?)", returns: "Promise<Solobank>", description: "Load existing wallet or create if createIfMissing: true." },
-      { name: "Solobank.fromSecretKey(key, options?)", returns: "Solobank", description: "Instantiate from raw secret key (Uint8Array, base64, or JSON array)." },
-      { name: ".getAddress()", returns: "string", description: "Returns the wallet's base58 public key." },
-      { name: ".getBalance()", returns: "Promise<BalanceSnapshot>", description: "SOL + USDC balances with raw bigint values." },
+      { name: "Solobank.load(options?)", returns: "Promise<Solobank>", description: "Alias for create()." },
+      { name: "Solobank.fromSecretKey(key, opts?)", returns: "Solobank", description: "Instantiate from raw secret key (Uint8Array, base64, or JSON array)." },
+      { name: ".address()", returns: "string", description: "Returns the wallet's base58 public key." },
+      { name: ".balance()", returns: "Promise<BalanceSnapshot>", description: "SOL + USDC balances with raw bigint values." },
     ],
   },
   {
     category: "Transfers",
     methods: [
-      { name: ".send(options)", returns: "Promise<SendResult>", description: "Transfer SOL or USDC. Options: { amount, to, asset?, dryRun? }." },
-      { name: ".pay(options)", returns: "Promise<PayResult>", description: "Pay an MPP-protected endpoint. Options: { url, method?, body?, maxPrice? }." },
+      { name: ".send(options)", returns: "Promise<SendResult>", description: "Transfer SOL or SPL tokens. Options: { amount, to, asset?, mint?, dryRun? }." },
+      { name: ".pay(options)", returns: "Promise<PayResult>", description: "Pay an MPP endpoint. Options: { url, method?, headers?, body?, maxPrice? }." },
     ],
   },
   {
     category: "Swaps",
     methods: [
-      { name: ".getSwapQuote(options)", returns: "Promise<SwapQuoteResult>", description: "Get Jupiter quote. Options: { fromAsset, toAsset, amount, slippageBps? }." },
-      { name: ".swap(options)", returns: "Promise<SwapExecutionResult>", description: "Execute Jupiter swap with the same options as getSwapQuote." },
+      { name: ".getSwapQuote(options)", returns: "Promise<SwapQuoteResult>", description: "Get Jupiter quote. Options: { fromAsset, toAsset, amount, slippageBps?, swapMode?, onlyDirectRoutes? }." },
+      { name: ".swap(options)", returns: "Promise<SwapExecutionResult>", description: "Execute Jupiter swap. Returns quote fields + signature + explorerUrl." },
     ],
   },
   {
@@ -135,10 +136,10 @@ const SDK_METHODS = [
     methods: [
       { name: ".getLendingRates(options)", returns: "Promise<LendingRate[]>", description: "APYs across Kamino + marginfi. Options: { asset, protocol? }." },
       { name: ".lend(options)", returns: "Promise<LendResult>", description: "Deposit to best venue. Options: { asset, amount, protocol?, dryRun? }." },
-      { name: ".borrow(options)", returns: "Promise<LendingActionResult>", description: "Borrow from a lending protocol." },
-      { name: ".withdraw(options)", returns: "Promise<LendingActionResult>", description: "Withdraw from position. Use withdrawAll: true for full exit." },
-      { name: ".repay(options)", returns: "Promise<LendingActionResult>", description: "Repay a borrow. Use repayAll: true to clear debt." },
-      { name: ".rebalance(options)", returns: "Promise<RebalanceResult>", description: "Move funds to higher-APY venue if delta exceeds minApyDelta." },
+      { name: ".borrow(options)", returns: "Promise<LendingActionResult>", description: "Borrow from lending protocol. Options: { asset, amount, protocol?, marketAddress?, bankAddress?, reserveAddress?, dryRun? }." },
+      { name: ".withdraw(options)", returns: "Promise<LendingActionResult>", description: "Withdraw from position. Options: { asset, amount, withdrawAll?, protocol?, dryRun? }." },
+      { name: ".repay(options)", returns: "Promise<LendingActionResult>", description: "Repay a borrow. Options: { asset, amount, repayAll?, protocol?, dryRun? }." },
+      { name: ".rebalance(options)", returns: "Promise<RebalanceResult>", description: "Move funds to higher-APY venue. Options: { asset, amount, targetProtocol?, minApyDelta?, dryRun? }." },
     ],
   },
 ];
@@ -157,18 +158,19 @@ const MCP_TOOLS = [
   {
     tool: "solobank_send",
     params: "to, amount, asset?, dryRun?",
-    description: "Send SOL or SPL tokens to any Solana address.",
+    description: "Send SOL or SPL tokens. Validates address format. Enforces per-tx spending cap (maxAmountPerTx, default 1.0).",
   },
   {
     tool: "solobank_pay",
     params: "url, method?, body?, maxPrice?, headers?",
-    description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation.",
+    description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation. Blocks internal/private network URLs.",
   },
 ];
 
 const ENV_VARS = [
   { name: "SOLOBANK_CONFIG_DIR", default: "~/.config/solobank", description: "Wallet config directory." },
-  { name: "SOLOBANK_RPC_URL", default: "mainnet-beta RPC", description: "Solana RPC endpoint." },
+  { name: "SOLOBANK_KEYPAIR_PATH", default: "id.json", description: "Keypair filename within config dir." },
+  { name: "SOLOBANK_RPC_URL", default: "devnet RPC", description: "Solana RPC endpoint." },
   { name: "SOLOBANK_JUP_BASE_URL", default: "https://lite-api.jup.ag", description: "Jupiter API base URL." },
   { name: "SOLOBANK_JUP_API_KEY", default: "none", description: "Jupiter Pro API key for higher rate limits." },
 ];
@@ -274,7 +276,7 @@ export default function DocsPage(): React.ReactElement {
                 <span className="text-dim">&rarr;</span>
                 <span className="text-solana-green">@solobank/sdk</span>
                 <span className="text-dim">&rarr;</span>
-                <span className="text-solana-green">solobank</span>
+                <span className="text-solana-green">@solobank/mpp-solana</span>
                 <span className="text-dim">&rarr;</span>
                 <span className="text-muted">mppx</span>
               </div>
@@ -316,9 +318,10 @@ export default function DocsPage(): React.ReactElement {
                   <CodeBlock>{`import { Solobank } from "@solobank/sdk";
 
 const agent = await Solobank.create();
-const balance = await agent.getBalance();
+const balance = await agent.balance();
 await agent.send({ amount: 10, to: "9pFr...2kLx" });
-await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
+await agent.lend({ asset: "USDC", amount: 80 });
+await agent.swap({ fromAsset: "USDC", toAsset: "SOL", amount: 50 });`}</CodeBlock>
                 </div>
               </div>
             </div>
@@ -329,7 +332,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">CLI Reference</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@solobank/cli</code> — command-line interface wrapping the SDK. Binary: <code className="text-solana-green">solobank</code>.
+                <code className="text-solana-green">@solobank/cli</code> — 14 commands wrapping the SDK. Binary: <code className="text-solana-green">solobank</code>.
               </p>
 
               <div className="space-y-3">
@@ -361,7 +364,7 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">SDK Reference</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@solobank/sdk</code> — full TypeScript SDK for agent banking. Exports: <code className="text-dim">&quot;.&quot;</code>, <code className="text-dim">&quot;./browser&quot;</code>, <code className="text-dim">&quot;./adapters&quot;</code>, <code className="text-dim">&quot;./descriptors&quot;</code>.
+                <code className="text-solana-green">@solobank/sdk</code> — full TypeScript SDK. Exports: <code className="text-dim">&quot;.&quot;</code>, <code className="text-dim">&quot;./browser&quot;</code>, <code className="text-dim">&quot;./adapters&quot;</code>.
               </p>
 
               {SDK_METHODS.map((group) => (
@@ -405,20 +408,37 @@ await agent.lend({ asset: "USDC", amount: 80 });`}</CodeBlock>
   address: string;
   sol: number; solRaw: bigint;
   usdc: number; usdcRaw: bigint;
+  rpcUrl: string;
 }
 
 interface SendOptions {
   amount: number;
   to: string;
   asset?: "SOL" | "USDC" | "USDT" | "JUP";
+  mint?: string;       // custom mint address
   dryRun?: boolean;
+}
+
+interface PayOptions {
+  url: string;
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  headers?: Record<string, string>;
+  body?: unknown;
+  maxPrice?: number;
 }
 
 interface SwapQuoteOptions {
   fromAsset: string;
   toAsset: string;
   amount: number;
-  slippageBps?: number;  // default 50
+  slippageBps?: number;       // default 50
+  swapMode?: "ExactIn" | "ExactOut";
+  onlyDirectRoutes?: boolean;
+}
+
+interface SwapExecutionResult extends SwapQuoteResult {
+  signature: string;
+  explorerUrl: string;
 }
 
 interface LendOptions {
@@ -428,11 +448,36 @@ interface LendOptions {
   dryRun?: boolean;
 }
 
+interface BorrowOptions {
+  asset: string;
+  amount: number;
+  protocol?: "auto" | "kamino" | "marginfi";
+  marketAddress?: string;
+  bankAddress?: string;     // marginfi
+  reserveAddress?: string;  // Kamino
+  dryRun?: boolean;
+}
+
+interface WithdrawOptions extends BorrowOptions {
+  withdrawAll?: boolean;
+}
+
+interface RepayOptions extends BorrowOptions {
+  repayAll?: boolean;
+}
+
+interface RebalanceOptions extends BorrowOptions {
+  targetProtocol?: "auto" | "kamino" | "marginfi";
+  minApyDelta?: number;
+}
+
 interface RebalanceResult {
   status: "rebalanced" | "skipped";
-  from: LendingRate;
-  to: LendingRate;
+  asset: string; amount: number;
+  from: LendingRate; to: LendingRate;
   apyDelta: number;
+  withdrawSignature?: string;
+  lendSignature?: string;
 }`}</CodeBlock>
               </div>
 
@@ -446,10 +491,41 @@ interface RebalanceResult {
 
 const client = createBrowserClient({
   connection,
-  signer: walletAdapter,
+  signer: walletAdapter,  // { publicKey, signTransaction }
 });
 
 const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
+              </div>
+
+              {/* Utility functions */}
+              <div className="mt-8 bg-surface border border-border rounded-xl p-5">
+                <h4 className="text-sm font-bold mb-3">Utility Functions</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-3 pr-4 text-muted font-medium">Function</th>
+                        <th className="text-left py-3 text-muted font-medium">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["resolveAsset(input)", "Resolve asset symbol or mint to { symbol, mint, decimals }"],
+                        ["truncateAddress(addr, prefix?, suffix?)", "Truncate address: 7xKp...3mNq"],
+                        ["formatUsd(amount)", "Format number as $1,234.56"],
+                        ["formatAssetAmount(amount, asset)", "Format with asset-specific decimals"],
+                        ["formatPercent(value, digits?)", "Format as percentage string"],
+                        ["walletExists(configDir?, keypairPath?)", "Check if wallet file exists on disk"],
+                        ["keypairFromPrivateKey(key)", "Parse base64, JSON array, or Uint8Array to Keypair"],
+                      ].map(([fn, desc]) => (
+                        <tr key={fn} className="border-b border-border/50">
+                          <td className="py-3 pr-4 font-mono text-xs text-solana-green whitespace-nowrap">{fn}</td>
+                          <td className="py-3 text-muted text-xs">{desc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </SectionAnchor>
@@ -459,7 +535,7 @@ const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">MCP Server</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@solobank/mcp</code> — Model Context Protocol server for Claude, Cursor, and other MCP-compatible AI platforms.
+                <code className="text-solana-green">@solobank/mcp</code> — Model Context Protocol server for Claude, Cursor, Windsurf, and other MCP-compatible AI platforms.
               </p>
 
               <div className="mb-6">
@@ -492,44 +568,45 @@ const response = await client.pay({ url, maxPrice: 0.01 });`}</CodeBlock>
 await startMcpServer({ rpcUrl: "https://..." });
 
 // Or get server instance for custom transport:
-const server = await createMcpServer({ agent: myAgent });`}</CodeBlock>
-              </div>
-
-              <div className="mt-4 bg-surface border border-border rounded-xl p-5">
-                <h4 className="text-sm font-bold mb-3">Docker</h4>
-                <p className="text-sm text-muted mb-3">Run as a containerized MCP server:</p>
-                <CodeBlock>{`docker build -t solobank-mcp packages/mcp
-docker run -it solobank-mcp --rpc-url https://...`}</CodeBlock>
+const server = await createMcpServer({
+  agent: myAgent,
+  maxAmountPerTx: 5.0,  // spending cap per call (default 1.0)
+});`}</CodeBlock>
               </div>
             </div>
           </SectionAnchor>
 
-          {/* ── Payments (solobank core) ── */}
+          {/* ── Payments (@solobank/mpp-solana) ── */}
           <SectionAnchor id="payments">
             <div className="mb-16">
-              <h2 className="text-2xl font-bold mb-2 gradient-text">Payments (solobank core)</h2>
+              <h2 className="text-2xl font-bold mb-2 gradient-text">Payments</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">solobank</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
+                <code className="text-solana-green">@solobank/mpp-solana</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Client (payer)</h4>
-                  <CodeBlock>{`import { solanaClient } from "solobank/client";
+                  <CodeBlock>{`import { solanaClient } from "@solobank/mpp-solana/client";
 
 const handler = solanaClient({
   connection,
-  signer,
+  signer,  // { publicKey, signTransaction }
   commitment: "confirmed",
 });`}</CodeBlock>
                 </div>
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Server (verifier)</h4>
-                  <CodeBlock>{`import { solanaServer } from "solobank/server";
+                  <CodeBlock>{`import { solanaServer } from "@solobank/mpp-solana/server";
 
 const handler = solanaServer({
   recipient: "Abcd...wxyz",
   rpcUrl: "https://...",
+  commitment: "finalized",  // default
+  tryConsumeReference: async (sig) => {
+    // atomic check-and-mark (e.g. Redis SETNX)
+    return redis.set(sig, "1", "NX");
+  },
 });`}</CodeBlock>
                 </div>
               </div>
