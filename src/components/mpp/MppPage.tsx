@@ -237,7 +237,7 @@ function ForDevelopersSection() {
           <div className="flex flex-col gap-4">
             {features.map((feat, i) => (
               <AnimateIn key={feat.title} delay={150 + i * 80} className="flex-1">
-                <div className="group flex items-start gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(153,69,255,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
+                <div className="group flex items-center gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(153,69,255,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
                   <div
                     className={cn(
                       "w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0",
@@ -303,7 +303,7 @@ function ForAgentsSection() {
           <div className="flex flex-col gap-4 order-2 lg:order-1">
             {props.map((prop, i) => (
               <AnimateIn key={prop.title} delay={100 + i * 80} className="flex-1">
-                <div className="group flex items-start gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(20,241,149,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
+                <div className="group flex items-center gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(20,241,149,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
                   <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-[rgba(20,241,149,0.1)] text-solana-green">
                     <prop.icon size={22} />
                   </div>
