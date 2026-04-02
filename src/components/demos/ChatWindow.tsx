@@ -15,11 +15,8 @@ export function ChatWindow({ messages, className }: ChatWindowProps) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (visibleCount >= messages.length) {
-      // All shown — pause 5s then replay
-      timeoutRef.current = setTimeout(() => setVisibleCount(0), 5000);
-      return () => clearTimeout(timeoutRef.current!);
-    }
+    // All shown — stop, no replay
+    if (visibleCount >= messages.length) return;
 
     const delay = messages[visibleCount]?.role === "tool" ? 400 : 800;
     timeoutRef.current = setTimeout(() => setVisibleCount((c) => c + 1), delay);
