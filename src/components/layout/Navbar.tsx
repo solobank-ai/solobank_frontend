@@ -43,7 +43,7 @@ export function Navbar(): React.ReactElement {
         className={cn(
           "fixed top-0 left-0 right-0 z-[1001] transition-all duration-300",
           isScrolled || isMenuOpen
-            ? "bg-background/90 backdrop-blur-xl border-b border-border"
+            ? "bg-background/90 backdrop-blur-xl"
             : "bg-transparent"
         )}
       >
