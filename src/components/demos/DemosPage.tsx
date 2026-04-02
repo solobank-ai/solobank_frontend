@@ -64,7 +64,7 @@ export function DemosPage() {
         {/* Main content grid */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Left panel — Chat or Terminal (fixed height, scrollable content) */}
-          <div className="lg:col-span-3 h-[420px]">
+          <div className="lg:col-span-3 h-[520px]">
             {mode === "ai" ? (
               <ChatWindow key={active.id} messages={(active as AiScenario).messages} className="h-full" />
             ) : (

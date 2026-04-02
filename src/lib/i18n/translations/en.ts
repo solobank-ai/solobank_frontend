@@ -118,7 +118,7 @@ export const en = {
     terms: "Terms",
     privacy: "Privacy",
     security: "Security",
-    copyright: "© 2025 Solobank. Open source. Non-custodial.",
+    copyright: "© 2026 Solobank. Open source. Non-custodial.",
     builtOn: "Built on Solana",
   },
 
