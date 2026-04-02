@@ -125,12 +125,12 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
   return (
     <div
       className={cn(
-        "bg-[#0D0D0F] border border-border rounded-2xl overflow-hidden",
+        "bg-[#0D0D0F] border border-border rounded-2xl overflow-hidden flex flex-col",
         className
       )}
     >
       {/* Title bar */}
-      <div className="h-10 flex items-center px-4 border-b border-border">
+      <div className="h-10 flex items-center px-4 border-b border-border flex-shrink-0">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
           <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
@@ -139,8 +139,8 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
         <span className="text-xs text-dim font-mono mx-auto">solobank — terminal</span>
       </div>
 
-      {/* Content — fixed height so layout doesn't shift while typing */}
-      <div className="font-mono text-[13px] p-6 leading-relaxed text-left" style={{ height: `${lines.length * 1.65 + 3}em` }}>
+      {/* Content */}
+      <div className="font-mono text-[13px] p-6 leading-relaxed text-left flex-1 overflow-y-auto">
         {displayedLines.map((line, i) => (
           <div key={i} className={cn(
             "whitespace-pre",

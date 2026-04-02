@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Layers, Settings, BookOpen, ExternalLink } from "lucide-react";
+import { Menu, X, ArrowRight, Layers, Settings, BookOpen, ExternalLink, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/i18n/context";
@@ -16,6 +16,7 @@ export function Navbar(): React.ReactElement {
     { label: t.nav.accounts, href: "#accounts", icon: Layers },
     { label: t.nav.howItWorks, href: "#how-it-works", icon: Settings },
     { label: t.nav.docs, href: "/docs", icon: BookOpen },
+    { label: "Live Demos", href: "/demos", icon: Play },
     { label: t.nav.github, href: "https://github.com/decentrathon/", external: true, icon: ExternalLink },
   ];
 

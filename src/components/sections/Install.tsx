@@ -68,9 +68,11 @@ export function Install(): React.ReactElement {
               GitHub <ExternalLink size={14} />
             </Button>
           </a>
-          <Button variant="ghost" size="md">
-            {t.install.liveDemos}
-          </Button>
+          <Link href="/demos">
+            <Button variant="ghost" size="md">
+              {t.install.liveDemos}
+            </Button>
+          </Link>
           <Link href="/docs">
             <Button variant="secondary" size="md">
               {t.nav.docs} <ArrowRight size={14} />
