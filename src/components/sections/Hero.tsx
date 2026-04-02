@@ -69,8 +69,8 @@ export function Hero(): React.ReactElement {
         </div>
 
         {/* Terminal */}
-        <div className="mt-12 w-full max-w-xl shadow-[0_0_80px_rgba(153,69,255,0.1)]">
-          <Terminal lines={t.terminal as unknown as string[]} />
+        <div className="mt-12 w-full max-w-xl h-[420px] shadow-[0_0_80px_rgba(153,69,255,0.1)]">
+          <Terminal lines={t.terminal as unknown as string[]} className="h-full" />
         </div>
       </div>
     </GridSpotlight>

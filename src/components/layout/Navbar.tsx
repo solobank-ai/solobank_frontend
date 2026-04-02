@@ -15,8 +15,8 @@ export function Navbar(): React.ReactElement {
   const navLinks = [
     { label: t.nav.accounts, href: "#accounts", icon: Layers },
     { label: t.nav.howItWorks, href: "#how-it-works", icon: Settings },
-    { label: t.nav.docs, href: "/docs", icon: BookOpen },
     { label: "Live Demos", href: "/demos", icon: Play },
+    { label: t.nav.docs, href: "/docs", icon: BookOpen },
     { label: t.nav.github, href: "https://github.com/decentrathon/", external: true, icon: ExternalLink },
   ];
 
