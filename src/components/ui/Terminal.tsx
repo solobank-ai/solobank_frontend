@@ -16,15 +16,13 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const [done, setDone] = useState(false);
+
   useEffect(() => {
-    if (!isTyping) return;
+    if (!isTyping || done) return;
     if (currentLineIndex >= lines.length) {
-      // All lines done — pause 3s then replay
-      timeoutRef.current = setTimeout(() => {
-        setDisplayedLines([]);
-        setCurrentLineIndex(0);
-        setCurrentText("");
-      }, 3000);
+      // All lines done — stop, no replay
+      setDone(true);
       return;
     }
 
@@ -152,8 +150,8 @@ export function Terminal({ lines, className }: TerminalProps): React.ReactElemen
           </div>
         ))}
 
-        {/* Currently typing line */}
-        {currentLineIndex < lines.length && (
+        {/* Currently typing line — only shown while actively typing */}
+        {!done && currentLineIndex < lines.length && (
           <div className={cn(
             "whitespace-pre",
             isCommand(currentText) && "text-foreground",
