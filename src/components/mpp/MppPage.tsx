@@ -236,21 +236,21 @@ function ForDevelopersSection() {
 
           <div className="flex flex-col gap-4">
             {features.map((feat, i) => (
-              <AnimateIn key={feat.title} delay={150 + i * 80}>
-                <div className="group flex items-start gap-4 rounded-xl border border-border bg-surface/30 p-5 hover:border-[rgba(153,69,255,0.2)] hover:bg-surface/50 transition-all duration-300">
+              <AnimateIn key={feat.title} delay={150 + i * 80} className="flex-1">
+                <div className="group flex items-start gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(153,69,255,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
                   <div
                     className={cn(
-                      "w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0",
+                      "w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0",
                       feat.accent === "purple"
                         ? "bg-[rgba(153,69,255,0.1)] text-solana-purple"
                         : "bg-[rgba(20,241,149,0.1)] text-solana-green"
                     )}
                   >
-                    <feat.icon size={18} />
+                    <feat.icon size={22} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-foreground">{feat.title}</h4>
-                    <p className="text-xs text-muted mt-1 leading-relaxed">{feat.description}</p>
+                    <h4 className="text-base font-semibold text-foreground">{feat.title}</h4>
+                    <p className="text-sm text-muted mt-1.5 leading-relaxed">{feat.description}</p>
                   </div>
                 </div>
               </AnimateIn>
@@ -302,14 +302,14 @@ function ForAgentsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           <div className="flex flex-col gap-4 order-2 lg:order-1">
             {props.map((prop, i) => (
-              <AnimateIn key={prop.title} delay={100 + i * 80}>
-                <div className="group flex items-start gap-4 rounded-xl border border-border bg-surface/30 p-5 hover:border-[rgba(20,241,149,0.2)] hover:bg-surface/50 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-[rgba(20,241,149,0.1)] text-solana-green">
-                    <prop.icon size={18} />
+              <AnimateIn key={prop.title} delay={100 + i * 80} className="flex-1">
+                <div className="group flex items-start gap-5 rounded-xl border border-border bg-surface/30 p-6 hover:border-[rgba(20,241,149,0.2)] hover:bg-surface/50 transition-all duration-300 h-full">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-[rgba(20,241,149,0.1)] text-solana-green">
+                    <prop.icon size={22} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-foreground">{prop.title}</h4>
-                    <p className="text-xs text-muted mt-1 leading-relaxed">{prop.description}</p>
+                    <h4 className="text-base font-semibold text-foreground">{prop.title}</h4>
+                    <p className="text-sm text-muted mt-1.5 leading-relaxed">{prop.description}</p>
                   </div>
                 </div>
               </AnimateIn>
