@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ServiceIcon } from "@/components/ui/service-icons";
 
 export const metadata: Metadata = {
   title: "Services — Solobank MPP Gateway",
@@ -88,9 +89,14 @@ export default async function ServicesPage() {
               className="border border-border rounded-xl bg-surface/40 overflow-hidden"
             >
               <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold text-foreground">{service.name}</h2>
-                  <p className="text-muted text-sm mt-0.5">{service.description}</p>
+                <div className="flex items-center gap-3">
+                  <div className="text-white/80">
+                    <ServiceIcon serviceId={service.id} />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-foreground">{service.name}</h2>
+                    <p className="text-muted text-sm mt-0.5">{service.description}</p>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   {service.categories.map((cat) => (
