@@ -162,6 +162,106 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm4 18H6V4h7v5h5zM7 13h4v2H7zm0 3h7v2H7zm0-6h3v2H7z" />
     </svg>
   ),
+  stability: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L2 7l10 5 10-5zm0 15l-10-5v5l10 5 10-5v-5z" />
+    </svg>
+  ),
+  huggingface: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM8 9a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm8 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-8 6c0-1 1.79-3 4-3s4 2 4 3z" />
+    </svg>
+  ),
+  ai21: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5v8h2v-3h2v3h2V8zm2 2v1h2v-1z" />
+    </svg>
+  ),
+  runway: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  ),
+  twilio: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 7a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm4 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm4 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
+    </svg>
+  ),
+  sendgrid: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 6l10 7 10-7v12H2zm10 5.5L4 6h16z" />
+    </svg>
+  ),
+  birdeye: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+    </svg>
+  ),
+  dexscreener: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3v18h18V3zm16 16H5V5h14zM7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z" />
+    </svg>
+  ),
+  helius: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 0 1 5.6 8.1L12 12V6z" />
+    </svg>
+  ),
+  jupiter: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c3.87 0 7 3.13 7 7h-3a4 4 0 0 0-8 0H5c0-3.87 3.13-7 7-7zm0 14c-3.87 0-7-3.13-7-7h3a4 4 0 0 0 8 0h3c0 3.87-3.13 7-7 7z" />
+    </svg>
+  ),
+  notion: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 3h12l4 4v14H4zm2 2v14h12V8h-3V5zm3 5h6v2H9zm0 3h6v2H9zm0 3h4v2H9z" />
+    </svg>
+  ),
+  linear: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 19.5L19.5 3c.5-.5 1.3-.1 1.2.6l-1.5 12.7c-.1.4-.3.7-.6.9L7.5 21.8c-.4.2-.8.2-1.1 0L3.2 20.5c-.3-.3-.4-.7-.2-1z" />
+    </svg>
+  ),
+  airtable: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L2 7v2l10 5 10-5V7zm-8 9v4l8 4 8-4v-4l-8 4z" />
+    </svg>
+  ),
+  clearbit: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-4 9c0-2.7 2.7-4 4-4s4 1.3 4 4z" />
+    </svg>
+  ),
+  wolfram: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L2 12l10 10 10-10zm0 3.4L18.6 12 12 18.6 5.4 12z" />
+    </svg>
+  ),
+  polygon: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 13h2v7H3zm4-4h2v11H7zm4-3h2v14h-2zm4 5h2v9h-2zm4-7h2v16h-2z" />
+    </svg>
+  ),
+  openrouter: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4h7v7H4zm9 0h7v7h-7zm-9 9h7v7H4zm9 0h7v7h-7z" />
+    </svg>
+  ),
+  crunchbase: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3v18h18V3zm8 14H7v-4h4zm0-6H7V7h4zm6 6h-4v-4h4zm0-6h-4V7h4z" />
+    </svg>
+  ),
+  tavily: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+    </svg>
+  ),
+  pinecone: (
+    <svg className={iconClass} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L8 6l4 4-4 4 4 4 4-4-4-4 4-4zm-4 8l-4 4 4 4m8-8l4 4-4 4" />
+    </svg>
+  ),
 };
 
 export function ServiceIcon({ serviceId }: { serviceId: string }) {
