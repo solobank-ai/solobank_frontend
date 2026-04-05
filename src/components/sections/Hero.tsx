@@ -9,7 +9,7 @@ import { Terminal } from "@/components/ui/Terminal";
 import { GridSpotlight } from "@/components/ui/GridSpotlight";
 import { useTranslation } from "@/lib/i18n/context";
 
-const INSTALL_CMD = "npm i -g @solobank/cli";
+const INSTALL_CMD = "curl -fsSL https://solobank.lol/install.sh | bash";
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);

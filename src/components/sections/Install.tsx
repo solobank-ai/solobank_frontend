@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
 
-const INSTALL_COMMAND = "npm i -g @solobank/cli && solobank init";
+const INSTALL_COMMAND = "curl -fsSL https://solobank.lol/install.sh | bash";
 
 export function Install(): React.ReactElement {
   const [copied, setCopied] = useState(false);

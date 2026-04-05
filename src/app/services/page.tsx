@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Pay-per-request APIs. No keys, no accounts — agents pay with USDC on Solana.",
 };
 
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "http://130.61.175.254:3001";
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "https://mpp.solobank.lol";
 
 interface Endpoint {
   method: string;
