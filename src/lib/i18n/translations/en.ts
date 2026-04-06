@@ -80,7 +80,7 @@ export const en = {
       description: "Deposits auto-routed to the best yield venue across Kamino and marginfi. Rebalances when rates shift.",
     },
     mcpTools: {
-      title: "4 MCP Tools",
+      title: "15 MCP Tools",
       description: "Plug into Claude, Cursor, or any MCP-compatible AI platform. One JSON config — your agent has a bank account.",
     },
     borrowOnDemand: "Borrow on demand",
