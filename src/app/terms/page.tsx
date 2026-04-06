@@ -80,7 +80,7 @@ export default function TermsPage() {
             <p>
               Solobank packages are released under open-source licenses. See the{" "}
               <a
-                href="https://github.com/decentrathon/package"
+                href="https://github.com/solobank-ai/package"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-solana-green hover:underline"

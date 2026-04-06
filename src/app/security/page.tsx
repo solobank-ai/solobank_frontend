@@ -98,7 +98,7 @@ export default function SecurityPage() {
             <p>
               All Solobank code is open source and available on{" "}
               <a
-                href="https://github.com/decentrathon/package"
+                href="https://github.com/solobank-ai/package"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-solana-green hover:underline"
@@ -128,7 +128,7 @@ export default function SecurityPage() {
               If you discover a security vulnerability in any Solobank package, please report it
               responsibly via{" "}
               <a
-                href="https://github.com/decentrathon/package/issues"
+                href="https://github.com/solobank-ai/package/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-solana-green hover:underline"

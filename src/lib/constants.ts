@@ -6,7 +6,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Docs", href: "/docs" },
   {
     label: "GitHub",
-    href: "https://github.com/decentrathon/",
+    href: "https://github.com/solobank-ai",
     external: true,
   },
 ];

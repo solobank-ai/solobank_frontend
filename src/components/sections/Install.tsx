@@ -60,7 +60,7 @@ export function Install(): React.ReactElement {
         {/* Action links */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
           <a
-            href="https://github.com/decentrathon/"
+            href="https://github.com/solobank-ai"
             target="_blank"
             rel="noopener noreferrer"
           >

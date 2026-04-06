@@ -18,7 +18,7 @@ export function Navbar(): React.ReactElement {
     { label: "Live Demos", href: "/demos", icon: Play },
     { label: "MPP", href: "/mpp", icon: Zap },
     { label: t.nav.docs, href: "/docs", icon: BookOpen },
-    { label: t.nav.github, href: "https://github.com/decentrathon/", external: true, icon: ExternalLink },
+    { label: t.nav.github, href: "https://github.com/solobank-ai", external: true, icon: ExternalLink },
   ];
 
   useEffect(() => {

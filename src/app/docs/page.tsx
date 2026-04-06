@@ -233,7 +233,7 @@ export default function DocsPage(): React.ReactElement {
             ))}
             <div className="border-t border-border mt-4 pt-4">
               <a
-                href="https://github.com/decentrathon/"
+                href="https://github.com/solobank-ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
@@ -293,7 +293,7 @@ export default function DocsPage(): React.ReactElement {
               <p className="text-muted text-sm mb-6">Up and running in 30 seconds.</p>
 
               <div className="space-y-3">
-                <CodeBlock>npm i -g @solobank/cli</CodeBlock>
+                <CodeBlock>curl -fsSL https://solobank.lol/install.sh | bash</CodeBlock>
                 <CodeBlock>solobank init</CodeBlock>
                 <CodeBlock>solobank balance</CodeBlock>
               </div>
@@ -688,7 +688,7 @@ const handler = solanaServer({
               <ArrowLeft size={14} /> Back to home
             </Link>
             <a
-              href="https://github.com/decentrathon/"
+              href="https://github.com/solobank-ai"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-solana-green hover:brightness-110 transition-all"

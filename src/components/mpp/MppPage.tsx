@@ -136,7 +136,7 @@ function HeroSection() {
             </Button>
           </Link>
           <a
-            href="https://github.com/decentrathon/mpp-solana"
+            href="https://github.com/solobank-ai/mpp-solana"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -524,7 +524,7 @@ function OpenStandardSection() {
               </Button>
             </a>
             <a
-              href="https://github.com/decentrathon/mpp-solana"
+              href="https://github.com/solobank-ai/mpp-solana"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -574,7 +574,7 @@ function CtaSection() {
 
         <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
           <a
-            href="https://github.com/decentrathon/mpp-solana"
+            href="https://github.com/solobank-ai/mpp-solana"
             target="_blank"
             rel="noopener noreferrer"
           >

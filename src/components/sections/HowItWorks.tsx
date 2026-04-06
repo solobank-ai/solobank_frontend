@@ -40,7 +40,7 @@ export function HowItWorks(): React.ReactElement {
       title: t.howItWorks.step1.title,
       duration: t.howItWorks.step1.duration,
       description: t.howItWorks.step1.description,
-      command: "npm i -g @solobank/cli && solobank init",
+      command: "curl -fsSL https://solobank.lol/install.sh | bash",
     },
     {
       step: 2,
