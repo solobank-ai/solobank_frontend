@@ -46,16 +46,16 @@ export function Navbar(): React.ReactElement {
             : "bg-transparent"
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
             <span className="text-lg font-bold tracking-tight gradient-text">
               Solobank
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Desktop nav — centered */}
+          <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
             {navLinks.map((link) =>
               link.external ? (
                 <a
