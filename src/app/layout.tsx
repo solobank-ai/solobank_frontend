@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
   icons: {
-    icon: "/logo.svg",
+    icon: "/favicon.svg",
   },
 };
 
