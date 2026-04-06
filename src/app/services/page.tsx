@@ -155,7 +155,7 @@ export default async function ServicesPage() {
 
         <div className="mt-12 text-center">
           <p className="text-muted text-sm mb-4">
-            All payments settle on Solana in ~400ms. No API keys required.
+            All payments settle instantly on Solana. No API keys required.
           </p>
           <Link href="/docs" className="text-solana-green hover:underline text-sm">
             Read the docs →

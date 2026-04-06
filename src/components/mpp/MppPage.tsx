@@ -152,8 +152,8 @@ function HeroSection() {
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl w-full">
           {[
-            { label: "Solana settlement", value: "~400ms" },
             { label: "Per transaction", value: "<$0.001" },
+            { label: "Settlement", value: "Instant" },
             { label: "Open standard", value: "MIT" },
           ].map((stat) => (
             <div
@@ -178,8 +178,8 @@ function ForDevelopersSection() {
   const features = [
     {
       icon: Zap,
-      title: "Sub-second settlement",
-      description: "~400ms finality on Solana. Payments confirm before the response is sent.",
+      title: "Instant settlement",
+      description: "Payments confirm on Solana before the API response is sent.",
       accent: "green" as const,
     },
     {
@@ -376,7 +376,7 @@ function HowItWorksSection() {
       step: 3,
       icon: Wallet,
       title: "Pay on Solana",
-      description: "Agent signs a USDC transfer on Solana (~400ms finality).",
+      description: "Agent signs a USDC transfer on Solana.",
     },
     {
       step: 4,
@@ -442,8 +442,8 @@ function HowItWorksSection() {
 function WhySolanaSection() {
   const metrics = [
     {
-      value: "~400ms",
-      label: "Transaction finality",
+      value: "<1s",
+      label: "Fast settlement",
       description: "Payments confirm in under a second. No waiting, no polling.",
     },
     {
