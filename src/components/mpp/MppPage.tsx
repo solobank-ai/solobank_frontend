@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 /*  Copy button helper                                                 */
 /* ------------------------------------------------------------------ */
 
-const INSTALL_CMD = "pnpm add @solobank/mpp-solana mppx @solana/web3.js";
+const INSTALL_CMD = "npm install @solobank/sdk";
 
 function CopyPill({ command, className }: { command: string; className?: string }) {
   const [copied, setCopied] = useState(false);
@@ -218,7 +218,7 @@ function ForDevelopersSection() {
               <span className="text-solana-green">&apos;mppx&apos;</span>;{"\n"}
               <span className="text-solana-purple">import</span>{" "}
               {"{ solanaServer }"} <span className="text-solana-purple">from</span>{" "}
-              <span className="text-solana-green">&apos;@solobank/mpp-solana&apos;</span>;{"\n"}
+              <span className="text-solana-green">&apos;@solobank/sdk/mpp&apos;</span>;{"\n"}
               {"\n"}
               <span className="text-solana-purple">const</span> mppx = Mppx.
               <span className="text-foreground">create</span>({"{"}{"\n"}
@@ -326,7 +326,7 @@ function ForAgentsSection() {
               <span className="text-solana-green">&apos;mppx/client&apos;</span>;{"\n"}
               <span className="text-solana-purple">import</span>{" "}
               {"{ solanaClient }"} <span className="text-solana-purple">from</span>{" "}
-              <span className="text-solana-green">&apos;@solobank/mpp-solana&apos;</span>;{"\n"}
+              <span className="text-solana-green">&apos;@solobank/sdk/mpp&apos;</span>;{"\n"}
               {"\n"}
               <span className="text-solana-purple">const</span> connection ={" "}
               <span className="text-solana-purple">new</span>{" "}
@@ -614,7 +614,6 @@ export function MppPage(): React.ReactElement {
       <ForAgentsSection />
       <HowItWorksSection />
       <WhySolanaSection />
-      <OpenStandardSection />
       <CtaSection />
     </main>
   );
