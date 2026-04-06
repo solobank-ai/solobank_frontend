@@ -153,7 +153,7 @@ function HeroSection() {
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl w-full">
           {[
             { label: "Per transaction", value: "<$0.001" },
-            { label: "Settlement", value: "Instant" },
+            { label: "Settlement", value: "Fast" },
             { label: "Open standard", value: "MIT" },
           ].map((stat) => (
             <div
@@ -178,7 +178,7 @@ function ForDevelopersSection() {
   const features = [
     {
       icon: Zap,
-      title: "Instant settlement",
+      title: "Fast settlement",
       description: "Payments confirm on Solana before the API response is sent.",
       accent: "green" as const,
     },
