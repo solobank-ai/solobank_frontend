@@ -13,8 +13,6 @@ export function Navbar(): React.ReactElement {
   const { t } = useTranslation();
 
   const navLinks = [
-    { label: t.nav.accounts, href: "#accounts", icon: Layers },
-    { label: t.nav.howItWorks, href: "#how-it-works", icon: Settings },
     { label: "Live Demos", href: "/demos", icon: Play },
     { label: "MPP", href: "/mpp", icon: Zap },
     { label: t.nav.docs, href: "/docs", icon: BookOpen },
