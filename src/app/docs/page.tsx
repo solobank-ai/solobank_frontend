@@ -293,7 +293,7 @@ export default function DocsPage(): React.ReactElement {
               <p className="text-muted text-sm mb-6">Up and running in 30 seconds.</p>
 
               <div className="space-y-3">
-                <CodeBlock>curl -fsSL https://solobank.lol/install.sh | bash</CodeBlock>
+                <CodeBlock>npm install -g @solobank/cli</CodeBlock>
                 <CodeBlock>solobank init</CodeBlock>
                 <CodeBlock>solobank balance</CodeBlock>
               </div>

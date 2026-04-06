@@ -79,14 +79,7 @@ export function Navbar(): React.ReactElement {
             )}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <a href="#install">
-              <Button variant="primary" size="sm">
-                {t.nav.install} <ArrowRight size={14} />
-              </Button>
-            </a>
-          </div>
+          {/* Desktop CTA - removed */}
 
           {/* Mobile menu button */}
           <button
