@@ -9,8 +9,6 @@ export function Footer(): React.ReactElement {
 
   const footerLinks = {
     [t.footer.product]: [
-      { label: t.nav.accounts, href: "#accounts" },
-      { label: t.nav.howItWorks, href: "#how-it-works" },
       { label: "Live Demos", href: "/demos" },
       { label: "MPP", href: "/mpp" },
       { label: t.nav.docs, href: "/docs" },
