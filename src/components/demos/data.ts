@@ -70,10 +70,10 @@ Net     $1,312.47`,
     tabLabel: "Payday Deposit",
     title: "Payday Deposit",
     description: "AI allocates funds across savings and checking automatically.",
-    mcpTools: ["solobank_balance", "solobank_send"],
+    mcpTools: ["solobank_balance", "solobank_lend"],
     messages: [
       { role: "user", content: "I just got 500 USDC. Put 400 into Kamino savings, keep 100 liquid." },
-      { role: "assistant", content: "Depositing 400 USDC to Kamino at the current 6.2% APY.", toolCall: "solobank_send" },
+      { role: "assistant", content: "Depositing 400 USDC to Kamino at the current 6.2% APY.", toolCall: "solobank_lend" },
       {
         role: "tool",
         content: `Deposited 400.00 USDC to Kamino
@@ -116,10 +116,10 @@ Balance after: 523.91 USDC`,
     tabLabel: "What If — Swap",
     title: "What If — Swap",
     description: "Preview any swap before committing.",
-    mcpTools: ["solobank_balance", "solobank_pay"],
+    mcpTools: ["solobank_swap_quote", "solobank_swap"],
     messages: [
       { role: "user", content: "What if I swapped 50 USDC to SOL?" },
-      { role: "assistant", content: "Let me get a Jupiter quote.", toolCall: "solobank_balance" },
+      { role: "assistant", content: "Let me get a Jupiter quote.", toolCall: "solobank_swap_quote" },
       {
         role: "tool",
         content: `Quote: 50 USDC → 0.351 SOL
@@ -129,7 +129,7 @@ Route: USDC → SOL (Jupiter)`,
       },
       { role: "assistant", content: "You'd get 0.351 SOL for 50 USDC at a rate of 142.38 USDC/SOL with 0.1% slippage. Want me to execute?" },
       { role: "user", content: "Do it." },
-      { role: "assistant", content: "Executing swap.", toolCall: "solobank_pay" },
+      { role: "assistant", content: "Executing swap.", toolCall: "solobank_swap" },
       {
         role: "tool",
         content: `Swapped 50.00 USDC → 0.351 SOL

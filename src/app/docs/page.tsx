@@ -145,26 +145,20 @@ const SDK_METHODS = [
 ];
 
 const MCP_TOOLS = [
-  {
-    tool: "solobank_address",
-    params: "none",
-    description: "Returns the current Solana wallet address.",
-  },
-  {
-    tool: "solobank_balance",
-    params: "none",
-    description: "Returns wallet balance snapshot — SOL + USDC with raw values.",
-  },
-  {
-    tool: "solobank_send",
-    params: "to, amount, asset?, dryRun?",
-    description: "Send SOL or SPL tokens. Validates address format. Enforces per-tx spending cap (maxAmountPerTx, default 1.0).",
-  },
-  {
-    tool: "solobank_pay",
-    params: "url, method?, body?, maxPrice?, headers?",
-    description: "Pay an MPP-protected HTTP endpoint. Handles 402 negotiation. Blocks internal/private network URLs.",
-  },
+  { tool: "solobank_address", params: "none", description: "Returns the current Solana wallet address." },
+  { tool: "solobank_balance", params: "none", description: "Returns wallet balance snapshot — SOL + USDC." },
+  { tool: "solobank_swap_quote", params: "fromAsset, toAsset, amount, slippageBps?", description: "Get a swap quote from Jupiter. Read-only." },
+  { tool: "solobank_lending_rates", params: "asset, protocol?", description: "Get current lending rates from Kamino and Marginfi. Read-only." },
+  { tool: "solobank_send", params: "to, amount, asset?, dryRun?", description: "Send SOL or SPL tokens. Validates address. Enforces spending limits." },
+  { tool: "solobank_pay", params: "url, method?, body?, maxPrice?, headers?", description: "Pay an MPP-protected API endpoint. Handles 402 negotiation." },
+  { tool: "solobank_swap", params: "fromAsset, toAsset, amount, slippageBps?", description: "Execute a token swap via Jupiter aggregator." },
+  { tool: "solobank_lend", params: "amount, asset, protocol?", description: "Supply assets to Kamino or Marginfi to earn yield." },
+  { tool: "solobank_borrow", params: "amount, asset, protocol?", description: "Borrow assets against collateral." },
+  { tool: "solobank_withdraw", params: "amount, asset, protocol?", description: "Withdraw supplied assets from lending." },
+  { tool: "solobank_repay", params: "amount, asset, protocol?", description: "Repay borrowed assets." },
+  { tool: "solobank_rebalance", params: "amount, asset, targetProtocol?, minApyDelta?", description: "Move supply between protocols for better yield." },
+  { tool: "solobank_lock", params: "none", description: "Emergency lock — disables all write operations. Only CLI can unlock." },
+  { tool: "solobank_config", params: "action, key?, value?", description: "View or update safeguard settings (maxAmountPerTx, maxDailySend)." },
 ];
 
 const ENV_VARS = [
@@ -275,8 +269,6 @@ export default function DocsPage(): React.ReactElement {
                 <span className="text-solana-purple">@solobank/cli</span>
                 <span className="text-dim">&rarr;</span>
                 <span className="text-solana-green">@solobank/sdk</span>
-                <span className="text-dim">&rarr;</span>
-                <span className="text-solana-green">@solobank/mpp-solana</span>
                 <span className="text-dim">&rarr;</span>
                 <span className="text-muted">mppx</span>
               </div>
@@ -576,18 +568,18 @@ const server = await createMcpServer({
             </div>
           </SectionAnchor>
 
-          {/* ── Payments (@solobank/mpp-solana) ── */}
+          {/* ── Payments ── */}
           <SectionAnchor id="payments">
             <div className="mb-16">
               <h2 className="text-2xl font-bold mb-2 gradient-text">Payments</h2>
               <p className="text-muted text-sm mb-6">
-                <code className="text-solana-green">@solobank/mpp-solana</code> — Solana USDC payment method for the Machine Payments Protocol (MPP). Handles 402 negotiation, multi-account transfers, and on-chain verification.
+                Solana USDC payment method built into <code className="text-solana-green">@solobank/sdk</code>. Handles 402 negotiation, multi-account transfers, and on-chain verification via MPP (Machine Payments Protocol).
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Client (payer)</h4>
-                  <CodeBlock>{`import { solanaClient } from "@solobank/mpp-solana/client";
+                  <CodeBlock>{`import { solanaClient } from "@solobank/sdk/mpp/client";
 
 const handler = solanaClient({
   connection,
@@ -597,7 +589,7 @@ const handler = solanaClient({
                 </div>
                 <div className="bg-surface border border-border rounded-xl p-5">
                   <h4 className="text-sm font-bold mb-3">Server (verifier)</h4>
-                  <CodeBlock>{`import { solanaServer } from "@solobank/mpp-solana/server";
+                  <CodeBlock>{`import { solanaServer } from "@solobank/sdk/mpp/server";
 
 const handler = solanaServer({
   recipient: "Abcd...wxyz",

@@ -65,9 +65,7 @@ export function ChatWindow({ messages, className }: ChatWindowProps) {
               <div className="flex flex-col gap-1.5 max-w-[85%]">
                 {msg.toolCall && (
                   <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-solana-purple/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-solana-purple text-[10px] font-bold">s</span>
-                    </div>
+                    <img src="/favicon.svg" alt="Solobank" className="w-6 h-6 flex-shrink-0" />
                     <span className="text-[11px] font-mono text-solana-purple bg-solana-purple/10 border border-solana-purple/20 rounded-full px-2.5 py-0.5">
                       {msg.toolCall}
                     </span>
