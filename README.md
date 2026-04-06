@@ -1,55 +1,21 @@
-<p align="center">
-  <strong>Solobank</strong><br>
-  A bank account for AI agents.
-</p>
+# Solobank Website
 
-<p align="center">
-  <a href="https://solobank.vercel.app">Website</a> &middot;
-  <a href="https://solobank.vercel.app/docs">Docs</a> &middot;
-  <a href="https://solobank.vercel.app/demos">Live Demos</a> &middot;
-  <a href="https://www.npmjs.com/package/@solobank/cli">npm</a>
-</p>
+Landing page and documentation for [Solobank](https://solobank.lol) -- an AI bank account for autonomous agents on Solana.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Solana-black?logo=solana&logoColor=14F195" alt="Solana" />
-  <img src="https://img.shields.io/badge/Next.js_16-black?logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/TypeScript-black?logo=typescript" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-black?logo=tailwindcss" alt="Tailwind" />
-</p>
-
----
-
-Landing page and documentation for **Solobank** — an open-source, non-custodial banking SDK for AI agents on Solana.
-
-## What is Solobank?
-
-Five accounts. Earn, borrow, invest, swap, pay — autonomously.
-
-| Package | Purpose |
-|---------|---------|
-| [`@solobank/sdk`](https://github.com/decentrathon/package) | TypeScript SDK — wallet, transfers, swaps, lending, MPP payments |
-| [`@solobank/cli`](https://www.npmjs.com/package/@solobank/cli) | CLI wrapping the SDK — 14 commands |
-| [`@solobank/mcp`](https://github.com/decentrathon/package) | MCP server for Claude, Cursor, Windsurf |
-| [`@solobank/mpp-solana`](https://github.com/decentrathon/mpp-solana) | Solana USDC payment method for MPP |
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)](https://solobank.lol)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Pages
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing — hero, accounts, features, install |
-| `/demos` | Interactive AI conversation and CLI command demos |
-| `/docs` | Full SDK, CLI, MCP, and payments reference |
-| `/services` | MPP Gateway service catalog |
+| `/` | Landing -- hero, accounts overview, features, install |
+| `/demos` | Interactive AI conversation and CLI demos |
+| `/docs` | SDK, CLI, MCP, and payments reference |
+| `/services` | MPP Gateway service catalog (51 APIs) |
 | `/stats` | Real-time payment statistics |
-| `/terms` `/privacy` `/security` | Legal pages |
-
-## Stack
-
-- **Next.js 16** (App Router, Turbopack)
-- **React 19**
-- **Tailwind CSS 4**
-- **TypeScript 5**
-- **Lucide** icons
+| `/mpp` | Machine Payments Protocol overview |
+| `/terms` `/privacy` `/security` | Legal |
 
 ## Development
 
@@ -60,14 +26,23 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **React 19**
+- **Tailwind CSS 4**
+- **TypeScript 5**
+- **Lucide** icons
+- Deployed on **Vercel** at [solobank.lol](https://solobank.lol)
+
 ## Architecture
 
 ```
 src/
-  app/                  # Routes (/, /demos, /docs, /services, /stats, /terms, /privacy, /security)
+  app/                  # Routes (/, /demos, /docs, /services, /stats, /mpp, /terms, /privacy, /security)
   components/
     ui/                 # Reusable: Button, Badge, Terminal, AnimateIn, GridSpotlight
-    sections/           # Homepage sections: Hero, Accounts, HowItWorks, Comparison, Install
+    sections/           # Homepage: Hero, Accounts, HowItWorks, Comparison, Install
     demos/              # Demo page: ChatWindow, TerminalWindow, ModeToggle, ScenarioTabs
     layout/             # Navbar, Footer
     providers/          # LocaleWrapper, WalletProvider
@@ -76,11 +51,13 @@ src/
     utils.ts            # cn() helper
 ```
 
-## Related Repositories
+## Related Repos
 
-- [decentrathon/package](https://github.com/decentrathon/package) — SDK + CLI + MCP monorepo
-- [decentrathon/mpp-solana](https://github.com/decentrathon/mpp-solana) — MPP payment method
-- [decentrathon/backend](https://github.com/decentrathon/backend) — MPP Gateway server
+- [solobank-ai/package](https://github.com/solobank-ai/package) -- SDK + MCP + CLI monorepo
+- [solobank-ai/backend](https://github.com/solobank-ai/backend) -- MPP payment gateway
+- [solobank-ai/mpp-solana](https://github.com/solobank-ai/mpp-solana) -- Solana MPP payment method
+- [solobank-ai/solobank-skills](https://github.com/solobank-ai/solobank-skills) -- Agent skills
+- [solobank-ai/contracts](https://github.com/solobank-ai/contracts) -- Solana programs
 
 ## License
 
