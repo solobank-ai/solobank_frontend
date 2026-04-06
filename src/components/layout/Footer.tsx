@@ -33,6 +33,7 @@ export function Footer(): React.ReactElement {
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Top */}
         <div className="flex items-center gap-3 mb-12">
+          <img src="/logo.svg" alt="Solobank" className="h-7 w-7" />
           <span className="text-lg font-bold gradient-text">Solobank</span>
           <span className="text-dim text-sm">·</span>
           <span className="text-dim text-sm">{t.footer.builtOn}</span>

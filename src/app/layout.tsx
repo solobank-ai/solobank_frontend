@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Solobank — A Bank Account for AI Agents",
   description:
     "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

@@ -49,6 +49,7 @@ export function Navbar(): React.ReactElement {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+            <img src="/logo.svg" alt="Solobank" className="h-7 w-7" />
             <span className="text-lg font-bold tracking-tight gradient-text">
               Solobank
             </span>
