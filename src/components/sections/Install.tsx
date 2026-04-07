@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
 
-const INSTALL_COMMAND = "npm install -g @solobank/cli";
+const INSTALL_COMMAND = "npx -y @solobank/cli@latest init";
 
 export function Install(): React.ReactElement {
   const [copied, setCopied] = useState(false);

@@ -454,7 +454,7 @@ function WhySolanaSection() {
     {
       value: "Native USDC",
       label: "Circle-issued",
-      description: "Not bridged, not wrapped. Official Circle USDC on Solana mainnet.",
+      description: "Not bridged, not wrapped. Devnet USDC test mint today, mainnet-ready.",
     },
   ];
 

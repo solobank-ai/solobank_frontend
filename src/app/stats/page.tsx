@@ -53,7 +53,7 @@ export default function StatsPage() {
         <div className="mb-10">
           <h1 className="text-4xl font-bold mb-3">Network Stats</h1>
           <p className="text-muted text-lg">
-            Real-time data from the Solobank MPP gateway on Solana mainnet.
+            Real-time data from the Solobank MPP gateway on Solana devnet.
           </p>
         </div>
 

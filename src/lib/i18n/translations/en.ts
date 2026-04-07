@@ -16,7 +16,7 @@ export const en = {
     headline2: "for AI agents.",
     subline: "Earn, borrow, invest, swap, pay — autonomously.",
     cta: "Get started",
-    installCmd: "npm install -g @solobank/cli",
+    installCmd: "npx -y @solobank/cli@latest init",
   },
 
   // Accounts

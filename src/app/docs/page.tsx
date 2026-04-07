@@ -285,10 +285,14 @@ export default function DocsPage(): React.ReactElement {
               <p className="text-muted text-sm mb-6">Up and running in 30 seconds.</p>
 
               <div className="space-y-3">
-                <CodeBlock>npm install -g @solobank/cli</CodeBlock>
-                <CodeBlock>solobank init</CodeBlock>
-                <CodeBlock>solobank balance</CodeBlock>
+                <CodeBlock>npx -y @solobank/cli@latest init</CodeBlock>
+                <CodeBlock>npx @solobank/cli balance</CodeBlock>
               </div>
+              <p className="text-xs text-muted mt-3">
+                Works on macOS, Linux, and Windows — no global install, no sudo, no Node version manager.
+                Requires Node.js 18+. To get a permanent <code className="text-solana-green">solobank</code> command,
+                run <code className="text-solana-green">npm install -g @solobank/cli</code> instead.
+              </p>
 
               <div className="mt-6 bg-surface border border-border rounded-xl p-5">
                 <h4 className="text-sm font-bold mb-3">Using with Claude / Cursor</h4>

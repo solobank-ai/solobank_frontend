@@ -12,7 +12,7 @@ import {
 
 const RPC_ENDPOINT =
   process.env["NEXT_PUBLIC_SOLANA_RPC_URL"] ??
-  "https://api.mainnet-beta.solana.com";
+  "https://api.devnet.solana.com";
 
 interface WalletProviderProps {
   children: React.ReactNode;

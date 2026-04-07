@@ -69,7 +69,7 @@ async function getServices(): Promise<ServicesResponse> {
     });
     return res.json();
   } catch {
-    return { network: "solana-mainnet", currency: "USDC", totalServices: 0, totalEndpoints: 0, services: [] };
+    return { network: "solana-devnet", currency: "USDC", totalServices: 0, totalEndpoints: 0, services: [] };
   }
 }
 
@@ -92,7 +92,7 @@ export default async function ServicesPage() {
               {data.totalEndpoints} endpoints
             </span>
             <span className="px-3 py-1 rounded-full bg-solana-green/10 border border-solana-green/20 text-solana-green">
-              Solana mainnet
+              Solana devnet
             </span>
           </div>
         </div>
