@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
 import { DottedSurface } from "@/components/ui/dotted-surface";
 import { ParticleTextEffect } from "@/components/ui/particle-text-effect";
@@ -59,14 +58,12 @@ export function Hero(): React.ReactElement {
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
           {/* ── Left column: headline + copy + CTA + install ───────────── */}
           <div className="flex-1 min-w-0 flex flex-col items-center xl:items-start text-center xl:text-left">
-            <Badge variant="purple">{t.hero.badge}</Badge>
-
             {/* Particle text effect headline. The wrapper is sized by the
                 layout; the canvas tracks it via ResizeObserver. A radial
                 mask fades the canvas edges into transparency so the
                 bounding box is invisible against the hero atmosphere. */}
             <div
-              className="mt-6 w-full max-w-[640px] h-[200px] sm:h-[240px] md:h-[280px] xl:h-[300px]"
+              className="w-full max-w-[760px] h-[300px] sm:h-[360px] md:h-[420px] xl:h-[460px]"
               style={{
                 WebkitMaskImage:
                   "radial-gradient(ellipse 75% 70% at center, black 35%, transparent 90%)",
@@ -77,7 +74,7 @@ export function Hero(): React.ReactElement {
               <ParticleTextEffect words={HEADLINE_PHRASES} />
             </div>
 
-            <div className="mt-6 flex flex-col items-center xl:items-start gap-6">
+            <div className="mt-4 flex flex-col items-center xl:items-start gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />
