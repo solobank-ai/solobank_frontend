@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -22,18 +22,49 @@ const HEADLINE_PHRASES = [
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
-  // Anchor the particle text to a different spot on xl+ vs narrow viewports
-  // so it never overlaps with the stacked CTA/install on mobile nor with
-  // the side-by-side flex row on desktop.
-  const [isXl, setIsXl] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1280px)");
-    const update = (): void => setIsXl(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+  // The particle text effect paints a single full-section canvas, but the
+  // rasterised letters must land inside a specific slot in the flex layout
+  // (above the CTA) so they don't overlap with other content on any
+  // breakpoint. We render an invisible `textSlot` div where the text should
+  // appear, measure its position on layout, and pass the resulting anchor
+  // (as fractions of the canvas) to ParticleTextEffect.
+  const sectionRef = useRef<HTMLElement>(null);
+  const textSlotRef = useRef<HTMLDivElement>(null);
+  const [textAnchor, setTextAnchor] = useState<{ x: number; y: number }>({
+    x: 0.5,
+    y: 0.25,
+  });
+
+  useLayoutEffect(() => {
+    const compute = (): void => {
+      const section = sectionRef.current;
+      const slot = textSlotRef.current;
+      if (!section || !slot) return;
+      const s = section.getBoundingClientRect();
+      const t = slot.getBoundingClientRect();
+      if (s.width === 0 || s.height === 0) return;
+      const x = (t.left + t.width / 2 - s.left) / s.width;
+      const y = (t.top + t.height / 2 - s.top) / s.height;
+      setTextAnchor({ x, y });
+    };
+
+    compute();
+
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(compute) : null;
+    if (ro && sectionRef.current) ro.observe(sectionRef.current);
+    if (ro && textSlotRef.current) ro.observe(textSlotRef.current);
+
+    window.addEventListener("resize", compute);
+    window.addEventListener("scroll", compute, { passive: true });
+
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener("resize", compute);
+      window.removeEventListener("scroll", compute);
+    };
   }, []);
 
   const handleCopy = async (): Promise<void> => {
@@ -42,40 +73,23 @@ export function Hero(): React.ReactElement {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // The left column contains a (hidden) spacer that reserves the
-  // vertical space for the particle headline above the CTA/install
-  // block. Because the spacer and CTA are both flex children, the
-  // outer xl:items-center on the flex row automatically centres the
-  // whole "text + CTA + install" group against the Terminal on the
-  // right. The Y anchors below place the rasterised letters inside
-  // that reserved spacer:
-  //   • xl+:   left col (322 px tall) centred in a 520 px row →
-  //            spacer runs from row-top+99 to row-top+267, centre at
-  //            row-top+183. With section pt-32 (128) and height 728
-  //            that puts the text centre at (128+183)/728 ≈ 0.43.
-  //   • Mobile: spacer sits at the very top of the stacked column, so
-  //            we keep y ≈ 0.10 as before.
-  const textAnchor = isXl ? { x: 0.28, y: 0.43 } : { x: 0.5, y: 0.1 };
-  const textAlign: "left" | "center" = "center";
-
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center">
-      {/* Three.js dotted surface — primary atmospheric layer.
-          Pinned to viewport height so the Three.js camera aspect ratio
-          tracks the window, not the (possibly taller) section. */}
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center"
+    >
+      {/* Three.js dotted surface — primary atmospheric layer. Pinned to
+          viewport height so the Three.js camera aspect ratio tracks the
+          window, not the (possibly taller) section. */}
       <DottedSurface className="absolute inset-x-0 top-0 h-screen" />
 
-      {/* Particle text effect headline — rasterised as a full-section
-          backdrop layer. The canvas spans the entire hero so scatter
-          particles can fly across the whole screen, but `maxFontSize`
-          hard-caps the rasterised letters at ~80 px so the visible
-          headline text stays readable. `textAnchor` positions the
-          letters at the horizontal centre of the left half on xl+ so
-          they line up with the CTA + install pill below (which are
-          also centred in the left column) and the Terminal on the
-          right — giving a symmetric composition.
-          This element is absolutely positioned so it does NOT affect
-          the flex layout. */}
+      {/* Particle text effect — rasterised as a full-section backdrop
+          layer. The canvas spans the entire hero so scatter particles can
+          fly across the whole screen, but `textAnchor` is measured from
+          an invisible slot in the flex flow below so the letters always
+          land exactly in the slot regardless of viewport size. A radial
+          CSS mask feathers the canvas edges into the surrounding
+          atmosphere so the rectangular bounds are invisible. */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -89,11 +103,11 @@ export function Hero(): React.ReactElement {
           words={HEADLINE_PHRASES}
           maxFontSize={80}
           textAnchor={textAnchor}
-          textAlign={textAlign}
+          textAlign="center"
         />
       </div>
 
-      {/* Radial glow — centered on wide screens, biased left on xl+ */}
+      {/* Radial glow */}
       <div
         aria-hidden="true"
         className={cn(
@@ -112,17 +126,18 @@ export function Hero(): React.ReactElement {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
-          {/* ── Left column: invisible particle-text spacer + CTA/install.
-              The spacer reserves vertical space for the absolutely-
-              positioned particle headline above so the whole stack
-              (text space + CTA + install) is treated as one block and
-              xl:items-center vertically centres it against the Terminal. */}
+          {/* ── Left column: particle text slot + CTA + install ────────── */}
           <div className="flex-1 min-w-0 flex flex-col items-center text-center">
+            {/* Invisible slot that reserves space for the particle
+                headline. Sized in real layout, measured on every resize
+                so the particle canvas can aim its rasterised text at
+                exactly this rectangle. */}
             <div
+              ref={textSlotRef}
               aria-hidden="true"
-              className="hidden xl:block h-[168px]"
+              className="w-full max-w-[640px] h-[140px] sm:h-[160px] md:h-[180px]"
             />
-            <div className="flex flex-col items-center gap-6 xl:mt-10">
+            <div className="mt-8 flex flex-col items-center gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />
