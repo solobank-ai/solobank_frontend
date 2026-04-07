@@ -61,17 +61,23 @@ export function Hero(): React.ReactElement {
           <div className="flex-1 min-w-0 flex flex-col items-center xl:items-start text-center xl:text-left">
             <Badge variant="purple">{t.hero.badge}</Badge>
 
-            {/* Particle text effect headline — fixed aspect box so the canvas
-                knows its size and can rasterise the phrase. */}
-            <div className="mt-6 w-full max-w-[640px] h-[200px] sm:h-[240px] md:h-[280px] xl:h-[300px]">
+            {/* Particle text effect headline. The wrapper is sized by the
+                layout; the canvas tracks it via ResizeObserver. A radial
+                mask fades the canvas edges into transparency so the
+                bounding box is invisible against the hero atmosphere. */}
+            <div
+              className="mt-6 w-full max-w-[640px] h-[200px] sm:h-[240px] md:h-[280px] xl:h-[300px]"
+              style={{
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 75% 70% at center, black 35%, transparent 90%)",
+                maskImage:
+                  "radial-gradient(ellipse 75% 70% at center, black 35%, transparent 90%)",
+              }}
+            >
               <ParticleTextEffect words={HEADLINE_PHRASES} />
             </div>
 
-            <p className="mt-4 text-muted text-lg md:text-xl max-w-2xl">
-              {t.hero.subline}
-            </p>
-
-            <div className="mt-8 flex flex-col items-center xl:items-start gap-6">
+            <div className="mt-6 flex flex-col items-center xl:items-start gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />
