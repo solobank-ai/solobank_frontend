@@ -47,7 +47,15 @@ export function Hero(): React.ReactElement {
       if (s.width === 0 || s.height === 0) return;
       const x = (t.left + t.width / 2 - s.left) / s.width;
       const y = (t.top + t.height / 2 - s.top) / s.height;
-      setTextAnchor({ x, y });
+      // Only trigger a state update if the anchor actually moved by a
+      // meaningful amount — otherwise every frame of layout flux re-runs
+      // the particle canvas' internal retarget logic for nothing.
+      setTextAnchor((prev) => {
+        if (Math.abs(prev.x - x) < 0.003 && Math.abs(prev.y - y) < 0.003) {
+          return prev;
+        }
+        return { x, y };
+      });
     };
 
     compute();
@@ -58,12 +66,10 @@ export function Hero(): React.ReactElement {
     if (ro && textSlotRef.current) ro.observe(textSlotRef.current);
 
     window.addEventListener("resize", compute);
-    window.addEventListener("scroll", compute, { passive: true });
 
     return () => {
       ro?.disconnect();
       window.removeEventListener("resize", compute);
-      window.removeEventListener("scroll", compute);
     };
   }, []);
 

@@ -206,12 +206,22 @@ export function ParticleTextEffect({
   const frameCountRef = useRef(0);
   const wordIndexRef = useRef(0);
   const isVisibleRef = useRef(true);
+  // Exposes the effect-internal `nextWord` so outer effects can re-rasterise
+  // the current phrase when props change without remounting the canvas.
+  const rasteriseRef = useRef<((phrase: string) => void) | null>(null);
 
-  // Store mutable props in refs so effect runs once.
+  // Store mutable props in refs so the effect runs once and prop changes
+  // do not remount the Three.js state (which would reset the animation).
   const wordsRef = useRef(words);
   const cycleFramesRef = useRef(cycleFrames);
+  const textAnchorRef = useRef(textAnchor);
+  const textAlignRef = useRef(textAlign);
+  const maxFontSizeRef = useRef(maxFontSize);
   wordsRef.current = words;
   cycleFramesRef.current = cycleFrames;
+  textAnchorRef.current = textAnchor;
+  textAlignRef.current = textAlign;
+  maxFontSizeRef.current = maxFontSize;
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -258,14 +268,15 @@ export function ParticleTextEffect({
         (logicalH / Math.max(lines.length, 1)) * 0.75,
         (logicalW / Math.max(longest.length, 1)) * 1.55,
       );
-      fontSize = Math.max(32, Math.min(fontSize, maxFontSize));
+      fontSize = Math.max(32, Math.min(fontSize, maxFontSizeRef.current));
 
       octx.font = `bold ${fontSize}px ${fontFamily}`;
-      octx.textAlign = textAlign;
+      octx.textAlign = textAlignRef.current;
       octx.textBaseline = "middle";
 
-      const anchorX = textAnchor.x * logicalW;
-      const anchorY = textAnchor.y * logicalH;
+      const currentAnchor = textAnchorRef.current;
+      const anchorX = currentAnchor.x * logicalW;
+      const anchorY = currentAnchor.y * logicalH;
       const lineHeight = fontSize * 1.05;
       const totalH = lineHeight * lines.length;
       const startY = anchorY - totalH / 2 + lineHeight / 2;
@@ -394,14 +405,25 @@ export function ParticleTextEffect({
       }
     };
 
+    // Expose nextWord to outer effects so they can retarget particles
+    // without remounting the canvas.
+    rasteriseRef.current = nextWord;
+
     // Kick off with the first phrase.
     nextWord(wordsRef.current[0]!);
     animate();
 
-    // Resize observer so the canvas tracks its wrapper.
+    // Resize observer so the canvas tracks its wrapper. Only re-rasterise
+    // the current phrase if the wrapper actually changed size — otherwise
+    // a no-op RO firing every render would keep killing the particle
+    // animation mid-flight.
+    let lastW = canvas.width;
+    let lastH = canvas.height;
     const ro = new ResizeObserver(() => {
       resize();
-      // Re-rasterise current phrase at the new size.
+      if (canvas.width === lastW && canvas.height === lastH) return;
+      lastW = canvas.width;
+      lastH = canvas.height;
       nextWord(wordsRef.current[wordIndexRef.current]!);
     });
     ro.observe(wrapper);
@@ -415,19 +437,25 @@ export function ParticleTextEffect({
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       ro.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      rasteriseRef.current = null;
       particlesRef.current = [];
       frameCountRef.current = 0;
       wordIndexRef.current = 0;
     };
-  }, [
-    drawAsPoints,
-    fontFamily,
-    pixelSteps,
-    maxFontSize,
-    textAnchor.x,
-    textAnchor.y,
-    textAlign,
-  ]);
+    // Run the effect only once per mount. textAnchor / textAlign /
+    // maxFontSize / words / cycleFrames are all read through refs from
+    // inside the animation loop and nextWord(), so updating them does
+    // not require tearing down the canvas.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drawAsPoints, fontFamily, pixelSteps]);
+
+  // When the caller pushes a new anchor/align/font cap, re-rasterise the
+  // current phrase so the particles retarget immediately (without a full
+  // re-mount).
+  useEffect(() => {
+    if (!rasteriseRef.current) return;
+    rasteriseRef.current(wordsRef.current[wordIndexRef.current] ?? "");
+  }, [textAnchor.x, textAnchor.y, textAlign, maxFontSize]);
 
   return (
     <div ref={wrapperRef} className={cn("relative w-full h-full", className)}>
