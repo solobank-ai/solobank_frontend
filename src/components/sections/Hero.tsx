@@ -37,6 +37,26 @@ export function Hero(): React.ReactElement {
           tracks the window, not the (possibly taller) section. */}
       <DottedSurface className="absolute inset-x-0 top-0 h-screen" />
 
+      {/* Particle text effect headline — rasterised as a full-section
+          backdrop layer. The canvas spans the entire hero so scatter
+          particles can fly across the whole screen, but `maxFontSize`
+          hard-caps the rasterised letters at ~90 px so the visible
+          headline text stays the same size as before. A radial CSS
+          mask feathers the canvas edges into the surrounding atmosphere.
+          This element is absolutely positioned so it does NOT affect
+          the flex layout below. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          WebkitMaskImage:
+            "radial-gradient(ellipse 90% 85% at center, black 45%, transparent 95%)",
+          maskImage:
+            "radial-gradient(ellipse 90% 85% at center, black 45%, transparent 95%)",
+        }}
+      >
+        <ParticleTextEffect words={HEADLINE_PHRASES} maxFontSize={90} />
+      </div>
+
       {/* Radial glow — centered on wide screens, biased left on xl+ */}
       <div
         aria-hidden="true"
@@ -56,25 +76,10 @@ export function Hero(): React.ReactElement {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
-          {/* ── Left column: headline + copy + CTA + install ───────────── */}
+          {/* ── Left column: CTA + install (headline is a full-hero
+              particle backdrop above, not part of this flex row) ─── */}
           <div className="flex-1 min-w-0 flex flex-col items-center xl:items-start text-center xl:text-left">
-            {/* Particle text effect headline. The wrapper is sized by the
-                layout; the canvas tracks it via ResizeObserver. A radial
-                mask fades the canvas edges into transparency so the
-                bounding box is invisible against the hero atmosphere. */}
-            <div
-              className="w-full max-w-[760px] h-[300px] sm:h-[360px] md:h-[420px] xl:h-[460px]"
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 70% at center, black 35%, transparent 90%)",
-                maskImage:
-                  "radial-gradient(ellipse 75% 70% at center, black 35%, transparent 90%)",
-              }}
-            >
-              <ParticleTextEffect words={HEADLINE_PHRASES} />
-            </div>
-
-            <div className="mt-4 flex flex-col items-center xl:items-start gap-6">
+            <div className="flex flex-col items-center xl:items-start gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />

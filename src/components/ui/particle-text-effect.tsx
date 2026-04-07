@@ -177,6 +177,10 @@ interface ParticleTextEffectProps {
   pixelSteps?: number;
   /** Draw particles as 2×2 points (true, fast) or circles (false, prettier). */
   drawAsPoints?: boolean;
+  /** Hard cap on the rasterised font size. Useful when the wrapper is
+   *  much bigger than the intended text visual so particles can scatter
+   *  widely without the letters growing with the container. */
+  maxFontSize?: number;
 }
 
 export function ParticleTextEffect({
@@ -186,6 +190,7 @@ export function ParticleTextEffect({
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
   pixelSteps = 5,
   drawAsPoints = true,
+  maxFontSize = 200,
 }: ParticleTextEffectProps): React.ReactElement {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -246,7 +251,7 @@ export function ParticleTextEffect({
         (logicalH / Math.max(lines.length, 1)) * 0.75,
         (logicalW / Math.max(longest.length, 1)) * 1.55,
       );
-      fontSize = Math.max(32, Math.min(fontSize, 200));
+      fontSize = Math.max(32, Math.min(fontSize, maxFontSize));
 
       octx.font = `bold ${fontSize}px ${fontFamily}`;
       octx.textAlign = "center";
@@ -405,7 +410,7 @@ export function ParticleTextEffect({
       frameCountRef.current = 0;
       wordIndexRef.current = 0;
     };
-  }, [drawAsPoints, fontFamily, pixelSteps]);
+  }, [drawAsPoints, fontFamily, pixelSteps, maxFontSize]);
 
   return (
     <div ref={wrapperRef} className={cn("relative w-full h-full", className)}>
