@@ -42,14 +42,20 @@ export function Hero(): React.ReactElement {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // On xl+ anchor the headline at the horizontal centre of the left half
-  // of the viewport and in the upper third vertically. The CTA + install
-  // pill live in the same left half, horizontally centred and vertically
-  // pinned to the middle — that gives a symmetric "text above, CTA below"
-  // stack on the left that mirrors the Terminal on the right.
-  // On narrow viewports everything stacks top-to-bottom, so we lift the
-  // headline as high as we can without clipping it under the nav bar.
-  const textAnchor = isXl ? { x: 0.3, y: 0.28 } : { x: 0.5, y: 0.1 };
+  // The left column contains a (hidden) spacer that reserves the
+  // vertical space for the particle headline above the CTA/install
+  // block. Because the spacer and CTA are both flex children, the
+  // outer xl:items-center on the flex row automatically centres the
+  // whole "text + CTA + install" group against the Terminal on the
+  // right. The Y anchors below place the rasterised letters inside
+  // that reserved spacer:
+  //   • xl+:   left col (322 px tall) centred in a 520 px row →
+  //            spacer runs from row-top+99 to row-top+267, centre at
+  //            row-top+183. With section pt-32 (128) and height 728
+  //            that puts the text centre at (128+183)/728 ≈ 0.43.
+  //   • Mobile: spacer sits at the very top of the stacked column, so
+  //            we keep y ≈ 0.10 as before.
+  const textAnchor = isXl ? { x: 0.28, y: 0.43 } : { x: 0.5, y: 0.1 };
   const textAlign: "left" | "center" = "center";
 
   return (
@@ -106,11 +112,17 @@ export function Hero(): React.ReactElement {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
-          {/* ── Left column: CTA + install, horizontally centred in the
-              column on every breakpoint so the block sits symmetrically
-              under the particle headline above. ─────────────────────── */}
+          {/* ── Left column: invisible particle-text spacer + CTA/install.
+              The spacer reserves vertical space for the absolutely-
+              positioned particle headline above so the whole stack
+              (text space + CTA + install) is treated as one block and
+              xl:items-center vertically centres it against the Terminal. */}
           <div className="flex-1 min-w-0 flex flex-col items-center text-center">
-            <div className="flex flex-col items-center gap-6">
+            <div
+              aria-hidden="true"
+              className="hidden xl:block h-[168px]"
+            />
+            <div className="flex flex-col items-center gap-6 xl:mt-10">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />
