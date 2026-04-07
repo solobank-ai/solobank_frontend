@@ -81,13 +81,13 @@ export function Navbar(): React.ReactElement {
 
           {/* Desktop CTA - removed */}
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button — pushed to the right edge */}
           <button
-            className="md:hidden text-muted hover:text-foreground transition-colors"
+            className="md:hidden ml-auto text-muted hover:text-foreground transition-colors p-2 -mr-2"
             onClick={() => setIsMenuOpen((v) => !v)}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </header>

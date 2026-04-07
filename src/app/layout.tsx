@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LocaleWrapper } from "@/components/providers/LocaleWrapper";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,13 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.ReactElement {
   return (
-    <html lang="en" className={inter.variable}>
-      <body suppressHydrationWarning className="bg-background text-foreground antialiased min-h-screen font-sans">
-        <LocaleWrapper>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </LocaleWrapper>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="bg-background text-foreground antialiased min-h-screen font-sans">
+        <ThemeProvider>
+          <LocaleWrapper>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </LocaleWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
