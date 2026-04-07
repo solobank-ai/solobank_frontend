@@ -181,6 +181,11 @@ interface ParticleTextEffectProps {
    *  much bigger than the intended text visual so particles can scatter
    *  widely without the letters growing with the container. */
   maxFontSize?: number;
+  /** Text anchor position as fractions of the canvas (0 = left/top edge,
+   *  1 = right/bottom edge). Default: { x: 0.5, y: 0.5 } (center). */
+  textAnchor?: { x: number; y: number };
+  /** Text horizontal alignment around the anchor. Default: "center". */
+  textAlign?: "left" | "center" | "right";
 }
 
 export function ParticleTextEffect({
@@ -191,6 +196,8 @@ export function ParticleTextEffect({
   pixelSteps = 5,
   drawAsPoints = true,
   maxFontSize = 200,
+  textAnchor = { x: 0.5, y: 0.5 },
+  textAlign = "center",
 }: ParticleTextEffectProps): React.ReactElement {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -254,14 +261,16 @@ export function ParticleTextEffect({
       fontSize = Math.max(32, Math.min(fontSize, maxFontSize));
 
       octx.font = `bold ${fontSize}px ${fontFamily}`;
-      octx.textAlign = "center";
+      octx.textAlign = textAlign;
       octx.textBaseline = "middle";
 
+      const anchorX = textAnchor.x * logicalW;
+      const anchorY = textAnchor.y * logicalH;
       const lineHeight = fontSize * 1.05;
       const totalH = lineHeight * lines.length;
-      const startY = logicalH / 2 - totalH / 2 + lineHeight / 2;
+      const startY = anchorY - totalH / 2 + lineHeight / 2;
       lines.forEach((line, i) => {
-        octx.fillText(line, logicalW / 2, startY + i * lineHeight);
+        octx.fillText(line, anchorX, startY + i * lineHeight);
       });
 
       const imgData = octx.getImageData(0, 0, canvas.width, canvas.height);
@@ -410,7 +419,15 @@ export function ParticleTextEffect({
       frameCountRef.current = 0;
       wordIndexRef.current = 0;
     };
-  }, [drawAsPoints, fontFamily, pixelSteps, maxFontSize]);
+  }, [
+    drawAsPoints,
+    fontFamily,
+    pixelSteps,
+    maxFontSize,
+    textAnchor.x,
+    textAnchor.y,
+    textAlign,
+  ]);
 
   return (
     <div ref={wrapperRef} className={cn("relative w-full h-full", className)}>

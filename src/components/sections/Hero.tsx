@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -22,13 +22,35 @@ const HEADLINE_PHRASES = [
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
+  // Anchor the particle text to a different spot on xl+ vs narrow viewports
+  // so it never overlaps with the stacked CTA/install on mobile nor with
+  // the side-by-side flex row on desktop.
+  const [isXl, setIsXl] = useState<boolean>(false);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1280px)");
+    const update = (): void => setIsXl(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(INSTALL_CMD);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // On xl+ anchor the headline at the horizontal centre of the left half
+  // of the viewport and in the upper third vertically. The CTA + install
+  // pill live in the same left half, horizontally centred and vertically
+  // pinned to the middle — that gives a symmetric "text above, CTA below"
+  // stack on the left that mirrors the Terminal on the right.
+  // On narrow viewports everything stacks top-to-bottom, so we lift the
+  // headline as high as we can without clipping it under the nav bar.
+  const textAnchor = isXl ? { x: 0.3, y: 0.28 } : { x: 0.5, y: 0.1 };
+  const textAlign: "left" | "center" = "center";
 
   return (
     <section className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center">
@@ -40,21 +62,29 @@ export function Hero(): React.ReactElement {
       {/* Particle text effect headline — rasterised as a full-section
           backdrop layer. The canvas spans the entire hero so scatter
           particles can fly across the whole screen, but `maxFontSize`
-          hard-caps the rasterised letters at ~90 px so the visible
-          headline text stays the same size as before. A radial CSS
-          mask feathers the canvas edges into the surrounding atmosphere.
+          hard-caps the rasterised letters at ~80 px so the visible
+          headline text stays readable. `textAnchor` positions the
+          letters at the horizontal centre of the left half on xl+ so
+          they line up with the CTA + install pill below (which are
+          also centred in the left column) and the Terminal on the
+          right — giving a symmetric composition.
           This element is absolutely positioned so it does NOT affect
-          the flex layout below. */}
+          the flex layout. */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           WebkitMaskImage:
-            "radial-gradient(ellipse 90% 85% at center, black 45%, transparent 95%)",
+            "radial-gradient(ellipse 95% 90% at center, black 50%, transparent 100%)",
           maskImage:
-            "radial-gradient(ellipse 90% 85% at center, black 45%, transparent 95%)",
+            "radial-gradient(ellipse 95% 90% at center, black 50%, transparent 100%)",
         }}
       >
-        <ParticleTextEffect words={HEADLINE_PHRASES} maxFontSize={90} />
+        <ParticleTextEffect
+          words={HEADLINE_PHRASES}
+          maxFontSize={80}
+          textAnchor={textAnchor}
+          textAlign={textAlign}
+        />
       </div>
 
       {/* Radial glow — centered on wide screens, biased left on xl+ */}
@@ -76,10 +106,11 @@ export function Hero(): React.ReactElement {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
-          {/* ── Left column: CTA + install (headline is a full-hero
-              particle backdrop above, not part of this flex row) ─── */}
-          <div className="flex-1 min-w-0 flex flex-col items-center xl:items-start text-center xl:text-left">
-            <div className="flex flex-col items-center xl:items-start gap-6">
+          {/* ── Left column: CTA + install, horizontally centred in the
+              column on every breakpoint so the block sits symmetrically
+              under the particle headline above. ─────────────────────── */}
+          <div className="flex-1 min-w-0 flex flex-col items-center text-center">
+            <div className="flex flex-col items-center gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
                   {t.hero.cta} <ArrowRight size={16} />
@@ -104,8 +135,8 @@ export function Hero(): React.ReactElement {
             </div>
           </div>
 
-          {/* ── Right column (xl+): Terminal ────────────────────────────── */}
-          <div className="flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto xl:mx-0 h-[420px] md:h-[460px] xl:h-[520px] shadow-[0_0_120px_rgba(153,69,255,0.18)]">
+          {/* ── Right column (xl+): Terminal, centred in its half ────── */}
+          <div className="flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto h-[420px] md:h-[460px] xl:h-[520px] shadow-[0_0_120px_rgba(153,69,255,0.18)]">
             <Terminal
               lines={t.terminal as unknown as string[]}
               className="h-full"
