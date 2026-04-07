@@ -233,15 +233,23 @@ export function ParticleTextEffect({
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const resize = (): void => {
+    const resize = (): boolean => {
       const rect = wrapper.getBoundingClientRect();
       const cssW = Math.max(1, Math.floor(rect.width));
       const cssH = Math.max(1, Math.floor(rect.height));
+      const newPxW = Math.floor(cssW * dpr);
+      const newPxH = Math.floor(cssH * dpr);
+      // No-op when dimensions didn't actually change — mutating
+      // canvas.width / canvas.height clears the backing store, which
+      // would wipe the current frame every time a stray ResizeObserver
+      // tick fires (e.g. mobile URL-bar collapsing on scroll).
+      if (canvas.width === newPxW && canvas.height === newPxH) return false;
       canvas.style.width = `${cssW}px`;
       canvas.style.height = `${cssH}px`;
-      canvas.width = Math.floor(cssW * dpr);
-      canvas.height = Math.floor(cssH * dpr);
+      canvas.width = newPxW;
+      canvas.height = newPxH;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return true;
     };
     resize();
 
@@ -413,18 +421,15 @@ export function ParticleTextEffect({
     nextWord(wordsRef.current[0]!);
     animate();
 
-    // Resize observer so the canvas tracks its wrapper. Only re-rasterise
-    // the current phrase if the wrapper actually changed size — otherwise
-    // a no-op RO firing every render would keep killing the particle
-    // animation mid-flight.
-    let lastW = canvas.width;
-    let lastH = canvas.height;
+    // Resize observer so the canvas tracks its wrapper. `resize()` is
+    // a no-op unless dimensions actually changed, and nextWord is only
+    // re-run when a real resize happened — otherwise a stray RO tick
+    // (e.g. mobile URL-bar collapsing on scroll) would repeatedly kill
+    // the particle animation mid-flight.
     const ro = new ResizeObserver(() => {
-      resize();
-      if (canvas.width === lastW && canvas.height === lastH) return;
-      lastW = canvas.width;
-      lastH = canvas.height;
-      nextWord(wordsRef.current[wordIndexRef.current]!);
+      if (resize()) {
+        nextWord(wordsRef.current[wordIndexRef.current]!);
+      }
     });
     ro.observe(wrapper);
 
@@ -433,9 +438,38 @@ export function ParticleTextEffect({
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    // Pause the animation loop when the wrapper scrolls out of the
+    // viewport and refresh the current phrase when it scrolls back in.
+    // Without this the browser may throttle rAF for offscreen canvases
+    // and the particles end up in a stale scatter state when the hero
+    // returns to view.
+    let wasInView = true;
+    const io =
+      typeof IntersectionObserver !== "undefined"
+        ? new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                const inView = e.isIntersecting;
+                isVisibleRef.current =
+                  inView && document.visibilityState === "visible";
+                if (inView && !wasInView) {
+                  // Just came back into view — retarget particles to the
+                  // current phrase so they form it fresh instead of
+                  // continuing from whatever stale position they held.
+                  nextWord(wordsRef.current[wordIndexRef.current]!);
+                }
+                wasInView = inView;
+              }
+            },
+            { threshold: 0 },
+          )
+        : null;
+    io?.observe(wrapper);
+
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       ro.disconnect();
+      io?.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       rasteriseRef.current = null;
       particlesRef.current = [];
