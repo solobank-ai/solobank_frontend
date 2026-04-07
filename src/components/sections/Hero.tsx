@@ -7,10 +7,19 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Terminal } from "@/components/ui/Terminal";
 import { DottedSurface } from "@/components/ui/dotted-surface";
+import { ParticleTextEffect } from "@/components/ui/particle-text-effect";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
 
 const INSTALL_CMD = "npx -y @solobank/cli@latest init";
+
+// Phrases the particle headline cycles through. Keep each short enough to
+// render legibly at the canvas size we give it (~8–12 chars per line).
+const HEADLINE_PHRASES = [
+  "A bank account\nfor AI agents",
+  "Earn · Borrow\nInvest · Pay",
+  "Built on\nSolana",
+];
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
@@ -23,13 +32,13 @@ export function Hero(): React.ReactElement {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
+    <section className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center">
       {/* Three.js dotted surface — primary atmospheric layer.
           Pinned to viewport height so the Three.js camera aspect ratio
           tracks the window, not the (possibly taller) section. */}
       <DottedSurface className="absolute inset-x-0 top-0 h-screen" />
 
-      {/* Radial glow on top of the surface — anchors the eye to the center */}
+      {/* Radial glow — centered on wide screens, biased left on xl+ */}
       <div
         aria-hidden="true"
         className={cn(
@@ -46,53 +55,54 @@ export function Hero(): React.ReactElement {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(13,13,15,0.8)_100%)]"
       />
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 flex flex-col items-center text-center">
-        {/* Badge */}
-        <Badge variant="purple">{t.hero.badge}</Badge>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+        <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
+          {/* ── Left column: headline + copy + CTA + install ───────────── */}
+          <div className="flex-1 min-w-0 flex flex-col items-center xl:items-start text-center xl:text-left">
+            <Badge variant="purple">{t.hero.badge}</Badge>
 
-        {/* Headline */}
-        <h1 className="mt-8 text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight leading-[1.05]">
-          {t.hero.headline1}
-          <br />
-          <span className="gradient-text drop-shadow-[0_0_40px_rgba(153,69,255,0.25)]">
-            {t.hero.headline2}
-          </span>
-        </h1>
+            {/* Particle text effect headline — fixed aspect box so the canvas
+                knows its size and can rasterise the phrase. */}
+            <div className="mt-6 w-full max-w-[640px] h-[200px] sm:h-[240px] md:h-[280px] xl:h-[300px]">
+              <ParticleTextEffect words={HEADLINE_PHRASES} />
+            </div>
 
-        {/* Subline */}
-        <p className="mt-6 text-muted text-lg md:text-xl max-w-2xl">
-          {t.hero.subline}
-        </p>
+            <p className="mt-4 text-muted text-lg md:text-xl max-w-2xl">
+              {t.hero.subline}
+            </p>
 
-        {/* Single CTA */}
-        <div className="mt-8">
-          <Link href="/docs">
-            <Button variant="primary" size="lg">
-              {t.hero.cta} <ArrowRight size={16} />
-            </Button>
-          </Link>
-        </div>
+            <div className="mt-8 flex flex-col items-center xl:items-start gap-6">
+              <Link href="/docs">
+                <Button variant="primary" size="lg">
+                  {t.hero.cta} <ArrowRight size={16} />
+                </Button>
+              </Link>
 
-        {/* Install command */}
-        <div className="mt-6 flex items-center gap-3 bg-surface/60 backdrop-blur-md border border-border rounded-full px-5 py-2.5 font-mono text-sm shadow-[0_0_40px_rgba(153,69,255,0.08)]">
-          <span className="text-dim">$</span>
-          <span className="text-foreground">{INSTALL_CMD}</span>
-          <button
-            onClick={handleCopy}
-            className="text-muted hover:text-solana-green transition-colors ml-1"
-            aria-label="Copy install command"
-          >
-            {copied ? (
-              <Check size={14} className="text-solana-green" />
-            ) : (
-              <Copy size={14} />
-            )}
-          </button>
-        </div>
+              <div className="flex items-center gap-3 bg-surface/60 backdrop-blur-md border border-border rounded-full px-5 py-2.5 font-mono text-sm shadow-[0_0_40px_rgba(153,69,255,0.08)]">
+                <span className="text-dim">$</span>
+                <span className="text-foreground">{INSTALL_CMD}</span>
+                <button
+                  onClick={handleCopy}
+                  className="text-muted hover:text-solana-green transition-colors ml-1"
+                  aria-label="Copy install command"
+                >
+                  {copied ? (
+                    <Check size={14} className="text-solana-green" />
+                  ) : (
+                    <Copy size={14} />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
 
-        {/* Terminal */}
-        <div className="mt-12 w-full max-w-xl h-[480px] shadow-[0_0_120px_rgba(153,69,255,0.18)]">
-          <Terminal lines={t.terminal as unknown as string[]} className="h-full" />
+          {/* ── Right column (xl+): Terminal ────────────────────────────── */}
+          <div className="flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto xl:mx-0 h-[420px] md:h-[460px] xl:h-[520px] shadow-[0_0_120px_rgba(153,69,255,0.18)]">
+            <Terminal
+              lines={t.terminal as unknown as string[]}
+              className="h-full"
+            />
+          </div>
         </div>
       </div>
     </section>
