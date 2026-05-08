@@ -193,7 +193,7 @@ export function ParticleTextEffect({
   className,
   cycleFrames = 720,
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
-  pixelSteps = 8,
+  pixelSteps = 7,
   drawAsPoints = true,
   maxFontSize = 200,
   textAnchor = { x: 0.5, y: 0.5 },
