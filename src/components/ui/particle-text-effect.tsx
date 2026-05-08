@@ -169,7 +169,7 @@ interface ParticleTextEffectProps {
   /** Phrases to cycle through. Use `\n` for line breaks. */
   words: string[];
   className?: string;
-  /** Frames between word transitions. At 60fps, 360 ≈ 6s. */
+  /** Frames between word transitions. At 60fps, 900 ≈ 15s. */
   cycleFrames?: number;
   /** CSS font-family (passed to the offscreen canvas when rasterising). */
   fontFamily?: string;
@@ -191,7 +191,7 @@ interface ParticleTextEffectProps {
 export function ParticleTextEffect({
   words,
   className,
-  cycleFrames = 420,
+  cycleFrames = 900,
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
   pixelSteps = 5,
   drawAsPoints = true,
@@ -206,6 +206,7 @@ export function ParticleTextEffect({
   const frameCountRef = useRef(0);
   const wordIndexRef = useRef(0);
   const isVisibleRef = useRef(true);
+  const lastPhraseRef = useRef<string>("");
   // Exposes the effect-internal `nextWord` so outer effects can re-rasterise
   // the current phrase when props change without remounting the canvas.
   const rasteriseRef = useRef<((phrase: string) => void) | null>(null);
@@ -296,15 +297,23 @@ export function ParticleTextEffect({
       const pixels = imgData.data;
       const stride = pixelSteps * 4;
 
-      // Collect eligible pixel indices and shuffle so particles are assigned
-      // in an organic order, not top-left → bottom-right.
+      // Collect eligible pixel indices.
       const idxs: number[] = [];
       for (let i = 0; i < pixels.length; i += stride) {
         if ((pixels[i + 3] ?? 0) > 0) idxs.push(i);
       }
-      for (let i = idxs.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [idxs[i], idxs[j]] = [idxs[j]!, idxs[i]!];
+      // Shuffle only on a real phrase change so the first formation looks
+      // organic. Re-rasterising the SAME phrase (anchor / resize / visibility
+      // retargets) keeps the deterministic raster-scan order so each particle
+      // stays bound to roughly the same target pixel and just drifts to the
+      // new position instead of swapping letters mid-flight.
+      const isSamePhrase = phrase === lastPhraseRef.current;
+      lastPhraseRef.current = phrase;
+      if (!isSamePhrase) {
+        for (let i = idxs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [idxs[i], idxs[j]] = [idxs[j]!, idxs[i]!];
+        }
       }
 
       const particles = particlesRef.current;
