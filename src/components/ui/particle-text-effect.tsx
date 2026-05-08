@@ -193,7 +193,7 @@ export function ParticleTextEffect({
   className,
   cycleFrames = 720,
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
-  pixelSteps = 7,
+  pixelSteps = 5,
   drawAsPoints = true,
   maxFontSize = 200,
   textAnchor = { x: 0.5, y: 0.5 },
@@ -346,12 +346,10 @@ export function ParticleTextEffect({
           );
           particle.pos.x = rand.x;
           particle.pos.y = rand.y;
-          // Halved from upstream so particles drift more gracefully into
-          // formation instead of snapping. maxForce stays proportional.
-          particle.maxSpeed = Math.random() * 3 + 2;
+          particle.maxSpeed = Math.random() * 6 + 4;
           particle.maxForce = particle.maxSpeed * 0.05;
           particle.particleSize = Math.random() * 4 + 4;
-          particle.colorBlendRate = Math.random() * 0.012 + 0.003;
+          particle.colorBlendRate = Math.random() * 0.025 + 0.005;
           particles.push(particle);
         }
 
