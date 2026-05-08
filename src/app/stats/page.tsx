@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { RefreshCw } from "lucide-react";
 
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "https://mpp.solobank.lol";
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "https://mpp.solobank.ink";
 
 interface StatsData {
   totalTransactions: number;
