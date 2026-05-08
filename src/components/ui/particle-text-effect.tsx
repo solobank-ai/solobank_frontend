@@ -169,7 +169,7 @@ interface ParticleTextEffectProps {
   /** Phrases to cycle through. Use `\n` for line breaks. */
   words: string[];
   className?: string;
-  /** Frames between word transitions. At 60fps, 600 ≈ 10s. */
+  /** Frames between word transitions. At 60fps, 720 ≈ 12s. */
   cycleFrames?: number;
   /** CSS font-family (passed to the offscreen canvas when rasterising). */
   fontFamily?: string;
@@ -191,9 +191,9 @@ interface ParticleTextEffectProps {
 export function ParticleTextEffect({
   words,
   className,
-  cycleFrames = 600,
+  cycleFrames = 720,
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
-  pixelSteps = 5,
+  pixelSteps = 8,
   drawAsPoints = true,
   maxFontSize = 200,
   textAnchor = { x: 0.5, y: 0.5 },
@@ -346,10 +346,12 @@ export function ParticleTextEffect({
           );
           particle.pos.x = rand.x;
           particle.pos.y = rand.y;
-          particle.maxSpeed = Math.random() * 6 + 4;
+          // Halved from upstream so particles drift more gracefully into
+          // formation instead of snapping. maxForce stays proportional.
+          particle.maxSpeed = Math.random() * 3 + 2;
           particle.maxForce = particle.maxSpeed * 0.05;
           particle.particleSize = Math.random() * 4 + 4;
-          particle.colorBlendRate = Math.random() * 0.025 + 0.005;
+          particle.colorBlendRate = Math.random() * 0.012 + 0.003;
           particles.push(particle);
         }
 
