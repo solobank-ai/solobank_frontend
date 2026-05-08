@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Solobank",
+  title: "Terms of Service",
+  description:
+    "Solobank Terms of Service: rules for using the open-source CLI, SDK and MPP gateway. Self-custodied software, provided as-is.",
+  alternates: { canonical: "/terms" },
+  robots: { index: true, follow: true },
 };
 
 export default function TermsPage() {

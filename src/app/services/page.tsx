@@ -3,11 +3,29 @@ import Link from "next/link";
 import { ServiceIcon } from "@/components/ui/service-icons";
 
 export const metadata: Metadata = {
-  title: "Services — Solobank MPP Gateway",
-  description: "Pay-per-request APIs. No keys, no accounts — agents pay with USDC on Solana.",
+  title: "Services — Pay-Per-Request APIs for AI Agents",
+  description:
+    "Solobank MPP Gateway: pay-per-request APIs for AI agents. No API keys, no accounts — agents pay with USDC on Solana via x402. Search, scrape, summarize, and more.",
+  keywords: [
+    "pay-per-request API",
+    "x402 APIs",
+    "USDC payments",
+    "AI agent APIs",
+    "Solana API gateway",
+    "MPP services",
+    "no API key",
+  ],
+  alternates: { canonical: "/services" },
+  openGraph: {
+    title: "Solobank Services — Pay-Per-Request APIs for AI Agents",
+    description:
+      "Pay-per-request APIs for AI agents. No keys, no accounts — agents pay with USDC on Solana.",
+    url: "/services",
+    type: "website",
+  },
 };
 
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "https://mpp.solobank.lol";
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "https://mpp.solobank.ink";
 
 interface Endpoint {
   method: string;

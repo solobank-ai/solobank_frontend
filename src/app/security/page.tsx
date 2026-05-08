@@ -2,7 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Security — Solobank",
+  title: "Security — Self-Custody on Solana",
+  description:
+    "Solobank security model: agents hold their own Solana keys, transactions are signed locally, and the open-source CLI/SDK can be audited end-to-end. No custodian, no honeypot.",
+  alternates: { canonical: "/security" },
+  openGraph: {
+    title: "Solobank Security — Self-Custody on Solana",
+    description:
+      "Agents hold their own keys. Open-source CLI/SDK. No custodian.",
+    url: "/security",
+    type: "article",
+  },
 };
 
 export default function SecurityPage() {

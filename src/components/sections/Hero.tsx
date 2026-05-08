@@ -143,6 +143,14 @@ export function Hero(): React.ReactElement {
               aria-hidden="true"
               className="w-full max-w-[640px] h-[140px] sm:h-[160px] md:h-[180px]"
             />
+            {/* Crawlable, accessible heading for SEO and screen readers.
+                The visible headline is rendered as particles on a canvas
+                which search engines and assistive tech cannot parse. */}
+            <h1 className="sr-only">
+              Solobank — a bank account for AI agents on Solana. Earn, borrow,
+              invest, swap, and pay autonomously via the Machine Payments
+              Protocol.
+            </h1>
             <div className="mt-8 flex flex-col items-center gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">

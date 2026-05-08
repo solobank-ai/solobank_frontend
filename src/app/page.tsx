@@ -6,9 +6,19 @@ import { Comparison } from "@/components/sections/Comparison";
 import { Install } from "@/components/sections/Install";
 
 export const metadata: Metadata = {
-  title: "Solobank — A Bank Account for AI Agents",
+  title: {
+    absolute: "Solobank — A Bank Account for AI Agents on Solana",
+  },
   description:
-    "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
+    "Solobank gives every AI agent a self-custodied Solana wallet with five accounts: earn yield, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol (MPP).",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Solobank — A Bank Account for AI Agents on Solana",
+    description:
+      "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
+    url: "/",
+    type: "website",
+  },
 };
 
 export default function HomePage(): React.ReactElement {

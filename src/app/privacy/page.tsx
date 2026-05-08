@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Solobank",
+  title: "Privacy Policy",
+  description:
+    "How Solobank handles data. Self-custodied wallets mean Solobank never holds your keys or funds; this page explains what little data we do touch and why.",
+  alternates: { canonical: "/privacy" },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
