@@ -169,7 +169,7 @@ interface ParticleTextEffectProps {
   /** Phrases to cycle through. Use `\n` for line breaks. */
   words: string[];
   className?: string;
-  /** Frames between word transitions. At 60fps, 900 ≈ 15s. */
+  /** Frames between word transitions. At 60fps, 600 ≈ 10s. */
   cycleFrames?: number;
   /** CSS font-family (passed to the offscreen canvas when rasterising). */
   fontFamily?: string;
@@ -191,7 +191,7 @@ interface ParticleTextEffectProps {
 export function ParticleTextEffect({
   words,
   className,
-  cycleFrames = 900,
+  cycleFrames = 600,
   fontFamily = "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
   pixelSteps = 5,
   drawAsPoints = true,
