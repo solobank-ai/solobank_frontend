@@ -165,63 +165,6 @@ body {
   animation: gradientSweep 8s linear infinite;
 }
 
-/* Flat dotted plane — replaces the Three.js DottedSurface. A regular grid
-   of soft white dots with a slow drift via `background-position`. Edges
-   feathered with a radial mask so the rectangle is invisible. */
-@keyframes dottedPlaneDrift {
-  from { background-position: 0 0; }
-  to   { background-position: 0 28px; }
-}
-
-.dotted-plane {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.55) 1.2px,
-    transparent 1.6px
-  );
-  background-size: 28px 28px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 90% 80% at center,
-    black 30%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 90% 80% at center,
-    black 30%,
-    transparent 100%
-  );
-  animation: dottedPlaneDrift 18s linear infinite;
-  will-change: background-position;
-}
-
-/* Soft Solana tint laid over the dotted plane to mimic the per-particle
-   purple→green wash from the original Three.js scene. */
-.dotted-plane-tint {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    rgba(153, 69, 255, 0.5) 0%,
-    rgba(20, 241, 149, 0.5) 100%
-  );
-  mix-blend-mode: screen;
-  opacity: 0.18;
-  -webkit-mask-image: radial-gradient(
-    ellipse 70% 50% at center,
-    black 10%,
-    transparent 80%
-  );
-  mask-image: radial-gradient(
-    ellipse 70% 50% at center,
-    black 10%,
-    transparent 80%
-  );
-}
-
 /* Cycling headline phrases — 3 phrases stacked absolutely, each fading in
    then out on a staggered 36-second loop (12s per phrase). Replaces the
    particle-text-effect's word cycle. */
@@ -247,7 +190,6 @@ body {
 .hero-phrase:nth-child(3) { animation-delay: 24s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .dotted-plane,
   .gradient-text-animated,
   .hero-phrase {
     animation: none;

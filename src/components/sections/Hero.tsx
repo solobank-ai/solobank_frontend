@@ -1,17 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Terminal } from "@/components/ui/Terminal";
 import { useTranslation } from "@/lib/i18n/context";
 
+// Three.js dotted surface — kept as the dynamic import it always was so it
+// stays out of the initial JS bundle and out of SSR. Gated behind
+// `surfaceReady` (set after requestIdleCallback) so the chunk only starts
+// fetching once the rest of the hero has painted.
+const DottedSurface = dynamic(
+  () => import("@/components/ui/dotted-surface").then((m) => m.DottedSurface),
+  { ssr: false, loading: () => null },
+);
+
 const INSTALL_CMD = "npx -y @solobank/cli@latest init";
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslation();
+
+  // Mount the Three.js dotted surface only after first paint so it doesn't
+  // compete with FCP/LCP on slow CPUs.
+  const [surfaceReady, setSurfaceReady] = useState(false);
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(() => setSurfaceReady(true), { timeout: 1500 });
+      return () => {
+        const cancel = (window as unknown as { cancelIdleCallback?: (id: number) => void })
+          .cancelIdleCallback;
+        if (typeof cancel === "function") cancel(id);
+      };
+    }
+    const tid = window.setTimeout(() => setSurfaceReady(true), 600);
+    return () => window.clearTimeout(tid);
+  }, []);
 
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(INSTALL_CMD);
@@ -30,10 +59,11 @@ export function Hero(): React.ReactElement {
         backgroundPosition: "center top",
       }}
     >
-      {/* Pure-CSS perspective dotted plane (replaces Three.js DottedSurface).
-          GPU-composited animation, zero JS cost on any device. */}
-      <div className="dotted-plane" aria-hidden="true" />
-      <div className="dotted-plane-tint" aria-hidden="true" />
+      {/* Three.js dotted surface — restored at user request. Pinned to the
+          viewport height so the camera aspect ratio tracks the window. */}
+      {surfaceReady && (
+        <DottedSurface className="absolute inset-x-0 top-0 h-screen" />
+      )}
 
       {/* Radial glow */}
       <div
