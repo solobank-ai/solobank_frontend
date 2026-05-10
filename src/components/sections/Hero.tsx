@@ -117,6 +117,18 @@ export function Hero(): React.ReactElement {
     <section
       ref={sectionRef}
       className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center"
+      // Vignette painted as the section's own background instead of a child
+      // div. A child <div absolute inset-0/h-screen> was being flagged by
+      // Lighthouse as a layout-shifting element on every reflow of the hero
+      // (CLS 0.46). Painting the gradient onto the section itself keeps it
+      // out of the CLS-tracked element set entirely.
+      style={{
+        backgroundImage:
+          "radial-gradient(ellipse at center, transparent 40%, rgba(13,13,15,0.8) 100%)",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100vh",
+        backgroundPosition: "center top",
+      }}
     >
       {/* Three.js dotted surface — primary atmospheric layer. Pinned to
           viewport height so the Three.js camera aspect ratio tracks the
@@ -161,14 +173,6 @@ export function Hero(): React.ReactElement {
         )}
       />
 
-      {/* Soft vignette fade to keep the edges readable. Pinned to viewport
-          height (NOT `inset-0`) so it doesn't reflow as the hero section
-          grows during initial layout / font swap — a previous `inset-0`
-          revision was the dominant CLS culprit on mobile. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-screen bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(13,13,15,0.8)_100%)]"
-      />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
