@@ -136,3 +136,98 @@ body {
 .grid-spotlight-purple::after {
   background-image: radial-gradient(circle, rgba(153, 69, 255, 0.5) 1px, transparent 1px);
 }
+
+/* ── Hero: pure-CSS replacements for the previous Three.js / canvas layers ──
+   Both effects below are GPU-composited and JS-free, so they cost the same
+   on a Moto G as on a desktop. */
+
+/* Animated Solana gradient text — replaces the particle-assemble headline.
+   Background-position is the only animated property, which the compositor
+   can promote to its own layer. */
+@keyframes gradientSweep {
+  from { background-position: 0% 50%; }
+  to   { background-position: 200% 50%; }
+}
+
+.gradient-text-animated {
+  background: linear-gradient(
+    90deg,
+    #9945FF 0%,
+    #CB9CFF 20%,
+    #43B4CA 50%,
+    #14F195 80%,
+    #9945FF 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientSweep 8s linear infinite;
+}
+
+/* Perspective-tilted dotted plane — replaces the Three.js DottedSurface.
+   A radial-gradient dot pattern, rotated to look like a floor receding into
+   the distance, with `background-position` slowly drifting to fake motion.
+   Edges feathered with a radial mask so the rectangle is invisible. */
+@keyframes dottedPlaneDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 32px; }
+}
+
+.dotted-plane {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.55) 1.2px,
+    transparent 1.6px
+  );
+  background-size: 32px 32px;
+  transform: perspective(900px) rotateX(62deg) scale(1.7);
+  transform-origin: center 70%;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 60% at center,
+    black 20%,
+    transparent 90%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 60% at center,
+    black 20%,
+    transparent 90%
+  );
+  animation: dottedPlaneDrift 14s linear infinite;
+  will-change: background-position;
+}
+
+/* Soft Solana tint laid over the dotted plane to mimic the per-particle
+   purple→green wash from the original Three.js scene. */
+.dotted-plane-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(153, 69, 255, 0.5) 0%,
+    rgba(20, 241, 149, 0.5) 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.18;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 50% at center,
+    black 10%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 50% at center,
+    black 10%,
+    transparent 80%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotted-plane,
+  .gradient-text-animated {
+    animation: none;
+  }
+}

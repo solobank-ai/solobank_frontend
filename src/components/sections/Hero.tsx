@@ -1,117 +1,17 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Terminal } from "@/components/ui/Terminal";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
 
-// Heavy canvas/Three.js layers — defer them out of the initial JS bundle and
-// out of SSR so first paint isn't blocked. They render after hydration as a
-// separate chunk and are gated behind `canvasReady` so we don't even start
-// fetching them until the browser has had a chance to paint the rest of the
-// hero (CTA + install command + terminal).
-const DottedSurface = dynamic(
-  () => import("@/components/ui/dotted-surface").then((m) => m.DottedSurface),
-  { ssr: false, loading: () => null },
-);
-const ParticleTextEffect = dynamic(
-  () =>
-    import("@/components/ui/particle-text-effect").then(
-      (m) => m.ParticleTextEffect,
-    ),
-  { ssr: false, loading: () => null },
-);
-
 const INSTALL_CMD = "npx -y @solobank/cli@latest init";
-
-// Phrases the particle headline cycles through. Keep each short enough to
-// render legibly at the canvas size we give it (~8–12 chars per line).
-const HEADLINE_PHRASES = [
-  "A bank account\nfor AI agents",
-  "Earn · Borrow\nInvest · Pay",
-  "Built on\nSolana",
-];
 
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslation();
-  // Mount the canvas-heavy decorative layers only after the first paint, and
-  // only on viewports wide enough to benefit from them. Mobile (Moto G class)
-  // CPUs spend ~3s parsing/evaluating the Three.js + particle-canvas chunk
-  // even when deferred to idle — and at <md the dotted surface is barely
-  // visible behind the content and the particle text is hidden by the CSS
-  // mask anyway. Skipping them on mobile shaves the entire chunk off the
-  // critical path.
-  const [canvasReady, setCanvasReady] = useState(false);
-  useEffect(() => {
-    if (window.matchMedia("(max-width: 767px)").matches) return;
-    const w = window as Window & {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-    };
-    if (typeof w.requestIdleCallback === "function") {
-      const id = w.requestIdleCallback(() => setCanvasReady(true), { timeout: 1500 });
-      return () => {
-        const cancel = (window as unknown as { cancelIdleCallback?: (id: number) => void })
-          .cancelIdleCallback;
-        if (typeof cancel === "function") cancel(id);
-      };
-    }
-    const t = window.setTimeout(() => setCanvasReady(true), 600);
-    return () => window.clearTimeout(t);
-  }, []);
-
-  // The particle text effect paints a single full-section canvas, but the
-  // rasterised letters must land inside a specific slot in the flex layout
-  // (above the CTA) so they don't overlap with other content on any
-  // breakpoint. We render an invisible `textSlot` div where the text should
-  // appear, measure its position on layout, and pass the resulting anchor
-  // (as fractions of the canvas) to ParticleTextEffect.
-  const sectionRef = useRef<HTMLElement>(null);
-  const textSlotRef = useRef<HTMLDivElement>(null);
-  const [textAnchor, setTextAnchor] = useState<{ x: number; y: number }>({
-    x: 0.5,
-    y: 0.25,
-  });
-
-  useLayoutEffect(() => {
-    const compute = (): void => {
-      const section = sectionRef.current;
-      const slot = textSlotRef.current;
-      if (!section || !slot) return;
-      const s = section.getBoundingClientRect();
-      const t = slot.getBoundingClientRect();
-      if (s.width === 0 || s.height === 0) return;
-      const x = (t.left + t.width / 2 - s.left) / s.width;
-      const y = (t.top + t.height / 2 - s.top) / s.height;
-      // Only trigger a state update if the anchor actually moved by a
-      // meaningful amount — otherwise every frame of layout flux re-runs
-      // the particle canvas' internal retarget logic for nothing.
-      setTextAnchor((prev) => {
-        if (Math.abs(prev.x - x) < 0.003 && Math.abs(prev.y - y) < 0.003) {
-          return prev;
-        }
-        return { x, y };
-      });
-    };
-
-    compute();
-
-    const ro =
-      typeof ResizeObserver !== "undefined" ? new ResizeObserver(compute) : null;
-    if (ro && sectionRef.current) ro.observe(sectionRef.current);
-    if (ro && textSlotRef.current) ro.observe(textSlotRef.current);
-
-    window.addEventListener("resize", compute);
-
-    return () => {
-      ro?.disconnect();
-      window.removeEventListener("resize", compute);
-    };
-  }, []);
 
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(INSTALL_CMD);
@@ -121,19 +21,7 @@ export function Hero(): React.ReactElement {
 
   return (
     <section
-      ref={sectionRef}
-      // NOTE: deliberately NO `flex items-center`. Vertical centering reacts
-      // to every reflow of the section (font swap, canvas mount, terminal
-      // line typing) by recomputing the child's center offset — Lighthouse
-      // measured this as a 0.45 CLS on the content container. Anchoring the
-      // content to the top via `pt-28` keeps its position stable regardless
-      // of how the section grows.
       className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px]"
-      // Vignette painted as the section's own background instead of a child
-      // div. A child <div absolute inset-0/h-screen> was being flagged by
-      // Lighthouse as a layout-shifting element on every reflow of the hero
-      // (CLS 0.46). Painting the gradient onto the section itself keeps it
-      // out of the CLS-tracked element set entirely.
       style={{
         backgroundImage:
           "radial-gradient(ellipse at center, transparent 40%, rgba(13,13,15,0.8) 100%)",
@@ -142,77 +30,27 @@ export function Hero(): React.ReactElement {
         backgroundPosition: "center top",
       }}
     >
-      {/* Three.js dotted surface — primary atmospheric layer. Pinned to
-          viewport height so the Three.js camera aspect ratio tracks the
-          window, not the (possibly taller) section. */}
-      {canvasReady && <DottedSurface className="absolute inset-x-0 top-0 h-screen" />}
-
-      {/* Particle text effect — rasterised as a full-section backdrop
-          layer. The canvas spans the entire hero so scatter particles can
-          fly across the whole screen, but `textAnchor` is measured from
-          an invisible slot in the flex flow below so the letters always
-          land exactly in the slot regardless of viewport size. A radial
-          CSS mask feathers the canvas edges into the surrounding
-          atmosphere so the rectangular bounds are invisible. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          WebkitMaskImage:
-            "radial-gradient(ellipse 95% 90% at center, black 50%, transparent 100%)",
-          maskImage:
-            "radial-gradient(ellipse 95% 90% at center, black 50%, transparent 100%)",
-        }}
-      >
-        {canvasReady && (
-          <ParticleTextEffect
-            words={HEADLINE_PHRASES}
-            maxFontSize={80}
-            textAnchor={textAnchor}
-            textAlign="center"
-            pixelSteps={typeof window !== "undefined" && window.innerWidth < 768 ? 8 : 5}
-          />
-        )}
-      </div>
+      {/* Pure-CSS perspective dotted plane (replaces Three.js DottedSurface).
+          GPU-composited animation, zero JS cost on any device. */}
+      <div className="dotted-plane" aria-hidden="true" />
+      <div className="dotted-plane-tint" aria-hidden="true" />
 
       {/* Radial glow */}
       <div
         aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "size-[900px] max-w-[90vw] max-h-[90vh]",
-          "rounded-full blur-[60px]",
-          "bg-[radial-gradient(ellipse_at_center,rgba(153,69,255,0.22)_0%,rgba(20,241,149,0.08)_35%,transparent_65%)]",
-        )}
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[900px] max-w-[90vw] max-h-[90vh] rounded-full blur-[60px] bg-[radial-gradient(ellipse_at_center,rgba(153,69,255,0.22)_0%,rgba(20,241,149,0.08)_35%,transparent_65%)]"
       />
-
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
-          {/* ── Left column: particle text slot + CTA + install ────────── */}
+          {/* Left column: headline + CTA + install command */}
           <div className="flex-1 min-w-0 flex flex-col items-center text-center">
-            {/* Invisible slot that reserves space for the particle
-                headline. Sized in real layout, measured on every resize
-                so the particle canvas can aim its rasterised text at
-                exactly this rectangle. */}
-            {/* Static headline shown on mobile, where the particle canvas
-                is intentionally not loaded (it costs ~3s of script eval on
-                Moto G class CPUs). */}
-            <div className="w-full max-w-[640px] h-[140px] sm:h-[160px] flex items-center justify-center md:hidden">
-              <h1 className="text-3xl font-bold tracking-tight text-center">
-                <span className="gradient-text">A bank account</span>
-                <br />
-                for AI agents
-              </h1>
-            </div>
-            {/* Anchor slot for the canvas-rendered headline on md+. */}
-            <div
-              ref={textSlotRef}
-              aria-hidden="true"
-              className="hidden md:block w-full max-w-[640px] md:h-[180px]"
-            />
-            {/* Full SEO/a11y heading. On mobile the visible <h1> above
-                already covers screen readers; this longer description is
-                kept sr-only to avoid duplication. */}
+            <h1 className="font-bold tracking-tight leading-[1.1] text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
+              <span className="gradient-text-animated">A bank account</span>
+              <br />
+              <span className="text-foreground">for AI agents</span>
+            </h1>
+            {/* Long-form description for screen readers / SEO. */}
             <p className="sr-only">
               Solobank — a bank account for AI agents on Solana. Earn, borrow,
               invest, swap, and pay autonomously via the Machine Payments
@@ -243,13 +81,8 @@ export function Hero(): React.ReactElement {
             </div>
           </div>
 
-          {/* ── Right column (xl+): Terminal, centred in its half ──────
-              Locked to a single fixed height across all breakpoints so the
-              block can't grow as the terminal types out lines. `flex-1` is
-              gated to `xl:flex-1` because in the mobile flex-col stack it
-              competes with the explicit height and was being observed
-              growing the block; on xl:flex-row we still need it to share
-              the row with the left column. */}
+          {/* Right column (xl+): Terminal — fixed 520px height across all
+              breakpoints so the typing animation can't reflow the layout. */}
           <div className="xl:flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto h-[520px] max-h-[520px] overflow-hidden shadow-[0_0_120px_rgba(153,69,255,0.18)]">
             <Terminal
               lines={t.terminal as unknown as string[]}
