@@ -161,10 +161,13 @@ export function Hero(): React.ReactElement {
         )}
       />
 
-      {/* Soft vignette fade to keep the edges readable */}
+      {/* Soft vignette fade to keep the edges readable. Pinned to viewport
+          height (NOT `inset-0`) so it doesn't reflow as the hero section
+          grows during initial layout / font swap — a previous `inset-0`
+          revision was the dominant CLS culprit on mobile. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(13,13,15,0.8)_100%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-screen bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(13,13,15,0.8)_100%)]"
       />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
