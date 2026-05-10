@@ -28,9 +28,17 @@ export function DottedSurface({
     const container = containerRef.current;
     if (!container) return;
 
-    const SEPARATION = 150;
-    const AMOUNT_X = 40;
-    const AMOUNT_Y = 60;
+    // Lower-density grid + larger spacing on small viewports — the Three.js
+    // animate loop touches every vertex each frame, so a Moto-G class device
+    // chokes on the 40×60 grid we use on desktop.
+    const isSmall =
+      typeof window !== "undefined" && window.innerWidth < 768;
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const SEPARATION = isSmall ? 220 : 150;
+    const AMOUNT_X = isSmall ? 22 : 40;
+    const AMOUNT_Y = isSmall ? 32 : 60;
 
     const getSize = (): { w: number; h: number } => {
       // Use the container's own box so the surface tracks the element
@@ -54,7 +62,7 @@ export function DottedSurface({
       antialias: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isSmall ? 1.25 : 2));
     renderer.setSize(initW, initH);
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
@@ -124,9 +132,18 @@ export function DottedSurface({
       .position as THREE.BufferAttribute;
     const posArray = positionAttribute.array as Float32Array;
 
-    const animate = (): void => {
+    // Throttle to ~30fps on small/reduced-motion devices — the wave is slow
+    // enough that 30fps is visually indistinguishable from 60 and halves the
+    // main-thread cost of the animate loop.
+    const minFrameMs = isSmall || prefersReducedMotion ? 1000 / 30 : 0;
+    let lastFrameAt = 0;
+
+    const animate = (now?: number): void => {
       animationId = requestAnimationFrame(animate);
       if (!isVisible) return;
+      const ts = now ?? performance.now();
+      if (minFrameMs > 0 && ts - lastFrameAt < minFrameMs) return;
+      lastFrameAt = ts;
 
       let i = 0;
       for (let ix = 0; ix < AMOUNT_X; ix++) {

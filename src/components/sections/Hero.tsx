@@ -1,14 +1,30 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Terminal } from "@/components/ui/Terminal";
-import { DottedSurface } from "@/components/ui/dotted-surface";
-import { ParticleTextEffect } from "@/components/ui/particle-text-effect";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
+
+// Heavy canvas/Three.js layers — defer them out of the initial JS bundle and
+// out of SSR so first paint isn't blocked. They render after hydration as a
+// separate chunk and are gated behind `canvasReady` so we don't even start
+// fetching them until the browser has had a chance to paint the rest of the
+// hero (CTA + install command + terminal).
+const DottedSurface = dynamic(
+  () => import("@/components/ui/dotted-surface").then((m) => m.DottedSurface),
+  { ssr: false, loading: () => null },
+);
+const ParticleTextEffect = dynamic(
+  () =>
+    import("@/components/ui/particle-text-effect").then(
+      (m) => m.ParticleTextEffect,
+    ),
+  { ssr: false, loading: () => null },
+);
 
 const INSTALL_CMD = "npx -y @solobank/cli@latest init";
 
@@ -23,6 +39,24 @@ const HEADLINE_PHRASES = [
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslation();
+  // Mount the canvas-heavy decorative layers only after the first paint so
+  // they don't compete with LCP/FCP on slow mobile devices.
+  const [canvasReady, setCanvasReady] = useState(false);
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(() => setCanvasReady(true), { timeout: 1500 });
+      return () => {
+        const cancel = (window as unknown as { cancelIdleCallback?: (id: number) => void })
+          .cancelIdleCallback;
+        if (typeof cancel === "function") cancel(id);
+      };
+    }
+    const t = window.setTimeout(() => setCanvasReady(true), 600);
+    return () => window.clearTimeout(t);
+  }, []);
 
   // The particle text effect paints a single full-section canvas, but the
   // rasterised letters must land inside a specific slot in the flex layout
@@ -87,7 +121,7 @@ export function Hero(): React.ReactElement {
       {/* Three.js dotted surface — primary atmospheric layer. Pinned to
           viewport height so the Three.js camera aspect ratio tracks the
           window, not the (possibly taller) section. */}
-      <DottedSurface className="absolute inset-x-0 top-0 h-screen" />
+      {canvasReady && <DottedSurface className="absolute inset-x-0 top-0 h-screen" />}
 
       {/* Particle text effect — rasterised as a full-section backdrop
           layer. The canvas spans the entire hero so scatter particles can
@@ -105,12 +139,15 @@ export function Hero(): React.ReactElement {
             "radial-gradient(ellipse 95% 90% at center, black 50%, transparent 100%)",
         }}
       >
-        <ParticleTextEffect
-          words={HEADLINE_PHRASES}
-          maxFontSize={80}
-          textAnchor={textAnchor}
-          textAlign="center"
-        />
+        {canvasReady && (
+          <ParticleTextEffect
+            words={HEADLINE_PHRASES}
+            maxFontSize={80}
+            textAnchor={textAnchor}
+            textAlign="center"
+            pixelSteps={typeof window !== "undefined" && window.innerWidth < 768 ? 8 : 5}
+          />
+        )}
       </div>
 
       {/* Radial glow */}
