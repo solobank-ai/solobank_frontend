@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Stats — Live Machine Payments on Solana",
@@ -31,5 +32,15 @@ export default function StatsLayout({
 }: {
   children: React.ReactNode;
 }): React.ReactElement {
-  return <>{children}</>;
+  return (
+    <>
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Stats", path: "/stats" },
+        ]}
+      />
+      {children}
+    </>
+  );
 }

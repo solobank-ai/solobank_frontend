@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MppPage } from "@/components/mpp/MppPage";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "MPP — Machine Payments Protocol for AI Agents on Solana",
@@ -26,5 +27,15 @@ export const metadata: Metadata = {
 };
 
 export default function Page(): React.ReactElement {
-  return <MppPage />;
+  return (
+    <>
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "MPP", path: "/mpp" },
+        ]}
+      />
+      <MppPage />
+    </>
+  );
 }

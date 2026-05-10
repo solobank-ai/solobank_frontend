@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Security — Self-Custody on Solana",
@@ -18,6 +19,12 @@ export const metadata: Metadata = {
 export default function SecurityPage() {
   return (
     <main className="min-h-screen pt-28 pb-20">
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Security", path: "/security" },
+        ]}
+      />
       <div className="max-w-3xl mx-auto px-6">
         <h1 className="text-4xl font-bold mb-2">Security</h1>
         <p className="text-muted text-sm mb-12">Last updated: March 29, 2026</p>

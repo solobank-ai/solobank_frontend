@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Docs — CLI, SDK & MCP Server for AI Agents on Solana",
@@ -33,5 +34,15 @@ export default function DocsLayout({
 }: {
   children: React.ReactNode;
 }): React.ReactElement {
-  return <>{children}</>;
+  return (
+    <>
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Docs", path: "/docs" },
+        ]}
+      />
+      {children}
+    </>
+  );
 }

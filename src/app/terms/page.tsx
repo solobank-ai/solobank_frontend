@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -12,6 +13,12 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <main className="min-h-screen pt-28 pb-20">
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Terms", path: "/terms" },
+        ]}
+      />
       <div className="max-w-3xl mx-auto px-6">
         <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>
         <p className="text-muted text-sm mb-12">Last updated: March 29, 2026</p>

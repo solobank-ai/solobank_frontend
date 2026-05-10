@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DemosPage } from "@/components/demos/DemosPage";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Live Demos — AI Agent Banking on Solana",
@@ -23,5 +24,15 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <DemosPage />;
+  return (
+    <>
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Demos", path: "/demos" },
+        ]}
+      />
+      <DemosPage />
+    </>
+  );
 }

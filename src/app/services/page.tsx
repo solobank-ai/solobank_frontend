@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceIcon } from "@/components/ui/service-icons";
+import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Services — Pay-Per-Request APIs for AI Agents",
@@ -96,6 +97,12 @@ export default async function ServicesPage() {
 
   return (
     <main className="min-h-screen pt-28 pb-20">
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+        ]}
+      />
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-3">Services</h1>
