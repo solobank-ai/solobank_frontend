@@ -45,10 +45,22 @@ export function Hero(): React.ReactElement {
         <div className="flex flex-col xl:flex-row xl:items-center gap-10 xl:gap-16">
           {/* Left column: headline + CTA + install command */}
           <div className="flex-1 min-w-0 flex flex-col items-center text-center">
-            <h1 className="font-bold tracking-tight leading-[1.1] text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
-              <span className="gradient-text-animated">A bank account</span>
-              <br />
-              <span className="text-foreground">for AI agents</span>
+            {/* Three headline phrases cycle on a 36s loop (12s each) via the
+                .hero-phrase keyframes in globals.css. The container reserves
+                fixed height so absolute children don't collapse the layout. */}
+            <h1 className="relative w-full max-w-[640px] h-[120px] sm:h-[140px] md:h-[180px] xl:h-[220px] font-bold tracking-tight leading-[1.1] text-4xl sm:text-5xl md:text-6xl xl:text-7xl">
+              <span className="hero-phrase">
+                <span className="gradient-text-animated">A bank account</span>
+                <span className="text-foreground">for AI agents</span>
+              </span>
+              <span className="hero-phrase">
+                <span className="gradient-text-animated">Earn · Borrow</span>
+                <span className="text-foreground">Invest · Pay</span>
+              </span>
+              <span className="hero-phrase">
+                <span className="gradient-text-animated">Built on</span>
+                <span className="text-foreground">Solana</span>
+              </span>
             </h1>
             {/* Long-form description for screen readers / SEO. */}
             <p className="sr-only">

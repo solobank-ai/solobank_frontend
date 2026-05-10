@@ -165,13 +165,12 @@ body {
   animation: gradientSweep 8s linear infinite;
 }
 
-/* Perspective-tilted dotted plane — replaces the Three.js DottedSurface.
-   A radial-gradient dot pattern, rotated to look like a floor receding into
-   the distance, with `background-position` slowly drifting to fake motion.
-   Edges feathered with a radial mask so the rectangle is invisible. */
+/* Flat dotted plane — replaces the Three.js DottedSurface. A regular grid
+   of soft white dots with a slow drift via `background-position`. Edges
+   feathered with a radial mask so the rectangle is invisible. */
 @keyframes dottedPlaneDrift {
   from { background-position: 0 0; }
-  to   { background-position: 0 32px; }
+  to   { background-position: 0 28px; }
 }
 
 .dotted-plane {
@@ -183,20 +182,18 @@ body {
     rgba(255, 255, 255, 0.55) 1.2px,
     transparent 1.6px
   );
-  background-size: 32px 32px;
-  transform: perspective(900px) rotateX(62deg) scale(1.7);
-  transform-origin: center 70%;
+  background-size: 28px 28px;
   -webkit-mask-image: radial-gradient(
-    ellipse 80% 60% at center,
-    black 20%,
-    transparent 90%
+    ellipse 90% 80% at center,
+    black 30%,
+    transparent 100%
   );
   mask-image: radial-gradient(
-    ellipse 80% 60% at center,
-    black 20%,
-    transparent 90%
+    ellipse 90% 80% at center,
+    black 30%,
+    transparent 100%
   );
-  animation: dottedPlaneDrift 14s linear infinite;
+  animation: dottedPlaneDrift 18s linear infinite;
   will-change: background-position;
 }
 
@@ -225,9 +222,36 @@ body {
   );
 }
 
+/* Cycling headline phrases — 3 phrases stacked absolutely, each fading in
+   then out on a staggered 36-second loop (12s per phrase). Replaces the
+   particle-text-effect's word cycle. */
+@keyframes heroPhraseCycle {
+  0%, 1%   { opacity: 0; transform: translateY(8px); }
+  4%, 30%  { opacity: 1; transform: translateY(0); }
+  33%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.hero-phrase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  animation: heroPhraseCycle 36s ease-in-out infinite;
+}
+.hero-phrase:nth-child(1) { animation-delay: 0s; }
+.hero-phrase:nth-child(2) { animation-delay: 12s; }
+.hero-phrase:nth-child(3) { animation-delay: 24s; }
+
 @media (prefers-reduced-motion: reduce) {
   .dotted-plane,
-  .gradient-text-animated {
+  .gradient-text-animated,
+  .hero-phrase {
     animation: none;
   }
+  /* Without the cycling animation, only the first phrase should be visible. */
+  .hero-phrase:nth-child(1) { opacity: 1; }
 }
