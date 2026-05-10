@@ -39,10 +39,16 @@ const HEADLINE_PHRASES = [
 export function Hero(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslation();
-  // Mount the canvas-heavy decorative layers only after the first paint so
-  // they don't compete with LCP/FCP on slow mobile devices.
+  // Mount the canvas-heavy decorative layers only after the first paint, and
+  // only on viewports wide enough to benefit from them. Mobile (Moto G class)
+  // CPUs spend ~3s parsing/evaluating the Three.js + particle-canvas chunk
+  // even when deferred to idle — and at <md the dotted surface is barely
+  // visible behind the content and the particle text is hidden by the CSS
+  // mask anyway. Skipping them on mobile shaves the entire chunk off the
+  // critical path.
   const [canvasReady, setCanvasReady] = useState(false);
   useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
     const w = window as Window & {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     };
@@ -188,19 +194,30 @@ export function Hero(): React.ReactElement {
                 headline. Sized in real layout, measured on every resize
                 so the particle canvas can aim its rasterised text at
                 exactly this rectangle. */}
+            {/* Static headline shown on mobile, where the particle canvas
+                is intentionally not loaded (it costs ~3s of script eval on
+                Moto G class CPUs). */}
+            <div className="w-full max-w-[640px] h-[140px] sm:h-[160px] flex items-center justify-center md:hidden">
+              <h1 className="text-3xl font-bold tracking-tight text-center">
+                <span className="gradient-text">A bank account</span>
+                <br />
+                for AI agents
+              </h1>
+            </div>
+            {/* Anchor slot for the canvas-rendered headline on md+. */}
             <div
               ref={textSlotRef}
               aria-hidden="true"
-              className="w-full max-w-[640px] h-[140px] sm:h-[160px] md:h-[180px]"
+              className="hidden md:block w-full max-w-[640px] md:h-[180px]"
             />
-            {/* Crawlable, accessible heading for SEO and screen readers.
-                The visible headline is rendered as particles on a canvas
-                which search engines and assistive tech cannot parse. */}
-            <h1 className="sr-only">
+            {/* Full SEO/a11y heading. On mobile the visible <h1> above
+                already covers screen readers; this longer description is
+                kept sr-only to avoid duplication. */}
+            <p className="sr-only">
               Solobank — a bank account for AI agents on Solana. Earn, borrow,
               invest, swap, and pay autonomously via the Machine Payments
               Protocol.
-            </h1>
+            </p>
             <div className="mt-8 flex flex-col items-center gap-6">
               <Link href="/docs">
                 <Button variant="primary" size="lg">
