@@ -226,8 +226,14 @@ export function Hero(): React.ReactElement {
             </div>
           </div>
 
-          {/* ── Right column (xl+): Terminal, centred in its half ────── */}
-          <div className="flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto h-[420px] md:h-[460px] xl:h-[520px] shadow-[0_0_120px_rgba(153,69,255,0.18)]">
+          {/* ── Right column (xl+): Terminal, centred in its half ──────
+              Locked to a single fixed height across all breakpoints so the
+              block can't grow as the terminal types out lines. `flex-1` is
+              gated to `xl:flex-1` because in the mobile flex-col stack it
+              competes with the explicit height and was being observed
+              growing the block; on xl:flex-row we still need it to share
+              the row with the left column. */}
+          <div className="xl:flex-1 min-w-0 w-full max-w-xl xl:max-w-[560px] mx-auto h-[520px] max-h-[520px] overflow-hidden shadow-[0_0_120px_rgba(153,69,255,0.18)]">
             <Terminal
               lines={t.terminal as unknown as string[]}
               className="h-full"
