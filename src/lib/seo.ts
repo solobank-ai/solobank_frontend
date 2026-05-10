@@ -1,5 +1,5 @@
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://solobank.ink";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.solobank.ink";
 
 export const SITE_NAME = "Solobank";
 
