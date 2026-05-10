@@ -5,7 +5,7 @@ import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Live Demos — AI Agent Banking on Solana",
   description:
-    "Interactive demos of Solobank AI agent banking — real CLI commands, MCP tools, and live output. Watch an AI agent open a wallet, earn yield, and pay for APIs in seconds.",
+    "Interactive Solobank demos — real CLI commands, MCP tools, live output. Watch an AI agent open a wallet, earn yield, and pay for APIs in seconds.",
   keywords: [
     "Solobank demo",
     "AI agent demo",

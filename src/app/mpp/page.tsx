@@ -5,7 +5,7 @@ import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 export const metadata: Metadata = {
   title: "MPP — Machine Payments Protocol for AI Agents on Solana",
   description:
-    "Accept USDC payments on any API with 5 lines of code. The Machine Payments Protocol (MPP) lets AI agents pay per request on Solana — sub-second settlement, sub-cent fees, no API keys.",
+    "Accept USDC payments on any API with 5 lines of code. AI agents pay per request on Solana — sub-second settlement, sub-cent fees, no API keys.",
   keywords: [
     "Machine Payments Protocol",
     "MPP",

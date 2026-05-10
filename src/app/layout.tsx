@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Solobank",
   },
   description:
-    "Solobank gives every AI agent a self-custodied Solana wallet with five accounts: earn yield, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol (MPP).",
+    "Self-custodied Solana wallet for AI agents. Five accounts: earn, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol.",
   applicationName: SITE_NAME,
   keywords: [
     "Solobank",

@@ -5,7 +5,7 @@ import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Security — Self-Custody on Solana",
   description:
-    "Solobank security model: agents hold their own Solana keys, transactions are signed locally, and the open-source CLI/SDK can be audited end-to-end. No custodian, no honeypot.",
+    "Solobank security: agents hold their own Solana keys, transactions are signed locally, and the open-source CLI/SDK can be audited end-to-end.",
   alternates: { canonical: "/security" },
   openGraph: {
     title: "Solobank Security — Self-Custody on Solana",

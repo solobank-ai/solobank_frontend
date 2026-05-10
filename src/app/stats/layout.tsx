@@ -4,7 +4,7 @@ import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Stats — Live Machine Payments on Solana",
   description:
-    "Live throughput, request volume and revenue from the Solobank Machine Payments Protocol gateway. Watch AI agents pay for APIs in USDC on Solana in real time.",
+    "Live throughput, volume and revenue from the Solobank MPP gateway. Watch AI agents pay for APIs in USDC on Solana in real time.",
   keywords: [
     "MPP stats",
     "Solana payments stats",

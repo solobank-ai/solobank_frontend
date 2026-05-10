@@ -6,7 +6,7 @@ import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Services — Pay-Per-Request APIs for AI Agents",
   description:
-    "Solobank MPP Gateway: pay-per-request APIs for AI agents. No API keys, no accounts — agents pay with USDC on Solana via x402. Search, scrape, summarize, and more.",
+    "Pay-per-request APIs for AI agents. No keys, no accounts — agents pay with USDC on Solana via x402. Search, scrape, summarize and more.",
   keywords: [
     "pay-per-request API",
     "x402 APIs",
