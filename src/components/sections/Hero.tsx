@@ -116,7 +116,13 @@ export function Hero(): React.ReactElement {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px] flex items-center"
+      // NOTE: deliberately NO `flex items-center`. Vertical centering reacts
+      // to every reflow of the section (font swap, canvas mount, terminal
+      // line typing) by recomputing the child's center offset — Lighthouse
+      // measured this as a 0.45 CLS on the content container. Anchoring the
+      // content to the top via `pt-28` keeps its position stable regardless
+      // of how the section grows.
+      className="relative overflow-hidden pt-28 pb-16 xl:pt-32 xl:pb-20 min-h-[640px] xl:min-h-[720px]"
       // Vignette painted as the section's own background instead of a child
       // div. A child <div absolute inset-0/h-screen> was being flagged by
       // Lighthouse as a layout-shifting element on every reflow of the hero

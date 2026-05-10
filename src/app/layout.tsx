@@ -11,7 +11,9 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap",
+  // `optional` skips the swap-on-late-load that `swap` performs, eliminating
+  // the font-driven reflow that was contributing to CLS on the home route.
+  display: "optional",
 });
 
 export const metadata: Metadata = {
