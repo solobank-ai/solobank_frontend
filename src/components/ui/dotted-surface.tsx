@@ -2,8 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+
+// Tablet breakpoint: below this we skip the Three.js scene entirely.
+const MIN_WIDTH = 768;
 
 type DottedSurfaceProps = Omit<React.ComponentProps<"div">, "ref">;
 
@@ -23,8 +26,22 @@ export function DottedSurface({
   const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneRefs | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  // Decide whether to mount the scene based on viewport width. Re-evaluates on
+  // resize so rotating a tablet or resizing the window crosses the threshold
+  // cleanly.
+  useEffect(() => {
+    const update = (): void => {
+      setEnabled(window.innerWidth >= MIN_WIDTH);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
+    if (!enabled) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -32,7 +49,7 @@ export function DottedSurface({
     // animate loop touches every vertex each frame, so a Moto-G class device
     // chokes on the 40×60 grid we use on desktop.
     const isSmall =
-      typeof window !== "undefined" && window.innerWidth < 768;
+      typeof window !== "undefined" && window.innerWidth < 1024;
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -208,7 +225,7 @@ export function DottedSurface({
         }
       }
     };
-  }, [resolvedTheme]);
+  }, [resolvedTheme, enabled]);
 
   return (
     <div
