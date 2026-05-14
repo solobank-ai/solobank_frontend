@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { getAllPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/mpp", priority: 0.9, changeFrequency: "weekly" },
     { path: "/services", priority: 0.9, changeFrequency: "weekly" },
     { path: "/docs", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
     { path: "/demos", priority: 0.8, changeFrequency: "weekly" },
     { path: "/stats", priority: 0.7, changeFrequency: "daily" },
     { path: "/security", priority: 0.5, changeFrequency: "monthly" },
@@ -19,10 +21,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
   ];
 
-  return routes.map(({ path, priority, changeFrequency }) => ({
+  const staticEntries = routes.map(({ path, priority, changeFrequency }) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,
     changeFrequency,
     priority,
   }));
+
+  const postEntries = getAllPosts().map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: new Date((post.updated ?? post.date) + "T00:00:00Z"),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...postEntries];
 }
