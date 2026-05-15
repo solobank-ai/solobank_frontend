@@ -18,6 +18,8 @@ export function Footer(): React.ReactElement {
       { label: t.footer.stats, href: "/stats" },
     ],
     [t.footer.resources]: [
+      { label: "Blog", href: "/blog" },
+      { label: "Glossary", href: "/glossary" },
       { label: "GitHub", href: "https://github.com/solobank-ai", external: true },
       { label: "npm", href: "https://www.npmjs.com/package/@solobank/cli", external: true },
     ],

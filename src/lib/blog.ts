@@ -29,8 +29,9 @@ export interface BlogPost {
 }
 
 import { bankAccountForAiAgents } from "./blog/posts/bank-account-for-ai-agents";
+import { solobankVsMeow } from "./blog/posts/solobank-vs-meow";
 
-export const POSTS: BlogPost[] = [bankAccountForAiAgents];
+export const POSTS: BlogPost[] = [bankAccountForAiAgents, solobankVsMeow];
 
 const POST_BY_SLUG = new Map(POSTS.map((p) => [p.slug, p]));
 

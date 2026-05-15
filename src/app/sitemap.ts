@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 import { getAllPosts } from "@/lib/blog";
+import { getAllGlossary } from "@/lib/glossary";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -14,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/services", priority: 0.9, changeFrequency: "weekly" },
     { path: "/docs", priority: 0.9, changeFrequency: "weekly" },
     { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/glossary", priority: 0.7, changeFrequency: "monthly" },
     { path: "/demos", priority: 0.8, changeFrequency: "weekly" },
     { path: "/stats", priority: 0.7, changeFrequency: "daily" },
     { path: "/security", priority: 0.5, changeFrequency: "monthly" },
@@ -35,5 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...postEntries];
+  const glossaryEntries = getAllGlossary().map((entry) => ({
+    url: `${SITE_URL}/glossary/${entry.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticEntries, ...postEntries, ...glossaryEntries];
 }
