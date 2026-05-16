@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -116,11 +116,65 @@ function renderLine(line: string): ReactNode {
 
 export function HowItWorks(): React.ReactElement {
   const [active, setActive] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const s = STEPS[active] ?? STEPS[0]!;
 
+  /* Scroll-progress: outer wrapper is ~3 viewports tall, inner panel is
+     sticky-centered. As the user scrolls past each third of the wrapper,
+     the active step advances. Reverses on scroll up. */
+  useEffect(() => {
+    let ticking = false;
+
+    const compute = () => {
+      ticking = false;
+      const el = wrapperRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const total = el.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      const progress = Math.min(1, Math.max(0, -rect.top / total));
+      // Map [0..1) → segment index; nudge thresholds so the first segment
+      // engages slightly after entry and the last fully holds.
+      const raw = Math.floor(progress * STEPS.length);
+      const idx = Math.min(STEPS.length - 1, Math.max(0, raw));
+      setActive(idx);
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(compute);
+    };
+
+    compute();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  /* Marker click → scroll to the middle of that segment. */
+  const scrollToStep = (i: number) => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const total = el.offsetHeight - window.innerHeight;
+    const segCenter = (i + 0.5) / STEPS.length;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({
+      top: el.offsetTop + segCenter * total,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  };
+
   return (
-    <section id="how-it-works" className="py-20 bg-background">
-      <div className="max-w-4xl mx-auto px-6">
+    <section
+      id="how-it-works"
+      ref={wrapperRef}
+      className="relative bg-background h-[300vh]"
+    >
+      <div className="sticky top-0 h-screen flex flex-col justify-center max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
             How it works
@@ -144,7 +198,7 @@ export function HowItWorks(): React.ReactElement {
                 <button
                   key={step.n}
                   type="button"
-                  onClick={() => setActive(i)}
+                  onClick={() => scrollToStep(i)}
                   className="flex flex-col items-center gap-3 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-solana-green/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
                   aria-label={`Step ${step.n}: ${step.title}`}
                   aria-current={i === active ? "step" : undefined}
