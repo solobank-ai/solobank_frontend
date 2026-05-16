@@ -63,6 +63,7 @@ const ITEMS: Compat[] = [
   { name: "CrewAI",     icon: <BrandSvg d={ICONS.crewai}    label="CrewAI"    color="#FF5A50" />, via: "SDK" },
   { name: "LlamaIndex", icon: <span aria-label="LlamaIndex" className="text-3xl leading-none">🦙</span>, via: "SDK" },
   { name: "Vercel AI",  icon: <BrandSvg d={ICONS.vercel}    label="Vercel"    color="#FFFFFF" />, via: "SDK" },
+  { name: "OpenClaw",   icon: <span aria-label="OpenClaw"   className="text-3xl leading-none">🦞</span>, via: "MCP" },
 ];
 
 export function WorksWith(): React.ReactElement {
@@ -110,7 +111,7 @@ export function WorksWith(): React.ReactElement {
         </div>
 
         <p className="mt-6 text-center text-sm md:text-base text-dim">
-          MCP-native for Claude, Cursor, Windsurf, Zed — and SDK-compatible
+          MCP-native for Claude, Cursor, Windsurf, Zed, OpenClaw — and SDK-compatible
           with every other agent runtime.
         </p>
       </div>
