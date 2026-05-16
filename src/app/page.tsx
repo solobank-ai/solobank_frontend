@@ -26,9 +26,9 @@ export default function HomePage(): React.ReactElement {
   return (
     <>
       <Hero />
-      <WorksWith />
       <Accounts />
       <HowItWorks />
+      <WorksWith />
       <Comparison />
       <Install />
     </>
