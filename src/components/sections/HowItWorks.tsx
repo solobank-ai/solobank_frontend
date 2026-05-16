@@ -165,7 +165,7 @@ export function HowItWorks(): React.ReactElement {
                         : "text-dim group-hover:text-muted",
                     )}
                   >
-                    {step.duration} · {step.title}
+                    {step.title}
                   </span>
                 </button>
               );
