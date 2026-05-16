@@ -21,16 +21,18 @@ interface Compat {
   via: "MCP" | "SDK";
 }
 
-// All paths are 24x24 viewBox, monochrome (fill="currentColor").
-const BrandSvg = ({ d, label }: { d: string; label: string }) => (
+// All paths are 24x24 viewBox. Brand colors are the official hex from
+// simple-icons; the ring also picks them up on hover via currentColor.
+const BrandSvg = ({ d, label, color }: { d: string; label: string; color: string }) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-4 h-4 fill-current"
+    className="w-8 h-8"
     role="img"
     aria-label={label}
+    style={{ color }}
   >
-    <path d={d} />
+    <path d={d} fill="currentColor" />
   </svg>
 );
 
@@ -50,27 +52,29 @@ const ICONS = {
   vercel: "m12 1.608 12 20.784H0Z",
 } as const;
 
+// Brand hex from simple-icons. Cursor and Vercel are monochrome brands —
+// rendered white so they read on the dark surface.
 const ITEMS: Compat[] = [
-  { name: "Claude",     icon: <BrandSvg d={ICONS.claude}    label="Claude" />,     via: "MCP" },
-  { name: "Cursor",     icon: <BrandSvg d={ICONS.cursor}    label="Cursor" />,     via: "MCP" },
-  { name: "Windsurf",   icon: <BrandSvg d={ICONS.windsurf}  label="Windsurf" />,   via: "MCP" },
-  { name: "Zed",        icon: <BrandSvg d={ICONS.zed}       label="Zed" />,        via: "MCP" },
-  { name: "LangChain",  icon: <BrandSvg d={ICONS.langchain} label="LangChain" />,  via: "SDK" },
-  { name: "CrewAI",     icon: <BrandSvg d={ICONS.crewai}    label="CrewAI" />,     via: "SDK" },
-  { name: "LlamaIndex", icon: <span aria-label="LlamaIndex" className="text-base leading-none">🦙</span>, via: "SDK" },
-  { name: "Vercel AI",  icon: <BrandSvg d={ICONS.vercel}    label="Vercel" />,     via: "SDK" },
+  { name: "Claude",     icon: <BrandSvg d={ICONS.claude}    label="Claude"    color="#D97757" />, via: "MCP" },
+  { name: "Cursor",     icon: <BrandSvg d={ICONS.cursor}    label="Cursor"    color="#FFFFFF" />, via: "MCP" },
+  { name: "Windsurf",   icon: <BrandSvg d={ICONS.windsurf}  label="Windsurf"  color="#09B6A2" />, via: "MCP" },
+  { name: "Zed",        icon: <BrandSvg d={ICONS.zed}       label="Zed"       color="#084CCD" />, via: "MCP" },
+  { name: "LangChain",  icon: <BrandSvg d={ICONS.langchain} label="LangChain" color="#FFFFFF" />, via: "SDK" },
+  { name: "CrewAI",     icon: <BrandSvg d={ICONS.crewai}    label="CrewAI"    color="#FF5A50" />, via: "SDK" },
+  { name: "LlamaIndex", icon: <span aria-label="LlamaIndex" className="text-3xl leading-none">🦙</span>, via: "SDK" },
+  { name: "Vercel AI",  icon: <BrandSvg d={ICONS.vercel}    label="Vercel"    color="#FFFFFF" />, via: "SDK" },
 ];
 
 export function WorksWith(): React.ReactElement {
   return (
     <section
       aria-labelledby="works-with-title"
-      className="py-16 md:py-20 border-y border-border/60 bg-surface/30"
+      className="py-24 md:py-32 border-y border-border/60 bg-surface/30"
     >
       <div className="max-w-7xl mx-auto px-6">
         <p
           id="works-with-title"
-          className="text-center text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-dim mb-10"
+          className="text-center text-sm md:text-base font-medium tracking-[0.2em] uppercase text-dim mb-14"
         >
           Works with the agents you already run
         </p>
@@ -81,23 +85,23 @@ export function WorksWith(): React.ReactElement {
             {[...ITEMS, ...ITEMS].map((item, i) => (
               <li
                 key={`${item.name}-${i}`}
-                className="flex items-center gap-3 flex-shrink-0 text-muted hover:text-foreground transition-colors group px-5"
+                className="flex items-center gap-4 flex-shrink-0 text-muted hover:text-foreground transition-colors group px-8"
                 title={`${item.name} — via ${item.via}`}
                 aria-hidden={i >= ITEMS.length ? "true" : undefined}
               >
                 <span
                   className={cn(
                     "inline-flex items-center justify-center",
-                    "w-8 h-8 rounded-full border border-border",
+                    "w-14 h-14 rounded-full border border-border",
                     "bg-background/40",
-                    "text-dim group-hover:text-foreground group-hover:border-border-hover",
+                    "group-hover:border-border-hover",
                     "transition-colors",
                   )}
                   aria-hidden="true"
                 >
                   {item.icon}
                 </span>
-                <span className="text-base md:text-lg font-medium tracking-tight whitespace-nowrap">
+                <span className="text-2xl md:text-3xl font-medium tracking-tight whitespace-nowrap">
                   {item.name}
                 </span>
               </li>
@@ -105,7 +109,7 @@ export function WorksWith(): React.ReactElement {
           </ul>
         </div>
 
-        <p className="mt-8 text-center text-xs text-dim">
+        <p className="mt-12 text-center text-sm md:text-base text-dim">
           MCP-native for Claude, Cursor, Windsurf, Zed — and SDK-compatible
           with every other agent runtime.
         </p>
