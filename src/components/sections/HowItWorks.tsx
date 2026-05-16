@@ -183,7 +183,8 @@ export function HowItWorks(): React.ReactElement {
           </div>
           <p className="text-muted mb-5 leading-relaxed">{s.description}</p>
 
-          <div className="font-mono text-[13px] bg-[#0D0D0F] border border-border rounded-lg p-5 leading-relaxed">
+          {/* Fixed min-height so the section doesn't jump when switching steps. */}
+          <div className="font-mono text-[13px] bg-[#0D0D0F] border border-border rounded-lg p-5 leading-relaxed min-h-[210px]">
             {s.lines.map((line, i) => (
               <div
                 key={i}
