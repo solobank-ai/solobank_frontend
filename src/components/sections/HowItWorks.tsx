@@ -51,7 +51,9 @@ const STEPS = [
 
 export function HowItWorks(): React.ReactElement {
   const [active, setActive] = useState(0);
-  const s = STEPS[active];
+  // `STEPS[active]` is non-null by construction, but
+  // `noUncheckedIndexedAccess` widens it to `T | undefined`.
+  const s = STEPS[active] ?? STEPS[0]!;
 
   return (
     <section id="how-it-works" className="py-20 bg-background">
