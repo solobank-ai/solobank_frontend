@@ -69,12 +69,12 @@ export function WorksWith(): React.ReactElement {
   return (
     <section
       aria-labelledby="works-with-title"
-      className="py-24 md:py-32 border-y border-border/60 bg-surface/30"
+      className="py-8 md:py-10 border-y border-border/60 bg-surface/30"
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full px-8">
         <p
           id="works-with-title"
-          className="text-center text-sm md:text-base font-medium tracking-[0.2em] uppercase text-dim mb-14"
+          className="text-center text-sm md:text-base font-medium tracking-[0.2em] uppercase text-dim mb-6"
         >
           Works with the agents you already run
         </p>
@@ -109,7 +109,7 @@ export function WorksWith(): React.ReactElement {
           </ul>
         </div>
 
-        <p className="mt-12 text-center text-sm md:text-base text-dim">
+        <p className="mt-6 text-center text-sm md:text-base text-dim">
           MCP-native for Claude, Cursor, Windsurf, Zed — and SDK-compatible
           with every other agent runtime.
         </p>
