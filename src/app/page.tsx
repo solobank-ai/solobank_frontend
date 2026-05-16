@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/sections/Hero";
+import { WorksWith } from "@/components/sections/WorksWith";
 import { Accounts } from "@/components/sections/Accounts";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Comparison } from "@/components/sections/Comparison";
@@ -25,6 +26,7 @@ export default function HomePage(): React.ReactElement {
   return (
     <>
       <Hero />
+      <WorksWith />
       <Accounts />
       <HowItWorks />
       <Comparison />
