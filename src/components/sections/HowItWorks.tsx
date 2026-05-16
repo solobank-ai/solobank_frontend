@@ -1,117 +1,134 @@
 "use client";
 
 import { useState } from "react";
-import { Download, Wallet, Rocket, Copy, Check } from "lucide-react";
-import { AnimateIn } from "@/components/ui/AnimateIn";
-import { GridSpotlight } from "@/components/ui/GridSpotlight";
-import { useTranslation } from "@/lib/i18n/context";
 
-function CopyCommand({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false);
+/* ------------------------------------------------------------------ */
+/*  HowItWorks — interactive progress track                            */
+/*                                                                     */
+/*  Three steps along a horizontal track. Clicking a marker swaps in   */
+/*  the matching panel below (title + description + sample command).   */
+/* ------------------------------------------------------------------ */
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(command);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="mt-5 flex items-center gap-3 bg-surface/60 border border-border rounded-full px-5 py-2.5 font-mono text-xs whitespace-nowrap">
-      <span className="text-dim">$</span>
-      <span className="text-foreground">{command}</span>
-      <button
-        onClick={handleCopy}
-        className="text-muted hover:text-solana-green transition-colors flex-shrink-0"
-        aria-label="Copy command"
-      >
-        {copied ? <Check size={14} className="text-solana-green" /> : <Copy size={14} />}
-      </button>
-    </div>
-  );
-}
+const STEPS = [
+  {
+    n: 1,
+    duration: "30s",
+    title: "Install",
+    description:
+      "One command. Wallet, MCP server, and safeguards — all set up and guided.",
+    command: "npx -y @solobank/cli@latest init",
+    output: [
+      { line: "Wallet created:", val: " 7xKp...3mNq" },
+      { line: "MCP server configured", val: "" },
+      { line: "Safeguards:", val: " $100/tx · $500/day" },
+    ],
+  },
+  {
+    n: 2,
+    duration: "1 min",
+    title: "Fund",
+    description:
+      "Send USDC to your wallet address. Gas and routing are handled automatically.",
+    command: "solobank balance",
+    output: [
+      { line: "SOL:", val: "   0.05" },
+      { line: "USDC:", val: "  148.91" },
+    ],
+  },
+  {
+    n: 3,
+    duration: "∞",
+    title: "Let it work",
+    description:
+      'Restart your AI platform and ask: "What\'s my solobank balance?" — your agent is live.',
+    command: "agent.ask('what can you do with my money?')",
+    output: [
+      { line: "→ I can send, earn, borrow, swap.", val: "" },
+      { line: "→ Current yield:", val: " 6.8% APY" },
+    ],
+  },
+];
 
 export function HowItWorks(): React.ReactElement {
-  const { t } = useTranslation();
-
-  const steps = [
-    {
-      step: 1,
-      icon: Download,
-      title: t.howItWorks.step1.title,
-      duration: t.howItWorks.step1.duration,
-      description: t.howItWorks.step1.description,
-      command: "",
-    },
-    {
-      step: 2,
-      icon: Wallet,
-      title: t.howItWorks.step2.title,
-      duration: t.howItWorks.step2.duration,
-      description: t.howItWorks.step2.description,
-    },
-    {
-      step: 3,
-      icon: Rocket,
-      title: t.howItWorks.step3.title,
-      duration: t.howItWorks.step3.duration,
-      description: t.howItWorks.step3.description,
-    },
-  ];
+  const [active, setActive] = useState(0);
+  const s = STEPS[active];
 
   return (
-    <GridSpotlight className="overflow-hidden">
-    <section id="how-it-works" className="py-16 md:py-24 overflow-hidden relative z-[1]">
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-20">
+    <section id="how-it-works" className="py-20 bg-background">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-            {t.howItWorks.title}
+            How it works
           </h2>
-          <p className="mt-4 text-muted text-lg">
-            {t.howItWorks.subtitle}
+          <p className="mt-3 text-muted text-lg">
+            Up and running in under two minutes.
           </p>
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          <AnimateIn delay={0} className="hidden md:block absolute top-14 left-[15%] right-[15%] z-0">
-            <div className="h-px bg-gradient-to-r from-solana-purple/40 via-solana-green/30 to-solana-purple/40" />
-          </AnimateIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-            {steps.map((step, i) => (
-              <AnimateIn key={step.step} delay={i * 150}>
-                <div className="relative z-10 flex flex-col items-center text-center">
-                  <div className="relative mb-6">
-                    <div className="w-28 h-28 rounded-full bg-[#111116] border border-[rgba(153,69,255,0.2)] flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[rgba(153,69,255,0.15)] to-[rgba(20,241,149,0.08)]" />
-                      <step.icon size={32} className="text-solana-green relative z-10" />
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-8 h-8 rounded-full bg-solana-green text-background text-sm font-bold flex items-center justify-center shadow-[0_0_16px_rgba(20,241,149,0.4)]">
-                      {step.step}
-                    </div>
-                  </div>
-
-                  <span className="text-xs text-dim tracking-widest uppercase mb-3">
-                    {step.duration}
+        {/* track */}
+        <div className="relative mb-10">
+          <div className="absolute top-[10px] left-0 right-0 h-px bg-border" />
+          <div
+            className="absolute top-[10px] left-0 h-px bg-solana-green transition-all duration-500"
+            style={{ width: `${(active / (STEPS.length - 1)) * 100}%` }}
+          />
+          <div className="relative flex justify-between">
+            {STEPS.map((step, i) => {
+              const isActive = i <= active;
+              return (
+                <button
+                  key={step.n}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className="flex flex-col items-center gap-3 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-solana-green/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                  aria-label={`Step ${step.n}: ${step.title}`}
+                  aria-current={i === active ? "step" : undefined}
+                >
+                  <span
+                    className={`w-5 h-5 rounded-full border-2 transition-colors ${
+                      isActive
+                        ? "bg-solana-green border-solana-green"
+                        : "bg-background border-border group-hover:border-muted"
+                    }`}
+                  />
+                  <span
+                    className={`text-xs tracking-widest uppercase transition-colors ${
+                      i === active
+                        ? "text-foreground"
+                        : "text-dim group-hover:text-muted"
+                    }`}
+                  >
+                    {step.duration} · {step.title}
                   </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-                  <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-
-                  <p className="text-muted text-sm leading-relaxed max-w-[280px]">
-                    {step.description}
-                  </p>
-
-                  {step.command && (
-                    <CopyCommand command={step.command} />
-                  )}
-                </div>
-              </AnimateIn>
+        {/* active panel */}
+        <div className="bg-surface/60 border border-border rounded-xl p-6 md:p-8">
+          <div className="flex items-baseline gap-3 mb-3">
+            <span className="text-4xl font-bold text-solana-green tabular-nums">
+              {String(s.n).padStart(2, "0")}
+            </span>
+            <h3 className="text-2xl font-semibold">{s.title}</h3>
+          </div>
+          <p className="text-muted mb-5 leading-relaxed">{s.description}</p>
+          <div className="font-mono text-[13px] bg-background/60 border border-border rounded-lg p-4">
+            <div className="text-foreground">
+              <span className="text-dim">$ </span>
+              {s.command}
+            </div>
+            {s.output.map((o, i) => (
+              <div key={i} className="text-muted mt-1">
+                <span className="text-dim">{o.line}</span>
+                <span className="text-foreground">{o.val}</span>
+              </div>
             ))}
           </div>
         </div>
       </div>
     </section>
-    </GridSpotlight>
   );
 }
