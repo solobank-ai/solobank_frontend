@@ -189,7 +189,7 @@ export function HowItWorks(): React.ReactElement {
               <div
                 key={i}
                 className={cn(
-                  "whitespace-pre",
+                  "whitespace-pre-wrap break-words",
                   isCommand(line) && "text-foreground",
                   isConfirmed(line) && "text-solana-green",
                   !isCommand(line) &&
