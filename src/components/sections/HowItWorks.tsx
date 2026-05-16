@@ -1,26 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  HowItWorks — interactive progress track                            */
 /*                                                                     */
 /*  Three steps along a horizontal track. Clicking a marker swaps in   */
 /*  the matching panel below (title + description + sample command).   */
+/*  Terminal output uses the same syntax-highlight palette as the      */
+/*  hero Terminal: wallet addresses purple, values green, labels dim.  */
 /* ------------------------------------------------------------------ */
 
-const STEPS = [
+interface Step {
+  n: number;
+  duration: string;
+  title: string;
+  description: string;
+  lines: string[]; // first line is the `$ command`
+}
+
+const STEPS: Step[] = [
   {
     n: 1,
     duration: "30s",
     title: "Install",
     description:
       "One command. Wallet, MCP server, and safeguards — all set up and guided.",
-    command: "npx -y @solobank/cli@latest init",
-    output: [
-      { line: "Wallet created:", val: " 7xKp...3mNq" },
-      { line: "MCP server configured", val: "" },
-      { line: "Safeguards:", val: " $100/tx · $500/day" },
+    lines: [
+      "$ npx -y @solobank/cli@latest init",
+      "Wallet created: 7xKp...3mNq",
+      "MCP server configured",
+      "Safeguards: $100/tx · $500/day",
     ],
   },
   {
@@ -29,10 +40,14 @@ const STEPS = [
     title: "Fund",
     description:
       "Send USDC to your wallet address. Gas and routing are handled automatically.",
-    command: "solobank balance",
-    output: [
-      { line: "SOL:", val: "   0.05" },
-      { line: "USDC:", val: "  148.91" },
+    lines: [
+      "$ solobank balance",
+      "SOL:   0.05 SOL",
+      "USDC:  $148.91 USDC",
+      "",
+      "$ solobank send 10 9pFr...2kLx",
+      "✓ Sent 10.00 USDC → 9pFr...2kLx",
+      "  TX: 4vGh...8mKp  confirmed (420ms)",
     ],
   },
   {
@@ -41,18 +56,66 @@ const STEPS = [
     title: "Let it work",
     description:
       'Restart your AI platform and ask: "What\'s my solobank balance?" — your agent is live.',
-    command: "agent.ask('what can you do with my money?')",
-    output: [
-      { line: "→ I can send, earn, borrow, swap.", val: "" },
-      { line: "→ Current yield:", val: " 6.8% APY" },
+    lines: [
+      "$ agent.ask('what can you do with my money?')",
+      "→ I can send, earn, borrow, swap.",
+      "→ Current yield: 6.8% APY",
     ],
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Syntax highlighting — mirrors components/ui/Terminal.tsx           */
+/* ------------------------------------------------------------------ */
+
+const walletRegex = /\b([A-Za-z0-9]{2,}\.{3}[A-Za-z0-9]{2,})\b/g;
+
+const isCommand = (l: string) => l.startsWith("$");
+const isConfirmed = (l: string) => l.startsWith("✓");
+
+function colorizeWallets(text: string): ReactNode {
+  const parts = text.split(walletRegex);
+  if (parts.length <= 1) return text;
+  return parts.map((p, j) =>
+    walletRegex.test(p) ? (
+      <span key={j} className="text-solana-purple">{p}</span>
+    ) : (
+      <span key={j}>{p}</span>
+    ),
+  );
+}
+
+function renderLine(line: string): ReactNode {
+  if (line === "") return " ";
+
+  // Label: value (only for plain output lines)
+  const hasColon = !isCommand(line) && !isConfirmed(line) && line.includes(":");
+  if (hasColon) {
+    const colonIdx = line.indexOf(":");
+    const label = line.slice(0, colonIdx + 1);
+    const value = line.slice(colonIdx + 1);
+    const valueParts = value.split(walletRegex);
+    return (
+      <>
+        <span className="text-muted">{label}</span>
+        {valueParts.map((part, j) =>
+          walletRegex.test(part) ? (
+            <span key={j} className="text-solana-purple">{part}</span>
+          ) : (
+            <span key={j} className="text-solana-green">{part}</span>
+          ),
+        )}
+      </>
+    );
+  }
+
+  return colorizeWallets(line);
+}
+
+/* ------------------------------------------------------------------ */
+
 export function HowItWorks(): React.ReactElement {
   const [active, setActive] = useState(0);
-  // `STEPS[active]` is non-null by construction, but
-  // `noUncheckedIndexedAccess` widens it to `T | undefined`.
   const s = STEPS[active] ?? STEPS[0]!;
 
   return (
@@ -87,18 +150,20 @@ export function HowItWorks(): React.ReactElement {
                   aria-current={i === active ? "step" : undefined}
                 >
                   <span
-                    className={`w-5 h-5 rounded-full border-2 transition-colors ${
+                    className={cn(
+                      "w-5 h-5 rounded-full border-2 transition-colors",
                       isActive
                         ? "bg-solana-green border-solana-green"
-                        : "bg-background border-border group-hover:border-muted"
-                    }`}
+                        : "bg-background border-border group-hover:border-muted",
+                    )}
                   />
                   <span
-                    className={`text-xs tracking-widest uppercase transition-colors ${
+                    className={cn(
+                      "text-xs tracking-widest uppercase transition-colors",
                       i === active
                         ? "text-foreground"
-                        : "text-dim group-hover:text-muted"
-                    }`}
+                        : "text-dim group-hover:text-muted",
+                    )}
                   >
                     {step.duration} · {step.title}
                   </span>
@@ -117,15 +182,22 @@ export function HowItWorks(): React.ReactElement {
             <h3 className="text-2xl font-semibold">{s.title}</h3>
           </div>
           <p className="text-muted mb-5 leading-relaxed">{s.description}</p>
-          <div className="font-mono text-[13px] bg-background/60 border border-border rounded-lg p-4">
-            <div className="text-foreground">
-              <span className="text-dim">$ </span>
-              {s.command}
-            </div>
-            {s.output.map((o, i) => (
-              <div key={i} className="text-muted mt-1">
-                <span className="text-dim">{o.line}</span>
-                <span className="text-foreground">{o.val}</span>
+
+          <div className="font-mono text-[13px] bg-[#0D0D0F] border border-border rounded-lg p-5 leading-relaxed">
+            {s.lines.map((line, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "whitespace-pre",
+                  isCommand(line) && "text-foreground",
+                  isConfirmed(line) && "text-solana-green",
+                  !isCommand(line) &&
+                    !isConfirmed(line) &&
+                    line !== "" &&
+                    "text-muted",
+                )}
+              >
+                {renderLine(line)}
               </div>
             ))}
           </div>
