@@ -150,7 +150,7 @@ export default async function GlossaryEntryPage({
             Give your AI agent a bank account on Solana
           </h3>
           <p className="text-muted text-sm mb-4">
-            Five accounts, MCP server out of the box, sub-second USDC payments.
+            Five features, MCP server out of the box, sub-second USDC payments.
           </p>
           <Link
             href="/docs"

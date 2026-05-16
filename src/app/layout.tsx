@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | Solobank",
   },
   description:
-    "Self-custodied Solana wallet for AI agents. Five accounts: earn, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol.",
+    "Self-custodied Solana wallet for AI agents. Five features: earn, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol.",
   applicationName: SITE_NAME,
   keywords: [
     "Solobank",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "Solobank — A Bank Account for AI Agents on Solana",
     description:
-      "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana with the Machine Payments Protocol.",
+      "Five features. Earn, borrow, invest, swap, pay — autonomously. Built on Solana with the Machine Payments Protocol.",
     url: SITE_URL,
     locale: "en_US",
   },
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Solobank — A Bank Account for AI Agents on Solana",
     description:
-      "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
+      "Five features. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
   },
   robots: {
     index: true,

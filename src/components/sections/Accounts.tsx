@@ -208,7 +208,7 @@ export function Accounts(): React.ReactElement {
 
   return (
     <section
-      id="accounts"
+      id="features"
       className="relative py-16 md:py-24 overflow-hidden"
     >
       {/* Background aura — tied into the hero's dotted surface aesthetic */}

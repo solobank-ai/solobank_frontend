@@ -11,12 +11,12 @@ export const metadata: Metadata = {
     absolute: "Solobank — A Bank Account for AI Agents on Solana",
   },
   description:
-    "Solobank gives every AI agent a self-custodied Solana wallet with five accounts: earn yield, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol (MPP).",
+    "Solobank gives every AI agent a self-custodied Solana wallet with five features: earn yield, borrow, invest, swap, and pay autonomously via the Machine Payments Protocol (MPP).",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Solobank — A Bank Account for AI Agents on Solana",
     description:
-      "Five accounts. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
+      "Five features. Earn, borrow, invest, swap, pay — autonomously. Built on Solana.",
     url: "/",
     type: "website",
   },

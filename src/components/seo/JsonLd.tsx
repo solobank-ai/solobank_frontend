@@ -13,7 +13,7 @@ const organization = {
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.svg`,
   description:
-    "Solobank is a Solana-native bank account for AI agents — five accounts that let agents earn, borrow, invest, swap, and pay autonomously.",
+    "Solobank is a Solana-native bank account for AI agents — five features that let agents earn, borrow, invest, swap, and pay autonomously.",
   sameAs: [GITHUB_URL, NPM_URL],
 };
 

@@ -43,7 +43,7 @@ export const agentWallet: GlossaryEntry = {
     },
     {
       type: "p",
-      text: "Solobank generates a Solana Ed25519 keypair for each agent and exposes five typed accounts (Savings, Checking, Credit, Invest, Swap) on top of it. The agent reaches the wallet through the [MCP server](/glossary/mcp-server), the CLI, or the SDK directly. Spending limits, allowlists, and an emergency lock live in the wallet’s policy layer, not in the prompt — so a prompt-injected agent still can’t exceed its budget.",
+      text: "Solobank generates a Solana Ed25519 keypair for each agent and exposes five typed features (Savings, Checking, Credit, Invest, Swap) on top of it. The agent reaches the wallet through the [MCP server](/glossary/mcp-server), the CLI, or the SDK directly. Spending limits, allowlists, and an emergency lock live in the wallet’s policy layer, not in the prompt — so a prompt-injected agent still can’t exceed its budget.",
     },
     {
       type: "code",

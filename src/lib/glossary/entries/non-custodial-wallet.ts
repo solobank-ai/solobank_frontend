@@ -49,7 +49,7 @@ export const nonCustodialWallet: GlossaryEntry = {
     },
     {
       type: "p",
-      text: "Solobank is non-custodial by default: each agent gets its own Solana keypair stored in `~/.config/solobank/id.json` (or wherever the operator points it). Solobank as a service never holds funds or keys. The five accounts (Savings, Checking, Credit, Invest, Swap) are on-chain positions controlled by that keypair, not balances on a Solobank server.",
+      text: "Solobank is non-custodial by default: each agent gets its own Solana keypair stored in `~/.config/solobank/id.json` (or wherever the operator points it). Solobank as a service never holds funds or keys. The five features (Savings, Checking, Credit, Invest, Swap) are on-chain positions controlled by that keypair, not balances on a Solobank server.",
     },
   ],
 };

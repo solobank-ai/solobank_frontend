@@ -1,7 +1,7 @@
 export const en = {
   // Navbar
   nav: {
-    accounts: "Accounts",
+    accounts: "Features",
     howItWorks: "How it works",
     docs: "Docs",
     github: "GitHub",
@@ -21,7 +21,7 @@ export const en = {
 
   // Accounts
   accounts: {
-    title1: "Five accounts,",
+    title1: "Five features,",
     title2: "one agent",
     subtitle: "Everything your agent needs to manage money — autonomously and non-custodially.",
     checking: {
