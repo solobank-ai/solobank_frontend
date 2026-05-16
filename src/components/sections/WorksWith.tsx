@@ -43,40 +43,35 @@ export function WorksWith(): React.ReactElement {
           Works with the agents you already run
         </p>
 
-        {/* Horizontal scroll on mobile, even flex on md+ */}
-        <ul
-          className={cn(
-            "flex items-center gap-x-10 gap-y-6 flex-nowrap overflow-x-auto",
-            "md:flex-wrap md:justify-center md:overflow-visible",
-            // Hide scrollbar but keep horizontal scrolling
-            "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-            "px-1",
-          )}
-        >
-          {ITEMS.map((item) => (
-            <li
-              key={item.name}
-              className="flex items-center gap-3 flex-shrink-0 text-muted hover:text-foreground transition-colors group"
-              title={`${item.name} — via ${item.via}`}
-            >
-              <span
-                className={cn(
-                  "inline-flex items-center justify-center",
-                  "w-8 h-8 rounded-full border border-border",
-                  "bg-background/40 text-xs font-semibold",
-                  "text-dim group-hover:text-foreground group-hover:border-border-hover",
-                  "transition-colors",
-                )}
-                aria-hidden="true"
+        {/* Infinite marquee — duplicate the list so translateX(-50%) loops seamlessly */}
+        <div className="marquee-mask overflow-hidden">
+          <ul className="marquee-track items-center" aria-label="Compatible agent runtimes">
+            {[...ITEMS, ...ITEMS].map((item, i) => (
+              <li
+                key={`${item.name}-${i}`}
+                className="flex items-center gap-3 flex-shrink-0 text-muted hover:text-foreground transition-colors group px-5"
+                title={`${item.name} — via ${item.via}`}
+                aria-hidden={i >= ITEMS.length ? "true" : undefined}
               >
-                {item.mark}
-              </span>
-              <span className="text-base md:text-lg font-medium tracking-tight whitespace-nowrap">
-                {item.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+                <span
+                  className={cn(
+                    "inline-flex items-center justify-center",
+                    "w-8 h-8 rounded-full border border-border",
+                    "bg-background/40 text-xs font-semibold",
+                    "text-dim group-hover:text-foreground group-hover:border-border-hover",
+                    "transition-colors",
+                  )}
+                  aria-hidden="true"
+                >
+                  {item.mark}
+                </span>
+                <span className="text-base md:text-lg font-medium tracking-tight whitespace-nowrap">
+                  {item.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <p className="mt-8 text-center text-xs text-dim">
           MCP-native for Claude, Cursor, Windsurf, Zed — and SDK-compatible
